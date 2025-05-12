@@ -45,7 +45,7 @@ class DrugResponseDataset:
     def from_csv(
         cls: type["DrugResponseDataset"],
         input_file: str | Path,
-        dataset_name: str = "unknown",
+        dataset_name: str,
         measure: str = "response",
         tissue_column: str | None = None,
     ) -> "DrugResponseDataset":
