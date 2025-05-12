@@ -204,7 +204,7 @@ def load_ctrpv2(path_data: str = "data", measure: str = "LN_IC50_curvecurator") 
 
 
 def load_custom(
-    path_data: str | Path, measure: str = "response", tissue_column: str | None = None
+    path_data: str | Path, dataset_name: str, measure: str = "response", tissue_column: str | None = None
 ) -> DrugResponseDataset:
     """
     Load custom dataset.
@@ -215,7 +215,7 @@ def load_custom(
 
     :return: DrugResponseDataset containing response, cell line IDs, and drug IDs
     """
-    return DrugResponseDataset.from_csv(path_data, measure=measure, tissue_column=tissue_column)
+    return DrugResponseDataset.from_csv(path_data, dataset_name, measure=measure, tissue_column=tissue_column)
 
 
 AVAILABLE_DATASETS: dict[str, Callable] = {
@@ -278,6 +278,6 @@ def load_dataset(
                 cores=cores,
             )
         return load_custom(
-            Path(path_data) / dataset_name / f"{dataset_name}.csv", measure=measure, tissue_column=tissue_column
+            Path(path_data) / dataset_name / f"{dataset_name}.csv", dataset_name, measure=measure, tissue_column=tissue_column
         )
     raise FileNotFoundError(f"Custom dataset does not exist at given path: {input_file}")
