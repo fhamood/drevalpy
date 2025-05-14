@@ -53,9 +53,8 @@ def load_and_select_gene_features(
     :returns: FeatureDataset with the reduced features
     :raises ValueError: if genes from gene_list are missing in the dataset
     """
-    ge = pd.read_csv(f"{data_path}/{dataset_name}/{feature_type}.csv", index_col=0)
-    if "cellosaurus_id" in ge.columns:
-        ge = ge.drop(columns=["cellosaurus_id"])
+    ge = pd.read_csv(f"{data_path}/{dataset_name}/{feature_type}.csv", index_col=1)
+    ge = ge.drop(columns=["cellosaurus_id"])
 
     cl_features = FeatureDataset(
         features=iterate_features(df=ge, feature_type=feature_type),
