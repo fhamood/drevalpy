@@ -137,7 +137,7 @@ def parse_results(path_to_results: str, dataset: str) -> tuple[pd.DataFrame, pd.
 
 @pipeline_function
 def evaluate_file(
-    pred_file: pathlib.Path, test_mode: str, model_name: str
+    pred_file: pathlib.Path, test_mode: str, model_name: str, dataset_name: str = "NO_NAME_PROVIDED"
 ) -> tuple[pd.DataFrame, pd.DataFrame | None, pd.DataFrame | None, pd.DataFrame, str]:
     """
     Evaluate the predictions from the final models.
@@ -149,7 +149,7 @@ def evaluate_file(
         values, and model name
     """
     print("Parsing file:", os.path.normpath(pred_file))
-    dataset = DrugResponseDataset.from_csv(pred_file)
+    dataset = DrugResponseDataset.from_csv(pred_file, dataset_name=dataset_name)
 
     model = _generate_model_names(test_mode=test_mode, model_name=model_name, pred_file=pred_file)
 
