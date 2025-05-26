@@ -4,7 +4,7 @@ from drevalpy.datasets.dataset import FeatureDataset
 
 import pandas as pd
 
-class SingleDrugElasticNet(ElasticNet):
+class CustomSingleDrugElasticNet(ElasticNet):
     """Let's see if Manuel's model works"""
 
     is_single_drug_model = True
