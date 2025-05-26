@@ -137,7 +137,7 @@ def parse_results(path_to_results: str, dataset: str) -> tuple[pd.DataFrame, pd.
 
 @pipeline_function
 def evaluate_file(
-    pred_file: pathlib.Path, test_mode: str, model_name: str, dataset_name: str = "NO_NAME_PROVIDED"
+    pred_file: pathlib.Path, test_mode: str, model_name: str, dataset_name: str = "NO_DATASET_NAME"
 ) -> tuple[pd.DataFrame, pd.DataFrame | None, pd.DataFrame | None, pd.DataFrame, str]:
     """
     Evaluate the predictions from the final models.
@@ -145,11 +145,12 @@ def evaluate_file(
     :param pred_file: path to the prediction file
     :param test_mode: test mode, e.g., LPO
     :param model_name: model name, e.g., SimpleNeuralNetwork
+    :param dataset_name: name of the dataset, e.g., GDSC2
     :return: evaluation results, evaluation results per drug, evaluation results per cell line, true vs. predicted
         values, and model name
     """
     print("Parsing file:", os.path.normpath(pred_file))
-    dataset = DrugResponseDataset.from_csv(pred_file, dataset_name=dataset_name)
+    dataset = DrugResponseDataset.from_csv(input_file=pred_file, dataset_name=dataset_name)
 
     model = _generate_model_names(test_mode=test_mode, model_name=model_name, pred_file=pred_file)
 
@@ -220,8 +221,8 @@ def prep_results(
         for file in files:
             if file == "drug_names.csv":
                 drug_names = pd.read_csv(os.path.join(root, file), index_col=0)
-                # make index to str OR NOT BECAUSE WE NEED NUMBERS
-                # drug_names.index = drug_names.index.astype(str)
+                # make index to str
+                drug_names.index = drug_names.index.astype(str)
                 # index: pubchem_id, column: drug_name
                 drug_metadata.update(zip(drug_names.index, drug_names["drug_name"]))
             elif file == "cell_line_names.csv":
