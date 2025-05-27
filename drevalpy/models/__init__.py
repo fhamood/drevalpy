@@ -61,6 +61,7 @@ SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "SuperFELTR": SuperFELTR,
     "SingleDrugElasticNet": SingleDrugElasticNet,
     "SingleDrugProteomicsElasticNet": SingleDrugProteomicsElasticNet,
+    "SingleDrugPhosphoProteomicsElasticNet": SingleDrugProteomicsElasticNet,
     "SingleDrugProteomicsRandomForest": SingleDrugProteomicsRandomForest,
 }
 
