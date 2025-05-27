@@ -18,6 +18,7 @@ __all__ = [
     "SingleDrugRandomForest",
     "SingleDrugElasticNet",
     "SingleDrugProteomicsElasticNet",
+    "SingleDrugPhosphoProteomicsElasticNet",
     "SRMF",
     "GradientBoosting",
     "MOLIR",
@@ -36,7 +37,7 @@ from .baselines.naive_pred import (
     NaivePredictor,
     NaiveTissueMeanPredictor,
 )
-from .baselines.singledrug_elastic_net import SingleDrugElasticNet, SingleDrugProteomicsElasticNet
+from .baselines.singledrug_elastic_net import SingleDrugElasticNet, SingleDrugProteomicsElasticNet, SingleDrugPhosphoProteomicsElasticNet
 from .baselines.singledrug_random_forest import SingleDrugProteomicsRandomForest, SingleDrugRandomForest
 from .baselines.sklearn_models import (
     ElasticNetModel,
