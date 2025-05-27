@@ -204,18 +204,29 @@ def load_ctrpv2(path_data: str = "data", measure: str = "LN_IC50_curvecurator") 
 
 
 def load_custom(
+<<<<<<< HEAD
     path_data: str | Path, dataset_name: str, measure: str = "response", tissue_column: str | None = None
+=======
+    path_data: str | Path, dataset_name: str = "custom", measure: str = "response", tissue_column: str | None = None
+>>>>>>> af66390034d9497ca9f80060eed7a569003b45b5
 ) -> DrugResponseDataset:
     """
     Load custom dataset.
 
     :param path_data: Path to location of custom dataset
+    :param dataset_name: Name of the dataset.
     :param measure: The name of the column containing the measure to predict, default = "response"
     :param tissue_column: The name of the column containing the tissue type. If None, no tissue information is loaded.
 
     :return: DrugResponseDataset containing response, cell line IDs, and drug IDs
     """
+<<<<<<< HEAD
     return DrugResponseDataset.from_csv(path_data, dataset_name, measure=measure, tissue_column=tissue_column)
+=======
+    return DrugResponseDataset.from_csv(
+        input_file=path_data, dataset_name=dataset_name, measure=measure, tissue_column=tissue_column
+    )
+>>>>>>> af66390034d9497ca9f80060eed7a569003b45b5
 
 
 AVAILABLE_DATASETS: dict[str, Callable] = {

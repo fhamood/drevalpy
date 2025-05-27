@@ -2,9 +2,15 @@
 
 import numpy as np
 from sklearn.linear_model import ElasticNet
+from sklearn.preprocessing import StandardScaler
 
 from ...datasets.dataset import DrugResponseDataset, FeatureDataset
-from ..utils import ProteomicsMedianCenterAndImputeTransformer, load_and_select_gene_features, log10_and_set_na
+from ..utils import (
+    ProteomicsMedianCenterAndImputeTransformer,
+    load_and_select_gene_features,
+    prepare_proteomics,
+    scale_gene_expression,
+)
 from .sklearn_models import SklearnModel
 
 
@@ -23,6 +29,7 @@ class SingleDrugElasticNet(SklearnModel):
         :param hyperparameters: Elastic net hyperparameters
         """
         self.model = ElasticNet(**hyperparameters)
+        self.gene_expression_scaler = StandardScaler()
 
     @classmethod
     def get_model_name(cls) -> str:
@@ -51,6 +58,12 @@ class SingleDrugElasticNet(SklearnModel):
         :param model_checkpoint_dir: not needed as checkpoints are not saved
         """
         if len(output) > 0:
+            cell_line_input = scale_gene_expression(
+                cell_line_input=cell_line_input,
+                cell_line_ids=np.unique(output.cell_line_ids),
+                training=True,
+                gene_expression_scaler=self.gene_expression_scaler,
+            )
             x = self.get_concatenated_features(
                 cell_line_view="gene_expression",
                 drug_view=None,
@@ -82,11 +95,17 @@ class SingleDrugElasticNet(SklearnModel):
         :raises ValueError: if drug_input is not None
         """
         if drug_input is not None:
-            raise ValueError("drug_input is not needed.")
+            raise ValueError("drug_input is not needed for SingleDrugModel.")
 
         if self.model is None:
             print("No training data was available, predicting NA.")
             return np.array([np.nan] * len(cell_line_ids))
+        cell_line_input = scale_gene_expression(
+            cell_line_input=cell_line_input,
+            cell_line_ids=np.unique(cell_line_ids),
+            training=False,
+            gene_expression_scaler=self.gene_expression_scaler,
+        )
         x = self.get_concatenated_features(
             cell_line_view="gene_expression",
             drug_view=None,
@@ -137,11 +156,18 @@ class SingleDrugProteomicsElasticNet(SingleDrugElasticNet):
         :param hyperparameters: Hyperparameters for the model. Contains n_estimators, criterion, max_samples,
             and n_jobs.
         """
+        hyperparameters = hyperparameters.copy()
+        self.feature_threshold = hyperparameters.pop("feature_threshold", 0.7)
+        self.n_features = hyperparameters.pop("n_features", 1000)
+        self.normalization_width = hyperparameters.pop("normalization_width", 0.3)
+        self.normalization_downshift = hyperparameters.pop("normalization_downshift", 1.8)
+        self.proteomics_transformer = ProteomicsMedianCenterAndImputeTransformer(
+            feature_threshold=self.feature_threshold,
+            n_features=self.n_features,
+            normalization_downshift=self.normalization_downshift,
+            normalization_width=self.normalization_width,
+        )
         super().build_model(hyperparameters)
-        self.feature_threshold = hyperparameters.get("feature_threshold", 0.7)
-        self.n_features = hyperparameters.get("n_features", 1000)
-        self.normalization_width = hyperparameters.get("normalization_width", 0.3)
-        self.normalization_downshift = hyperparameters.get("normalization_downshift", 1.8)
 
     @classmethod
     def get_model_name(cls) -> str:
@@ -186,20 +212,11 @@ class SingleDrugProteomicsElasticNet(SingleDrugElasticNet):
         """
         if len(output) > 0:
             # log transform
-            cell_line_input.apply(log10_and_set_na, view="proteomics")
-            # select the complete proteins as features, median center
-            # and impute missing values with down-shifted median
-            # the feature selection and median computation is only done on the train set
-            proteomics_transformer = ProteomicsMedianCenterAndImputeTransformer(
-                feature_threshold=self.feature_threshold,
-                n_features=self.n_features,
-                normalization_downshift=self.normalization_downshift,
-                normalization_width=self.normalization_width,
-            )
-            cell_line_input.fit_transform_features(
-                train_ids=np.unique(output.cell_line_ids),
-                transformer=proteomics_transformer,
-                view="proteomics",
+            cell_line_input = prepare_proteomics(
+                cell_line_input=cell_line_input,
+                cell_line_ids=np.unique(output.cell_line_ids),
+                training=True,
+                transformer=self.proteomics_transformer,
             )
             x = self.get_concatenated_features(
                 cell_line_view="proteomics",
@@ -237,6 +254,14 @@ class SingleDrugProteomicsElasticNet(SingleDrugElasticNet):
         if self.model is None:
             print("No training data was available, predicting NA.")
             return np.array([np.nan] * len(cell_line_ids))
+
+        cell_line_input = prepare_proteomics(
+            cell_line_input=cell_line_input,
+            cell_line_ids=np.unique(cell_line_ids),
+            training=False,
+            transformer=self.proteomics_transformer,
+        )
+
         x = self.get_concatenated_features(
             cell_line_view="proteomics",
             drug_view=None,

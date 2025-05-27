@@ -1,0 +1,187 @@
+<!--
+  ~ Copyright 2013-2024, Seqera Labs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<pre class="mermaid" style="text-align: center;">
+flowchart TB
+    subgraph " "
+    v4["Channel.from"]
+    v5["Channel.from"]
+    v7["run_id"]
+    v8["models"]
+    v9["baselines"]
+    v10["test_mode"]
+    v11["randomization_mode"]
+    v12["randomization_type"]
+    v13["n_trials_robustness"]
+    v14["dataset_name"]
+    v15["cross_study_datasets"]
+    v16["curve_curator"]
+    v17["optim_metric"]
+    v18["n_cv_splits"]
+    v19["response_transformation"]
+    v20["path_data"]
+    v21["measure"]
+    v23["Channel.fromPath"]
+    v26["Channel.of"]
+    v28["dataset_name"]
+    v29["cross_study_datasets"]
+    v32["Channel.from"]
+    v34["n_cv_splits"]
+    v36["Channel.from"]
+    v37["Channel.from"]
+    v45["name"]
+    v47["name"]
+    v61["response_transformation"]
+    v62["model_checkpoint_dir"]
+    v65["metric"]
+    v72["Channel.fromPath"]
+    v78["response_transformation"]
+    v79["model_checkpoint_dir"]
+    v86["rand_modes"]
+    end
+    subgraph NFCORE_DRUGRESPONSEEVAL
+    subgraph DRUGRESPONSEEVAL
+    v22([PARAMS_CHECK])
+    subgraph RUN_CV
+    v30([LOAD_RESPONSE])
+    v35([CV_SPLIT])
+    v46([MAKE_MODELS])
+    v48([MAKE_BASELINES])
+    v52([HPAM_SPLIT])
+    v63([TRAIN_AND_PREDICT_CV])
+    v66([EVALUATE_FIND_MAX])
+    v33(( ))
+    v38(( ))
+    v39(( ))
+    v42(( ))
+    v49(( ))
+    v64(( ))
+    v70(( ))
+    end
+    subgraph MODEL_TESTING
+    v80([PREDICT_FULL])
+    v87([CONSOLIDATE_RESULTS])
+    v95([EVALUATE_FINAL])
+    v97([COLLECT_RESULTS])
+    v6(( ))
+    v67(( ))
+    v88(( ))
+    v96(( ))
+    v98(( ))
+    end
+    subgraph VISUALIZATION
+    v102([VISUALIZE_RESULTS])
+    end
+    v24(( ))
+    v27(( ))
+    end
+    end
+    subgraph " "
+    v25["useless_count"]
+    v31["cross_study_datasets"]
+    v71["ch_models"]
+    v81[" "]
+    v89[" "]
+    v103[" "]
+    end
+    v4 --> v6
+    v5 --> v6
+    v7 --> v22
+    v8 --> v22
+    v9 --> v22
+    v10 --> v22
+    v11 --> v22
+    v12 --> v22
+    v13 --> v22
+    v14 --> v22
+    v15 --> v22
+    v16 --> v22
+    v17 --> v22
+    v18 --> v22
+    v19 --> v22
+    v20 --> v22
+    v21 --> v22
+    v22 --> v24
+    v22 --> v27
+    v23 --> v30
+    v23 --> v97
+    v23 --> v102
+    v23 --> v49
+    v23 --> v67
+    v24 --> v25
+    v26 --> v30
+    v28 --> v30
+    v29 --> v30
+    v27 --> v30
+    v30 --> v31
+    v30 --> v33
+    v30 --> v39
+    v30 --> v42
+    v32 --> v33
+    v34 --> v35
+    v33 --> v35
+    v35 --> v49
+    v35 --> v67
+    v36 --> v38
+    v36 --> v39
+    v37 --> v38
+    v37 --> v42
+    v45 --> v46
+    v39 --> v46
+    v46 --> v49
+    v46 --> v70
+    v47 --> v48
+    v42 --> v48
+    v48 --> v49
+    v38 --> v52
+    v52 --> v49
+    v61 --> v63
+    v62 --> v63
+    v49 --> v63
+    v63 --> v64
+    v65 --> v66
+    v64 --> v66
+    v66 --> v67
+    v70 --> v71
+    v72 --> v67
+    v78 --> v80
+    v79 --> v80
+    v67 --> v80
+    v80 --> v81
+    v80 --> v6
+    v86 --> v87
+    v6 --> v87
+    v87 --> v6
+    v87 --> v88
+    v88 --> v89
+    v6 --> v95
+    v95 --> v96
+    v96 --> v97
+    v97 --> v98
+    v98 --> v102
+    v102 --> v103
+
+</pre>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>
+</body>
+</html>

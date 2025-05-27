@@ -1,0 +1,209 @@
+<!--
+  ~ Copyright 2013-2024, Seqera Labs
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<html>
+<head>
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+</head>
+<body>
+<pre class="mermaid" style="text-align: center;">
+flowchart TB
+    subgraph " "
+    v4["Channel.from"]
+    v5["Channel.from"]
+    v7["run_id"]
+    v8["models"]
+    v9["baselines"]
+    v10["test_mode"]
+    v11["randomization_mode"]
+    v12["randomization_type"]
+    v13["n_trials_robustness"]
+    v14["dataset_name"]
+    v15["cross_study_datasets"]
+    v16["curve_curator"]
+    v17["optim_metric"]
+    v18["n_cv_splits"]
+    v19["response_transformation"]
+    v20["path_data"]
+    v21["measure"]
+    v23["Channel.fromPath"]
+    v25["dataset_name"]
+    v32["dataset_name"]
+    v36["dataset_name"]
+    v37["measure"]
+    v41["dataset_name"]
+    v42["cross_study_datasets"]
+    v45["Channel.from"]
+    v47["n_cv_splits"]
+    v49["Channel.from"]
+    v50["Channel.from"]
+    v58["name"]
+    v60["name"]
+    v74["response_transformation"]
+    v75["model_checkpoint_dir"]
+    v78["metric"]
+    v85["Channel.fromPath"]
+    v91["response_transformation"]
+    v92["model_checkpoint_dir"]
+    v99["rand_modes"]
+    end
+    subgraph NFCORE_DRUGRESPONSEEVAL
+    subgraph DRUGRESPONSEEVAL
+    v22([PARAMS_CHECK])
+    subgraph PREPROCESS_CUSTOM
+    v26([PREPROCESS_RAW_VIABILITY])
+    v33([FIT_CURVES])
+    v38([POSTPROCESS_CURVECURATOR_DATA])
+    v27(( ))
+    v35(( ))
+    end
+    subgraph RUN_CV
+    v43([LOAD_RESPONSE])
+    v48([CV_SPLIT])
+    v59([MAKE_MODELS])
+    v61([MAKE_BASELINES])
+    v65([HPAM_SPLIT])
+    v76([TRAIN_AND_PREDICT_CV])
+    v79([EVALUATE_FIND_MAX])
+    v46(( ))
+    v51(( ))
+    v52(( ))
+    v55(( ))
+    v62(( ))
+    v77(( ))
+    v83(( ))
+    end
+    subgraph MODEL_TESTING
+    v93([PREDICT_FULL])
+    v100([CONSOLIDATE_RESULTS])
+    v108([EVALUATE_FINAL])
+    v110([COLLECT_RESULTS])
+    v6(( ))
+    v80(( ))
+    v101(( ))
+    v109(( ))
+    v111(( ))
+    end
+    subgraph VISUALIZATION
+    v115([VISUALIZE_RESULTS])
+    end
+    v24(( ))
+    v40(( ))
+    end
+    end
+    subgraph " "
+    v34[" "]
+    v39[" "]
+    v44["cross_study_datasets"]
+    v84["ch_models"]
+    v94[" "]
+    v102[" "]
+    v116[" "]
+    end
+    v4 --> v6
+    v5 --> v6
+    v7 --> v22
+    v8 --> v22
+    v9 --> v22
+    v10 --> v22
+    v11 --> v22
+    v12 --> v22
+    v13 --> v22
+    v14 --> v22
+    v15 --> v22
+    v16 --> v22
+    v17 --> v22
+    v18 --> v22
+    v19 --> v22
+    v20 --> v22
+    v21 --> v22
+    v22 --> v24
+    v22 --> v40
+    v23 --> v26
+    v23 --> v43
+    v23 --> v110
+    v23 --> v115
+    v23 --> v62
+    v23 --> v80
+    v25 --> v26
+    v24 --> v26
+    v26 --> v27
+    v32 --> v33
+    v27 --> v33
+    v33 --> v34
+    v33 --> v35
+    v36 --> v38
+    v37 --> v38
+    v35 --> v38
+    v38 --> v39
+    v38 --> v43
+    v41 --> v43
+    v42 --> v43
+    v40 --> v43
+    v43 --> v44
+    v43 --> v46
+    v43 --> v52
+    v43 --> v55
+    v45 --> v46
+    v47 --> v48
+    v46 --> v48
+    v48 --> v62
+    v48 --> v80
+    v49 --> v51
+    v49 --> v52
+    v50 --> v51
+    v50 --> v55
+    v58 --> v59
+    v52 --> v59
+    v59 --> v62
+    v59 --> v83
+    v60 --> v61
+    v55 --> v61
+    v61 --> v62
+    v51 --> v65
+    v65 --> v62
+    v74 --> v76
+    v75 --> v76
+    v62 --> v76
+    v76 --> v77
+    v78 --> v79
+    v77 --> v79
+    v79 --> v80
+    v83 --> v84
+    v85 --> v80
+    v91 --> v93
+    v92 --> v93
+    v80 --> v93
+    v93 --> v94
+    v93 --> v6
+    v99 --> v100
+    v6 --> v100
+    v100 --> v6
+    v100 --> v101
+    v101 --> v102
+    v6 --> v108
+    v108 --> v109
+    v109 --> v110
+    v110 --> v111
+    v111 --> v115
+    v115 --> v116
+
+</pre>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true });
+</script>
+</body>
+</html>

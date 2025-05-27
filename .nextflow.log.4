@@ -1,0 +1,324 @@
+May-12 16:20:48.694 [main] DEBUG nextflow.cli.Launcher - $> nextflow run nf-core/drugresponseeval -r dev -profile daisybio --outdir results --run_id murine_data --models SingleDrugProteomicsElasticNet --baselines NaiveMeanEffectsPredictor --dataset_name mPDAC_cd --path_data /cmnfs/home/externals/f.hamood/drop2ai/datasets/ --curve_curator false --n_cv_splits 10
+May-12 16:20:48.879 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.04.4
+May-12 16:20:48.915 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/cmnfs/home/externals/f.hamood/.nextflow/plugins; core-plugins: nf-amazon@2.5.3,nf-azure@1.6.1,nf-cloudcache@0.4.1,nf-codecommit@0.2.1,nf-console@1.1.3,nf-ga4gh@1.3.0,nf-google@1.13.2-patch1,nf-tower@1.9.1,nf-wave@1.4.2-patch1
+May-12 16:20:48.935 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-12 16:20:48.937 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-12 16:20:48.943 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+May-12 16:20:48.967 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-12 16:20:48.991 [main] DEBUG nextflow.scm.ProviderConfig - Using SCM config path: /cmnfs/home/externals/f.hamood/.nextflow/scm
+May-12 16:20:50.584 [main] WARN  nextflow.config.Manifest - Invalid config manifest attribute `contributors`
+May-12 16:20:50.588 [main] DEBUG nextflow.scm.AssetManager - Git config: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/.git/config; branch: master; remote: origin; url: https://github.com/nf-core/drugresponseeval.git
+May-12 16:20:50.637 [main] DEBUG nextflow.scm.RepositoryFactory - Found Git repository result: [RepositoryFactory]
+May-12 16:20:50.654 [main] DEBUG nextflow.scm.AssetManager - Git config: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/.git/config; branch: master; remote: origin; url: https://github.com/nf-core/drugresponseeval.git
+May-12 16:20:51.588 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/nextflow.config
+May-12 16:20:51.596 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/nextflow.config
+May-12 16:20:51.618 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /cmnfs/home/externals/f.hamood/.nextflow/secrets/store.json
+May-12 16:20:51.624 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@20801cbb] - activable => nextflow.secret.LocalSecretsProvider@20801cbb
+May-12 16:20:51.650 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `daisybio`
+May-12 16:20:53.161 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [bih, cfc_dev, uzl_omics, ifb_core, embl_hd, denbi_qbic, alice, mjolnir_globe, uppmax, giga, incliva, ilifu, ki_luria, uge, icr_alma, rosalind_uge, lugh, mccleary, unibe_ibu, vai, czbiohub_aws, jax, roslin, ccga_med, tes, scw, unc_longleaf, tigem, tubingen_apg, google, apollo, ipop_up, vsc_calcua, pdc_kth, googlels, ceci_nic5, humantechnopole, stjude, daisybio, eddie, medair, biowulf, apptainer, bi, bigpurple, adcra, cedars, pawsey_setonix, vsc_kul_uhasselt, pawsey_nimbus, ucl_myriad, utd_ganymede, charliecloud, seattlechildrens, icr_davros, ceres, keep_work, arm, munin, rosalind, hasta, cfc, uzh, shu_bmrc, ebi_codon_slurm, ebc, ccga_dx, crick, ku_sund_danhead, marvin, shifter, biohpc_gen, mana, mamba, york_viking, unc_lccc, wehi, awsbatch, wustl_htcf, arcc, ceci_dragon2, imperial, maestro, software_license, cannon, genotoul, nci_gadi, abims, janelia, nu_genomics, googlebatch, oist, sahmri, kaust, alliance_canada, mpcdf, leicester, vsc_ugent, create, sage, cambridge, jex, podman, ebi_codon, cheaha, xanadu, nyu_hpc, test, marjorie, computerome, ucd_sonic, gpu, seg_globe, mssm, sanger, dkfz, bluebear, pasteur, einstein, ethz_euler, m3c, test_full, imb, ucl_cscluster, tuos_stanage, azurebatch, hki, seadragon, crukmi, csiro_petrichor, qmul_apocrita, wave, docker, engaging, gis, hypatia, psmn, eva, unity, cropdiversityhpc, nygc, fgcz, conda, crg, singularity, mpcdf_viper, pe2, self_hosted_runner, tufts, uw_hyak_pedslabs, binac2, debug, genouest, cbe, unsw_katana, gitpod, phoenix, seawulf, uod_hpc, fub_curta, uct_hpc, aws_tower, binac, fsu_draco]
+May-12 16:20:53.247 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+May-12 16:20:53.249 [main] DEBUG nextflow.cli.CmdRun - Launching `https://github.com/nf-core/drugresponseeval` [prickly_rutherford] DSL2 - revision: 152ce049ac [dev]
+May-12 16:20:53.252 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins declared=[nf-schema@2.2.0]
+May-12 16:20:53.253 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-12 16:20:53.253 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[nf-schema@2.2.0]
+May-12 16:20:53.254 [main] DEBUG nextflow.plugin.PluginUpdater - Installing plugin nf-schema version: 2.2.0
+May-12 16:20:53.267 [main] INFO  org.pf4j.AbstractPluginManager - Plugin 'nf-schema@2.2.0' resolved
+May-12 16:20:53.268 [main] INFO  org.pf4j.AbstractPluginManager - Start plugin 'nf-schema@2.2.0'
+May-12 16:20:53.279 [main] DEBUG nextflow.plugin.BasePlugin - Plugin started nf-schema@2.2.0
+May-12 16:20:53.379 [main] DEBUG nextflow.Session - Session UUID: 69d2dea5-a5e8-4150-94a8-23db1f107edd
+May-12 16:20:53.380 [main] DEBUG nextflow.Session - Run name: prickly_rutherford
+May-12 16:20:53.380 [main] DEBUG nextflow.Session - Executor pool size: 32
+May-12 16:20:53.393 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-12 16:20:53.403 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=96; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-12 16:20:53.431 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.04.4 build 5917
+  Created: 01-08-2024 07:05 UTC 
+  System: Linux 5.15.0-138-generic
+  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 11.0.27+6-post-Ubuntu-0ubuntu122.04
+  Encoding: UTF-8 (UTF-8)
+  Process: 1429307@compms-cpu-2.exbio.wzw.tum.de [127.0.1.1]
+  CPUs: 32 - Mem: 62.8 GB (22.4 GB) - Swap: 8 GB (110.3 MB)
+May-12 16:20:53.467 [main] DEBUG nextflow.Session - Work-dir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy [nfs]
+May-12 16:20:53.544 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-12 16:20:53.561 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-12 16:20:53.638 [main] WARN  nextflow.config.Manifest - Invalid config manifest attribute `contributors`
+May-12 16:20:53.680 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-12 16:20:53.699 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 33; maxThreads: 1000
+May-12 16:20:53.843 [main] DEBUG nextflow.Session - Session start
+May-12 16:20:53.847 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /cmnfs/home/externals/f.hamood/drevalpy/results/pipeline_info/execution_trace_2025-05-12_16-20-51.txt
+May-12 16:20:54.069 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-12 16:20:54.322 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryMap:paramsSummaryMap]; plugin Id: nf-schema
+May-12 16:20:55.040 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryLog:paramsSummaryLog]; plugin Id: nf-schema
+May-12 16:20:55.042 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [validateParameters:validateParameters]; plugin Id: nf-schema
+May-12 16:20:55.047 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryMap:paramsSummaryMap]; plugin Id: nf-schema
+May-12 16:20:55.049 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [samplesheetToList:samplesheetToList]; plugin Id: nf-schema
+May-12 16:20:57.285 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryLog:paramsSummaryLog]; plugin Id: nf-schema
+May-12 16:20:57.287 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [validateParameters:validateParameters]; plugin Id: nf-schema
+May-12 16:20:57.292 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryMap:paramsSummaryMap]; plugin Id: nf-schema
+May-12 16:20:57.293 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [samplesheetToList:samplesheetToList]; plugin Id: nf-schema
+May-12 16:20:57.650 [main] INFO  nextflow.Nextflow - 
+-[2m----------------------------------------------------[0m-
+                                        [0;32m,--.[0;30m/[0;32m,-.[0m
+[0;34m        ___     __   __   __   ___     [0;32m/,-._.--~'[0m
+[0;34m  |\ | |__  __ /  ` /  \ |__) |__         [0;33m}  {[0m
+[0;34m  | \| |       \__, \__/ |  \ |___     [0;32m\`-._,-`-,[0m
+                                        [0;32m`._,._,'[0m
+[0;35m  nf-core/drugresponseeval 1.1[0m
+-[2m----------------------------------------------------[0m-
+[1mModel options[0m
+  [0;34mmodels                    : [0;32mSingleDrugProteomicsElasticNet[0m
+  [0;34mbaselines                 : [0;32mNaiveMeanEffectsPredictor[0m
+
+[1mInput/output options[0m
+  [0;34mrun_id                    : [0;32mmurine_data[0m
+  [0;34mdataset_name              : [0;32mmPDAC_cd[0m
+  [0;34moutdir                    : [0;32mresults[0m
+
+[1mRandomization options[0m
+  [0;34mrandomization_mode        : [0;32mNone[0m
+
+[1mData options[0m
+  [0;34mpath_data                 : [0;32m/cmnfs/home/externals/f.hamood/drop2ai/datasets/[0m
+
+[1mAdditional options[0m
+  [0;34mresponse_transformation   : [0;32mNone[0m
+
+[1mInstitutional config options[0m
+  [0;34mconfig_profile_description: [0;32mDaiSyBio cluster profile provided by nf-core/configs.[0m
+  [0;34mconfig_profile_contact    : [0;32mJohannes Kersting (@JohannesKersting)[0m
+  [0;34mconfig_profile_url        : [0;32mhttps://www.mls.ls.tum.de/daisybio/startseite/[0m
+
+[1mGeneric options[0m
+  [0;34mtrace_report_suffix       : [0;32m2025-05-12_16-20-51[0m
+
+[1mCore Nextflow options[0m
+  [0;34mrevision                  : [0;32mdev[0m
+  [0;34mrunName                   : [0;32mprickly_rutherford[0m
+  [0;34mcontainer                 : [0;32mghcr.io/daisybio/drevalpy:latest[0m
+  [0;34mlaunchDir                 : [0;32m/cmnfs/home/externals/f.hamood/drevalpy[0m
+  [0;34mworkDir                   : [0;32m/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy[0m
+  [0;34mprojectDir                : [0;32m/cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval[0m
+  [0;34muserName                  : [0;32mf.hamood[0m
+  [0;34mprofile                   : [0;32mdaisybio[0m
+  [0;34mconfigFiles               : [0;32m[0m
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+-[2m----------------------------------------------------[0m-
+* The nf-core framework
+    https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+    https://github.com/nf-core/drugresponseeval/blob/master/CITATIONS.md
+
+May-12 16:20:57.656 [main] DEBUG nextflow.validation.SchemaValidator - Starting parameters validation
+May-12 16:20:57.730 [main] WARN  nextflow.validation.SchemaValidator - The following invalid input values have been detected:
+
+* --max_memory: 1 TB
+* --max_cpus: 120
+* --max_time: 4d
+* --igenomes_base: /nfs/data/references/igenomes
+
+
+May-12 16:20:57.930 [main] DEBUG nextflow.validation.SchemaValidator - Finishing parameters validation
+May-12 16:20:58.090 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK
+May-12 16:20:58.116 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.117 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.135 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+May-12 16:20:58.147 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 50; pollInterval: 5s; dumpInterval: 5m 
+May-12 16:20:58.151 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: slurm)
+May-12 16:20:58.153 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 1 seconds
+May-12 16:20:58.159 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+May-12 16:20:58.332 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE
+May-12 16:20:58.334 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:LOAD_RESPONSE` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE
+May-12 16:20:58.344 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.344 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.405 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT
+May-12 16:20:58.407 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:CV_SPLIT` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT
+May-12 16:20:58.416 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.416 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.478 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS
+May-12 16:20:58.482 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:MAKE_MODELS` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS
+May-12 16:20:58.489 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.490 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.500 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES
+May-12 16:20:58.506 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:MAKE_BASELINES` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES
+May-12 16:20:58.511 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.511 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.564 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT
+May-12 16:20:58.566 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HPAM_SPLIT` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT
+May-12 16:20:58.571 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.571 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.626 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_high` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 16:20:58.627 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_gpu` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 16:20:58.630 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:TRAIN_AND_PREDICT_CV` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 16:20:58.635 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.636 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.666 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:EVALUATE_FIND_MAX
+May-12 16:20:58.667 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:EVALUATE_FIND_MAX` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:EVALUATE_FIND_MAX
+May-12 16:20:58.672 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.672 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.746 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_high` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 16:20:58.747 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_gpu` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 16:20:58.749 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:PREDICT_FULL` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 16:20:58.756 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.756 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.811 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:CONSOLIDATE_RESULTS
+May-12 16:20:58.818 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.819 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.852 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:EVALUATE_FINAL
+May-12 16:20:58.855 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:EVALUATE_FINAL` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:EVALUATE_FINAL
+May-12 16:20:58.859 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.859 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.876 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:COLLECT_RESULTS
+May-12 16:20:58.882 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.883 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.929 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS
+May-12 16:20:58.937 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 16:20:58.938 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 16:20:58.953 [main] DEBUG nextflow.Session - Config process names validation disabled as requested
+May-12 16:20:58.953 [main] DEBUG nextflow.Session - Igniting dataflow network (22)
+May-12 16:20:58.955 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK
+May-12 16:20:58.982 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE
+May-12 16:20:58.983 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT
+May-12 16:20:58.985 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS
+May-12 16:20:58.986 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES
+May-12 16:20:58.987 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT
+May-12 16:20:58.990 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 16:20:58.990 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:EVALUATE_FIND_MAX
+May-12 16:20:58.991 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 16:20:58.991 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:CONSOLIDATE_RESULTS
+May-12 16:20:58.993 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:EVALUATE_FINAL
+May-12 16:20:58.994 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:COLLECT_RESULTS
+May-12 16:20:58.996 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS
+May-12 16:20:58.999 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_0072aa4d44b27ab2: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/../../../modules/local/postprocess_curvecurator_output/main.nf
+  Script_215a636da7ab24a2: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./subworkflows/local/utils_nfcore_drugresponseeval_pipeline/../../nf-core/utils_nfschema_plugin/main.nf
+  Script_5c4e8d4051efa81e: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./subworkflows/local/utils_nfcore_drugresponseeval_pipeline/../../nf-core/utils_nfcore_pipeline/main.nf
+  Script_21f8266630978a63: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/train_and_predict_cv/main.nf
+  Script_f3cccc66c2e0769a: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/visualization/main.nf
+  Script_c8814ff4ac0e5ea2: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/../../../modules/local/fit_curves/main.nf
+  Script_2078dcaa20971647: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/randomization_test/main.nf
+  Script_556ceba56ffae7d7: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/consolidate_results/main.nf
+  Script_8c7914289dfb2e9f: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/main.nf
+  Script_58e45f81086f58cc: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./subworkflows/local/utils_nfcore_drugresponseeval_pipeline/main.nf
+  Script_4f612cfd8c52e8cd: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/utils_nfcore_drugresponseeval_pipeline/../../nf-core/utils_nextflow_pipeline/main.nf
+  Script_dbcd6490d0fa4ebe: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/load_response/main.nf
+  Script_126a9aa930405145: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/../../../modules/local/preprocess_raw_viability/main.nf
+  Script_296c51d60b691044: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/randomization_split/main.nf
+  Script_d1b6838a6e9c891c: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/cv_split/main.nf
+  Script_fb3a2641bdde3298: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/main.nf
+  Script_97e690975e867a0b: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/predict_full/main.nf
+  Script_9a05c41d0aae68b7: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/evaluate_find_max/main.nf
+  Script_122e1500a37ceb8d: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/robustness_test/main.nf
+  Script_6fec4fe2a092b7df: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/main.nf
+  Script_1afb7d6c6c31d57e: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/evaluate_final/main.nf
+  Script_55bef36653991dc7: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/make_model_channel/main.nf
+  Script_ef6091571d5e1e2d: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/visualization/../../../modules/local/visualize_results/main.nf
+  Script_8c222dc3ac9f925b: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/hpam_split/main.nf
+  Script_4506e6a12e9ec8a9: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/collect_results/main.nf
+  Script_144a7e8ebe97892a: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/main.nf
+  Script_1fe20730fa417aa6: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/drugresponseeval.nf
+  Script_f4266247e2d168fe: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../modules/local/params_check/main.nf
+May-12 16:20:58.999 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-12 16:20:58.999 [main] DEBUG nextflow.Session - Session await
+May-12 16:20:59.134 [Actor Thread 26] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/hpam_split.py
+May-12 16:20:59.134 [Actor Thread 33] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/check_params.py
+May-12 16:20:59.335 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (NaiveMeanEffectsPredictor) > jobId: 2752923; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/e4/9333d383268dc0edbf6362fa1337af
+May-12 16:20:59.336 [Task submitter] INFO  nextflow.Session - [e4/9333d3] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (NaiveMeanEffectsPredictor)
+May-12 16:20:59.375 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK > jobId: 2752924; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/49/5b41dc4a9439547651d466262c67ee
+May-12 16:20:59.375 [Task submitter] INFO  nextflow.Session - [49/5b41dc] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK
+May-12 16:20:59.410 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (SingleDrugProteomicsElasticNet) > jobId: 2752925; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/91/bdd8e17e09ec7ed84b071a4a47f391
+May-12 16:20:59.411 [Task submitter] INFO  nextflow.Session - [91/bdd8e1] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (SingleDrugProteomicsElasticNet)
+May-12 16:21:33.173 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2752923; id: 3; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (NaiveMeanEffectsPredictor); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/e4/9333d383268dc0edbf6362fa1337af started: 1747066863168; exited: 2025-05-12T16:21:11.514903Z; ]
+May-12 16:21:33.176 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=96; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-12 16:21:33.186 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2752924; id: 1; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK; status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/49/5b41dc4a9439547651d466262c67ee started: 1747066863198; exited: 2025-05-12T16:21:10.842889Z; ]
+May-12 16:21:33.189 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2752925; id: 2; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (SingleDrugProteomicsElasticNet); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/91/bdd8e17e09ec7ed84b071a4a47f391 started: 1747066863204; exited: 2025-05-12T16:21:11.072894Z; ]
+May-12 16:21:33.254 [Actor Thread 32] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/load_response.py
+May-12 16:21:33.300 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: )) > jobId: 2752927; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/e4/46df1cd548fd2dd0237ff0c5fcb4a6
+May-12 16:21:33.301 [Task submitter] INFO  nextflow.Session - [e4/46df1c] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: ))
+May-12 16:21:38.175 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2752927; id: 4; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: )); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/e4/46df1cd548fd2dd0237ff0c5fcb4a6 started: 1747066898169; exited: 2025-05-12T16:21:36.329394Z; ]
+May-12 16:21:38.188 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: )); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/e4/46df1cd548fd2dd0237ff0c5fcb4a6
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: ))` terminated with an error exit status (1)
+May-12 16:21:38.265 [TaskFinalizer-4] ERROR nextflow.processor.TaskProcessor - Error executing process > 'NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: ))'
+
+Caused by:
+  Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: ))` terminated with an error exit status (1)
+
+
+Command executed:
+
+  load_response.py \
+      --dataset_name mPDAC_cd \
+      --path_data datasets \
+       \
+      --measure LN_IC50
+
+Command exit status:
+  1
+
+Command output:
+  (empty)
+
+Command error:
+  Traceback (most recent call last):
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3805, in get_loc
+      return self._engine.get_loc(casted_key)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "index.pyx", line 167, in pandas._libs.index.IndexEngine.get_loc
+    File "index.pyx", line 196, in pandas._libs.index.IndexEngine.get_loc
+    File "pandas/_libs/hashtable_class_helper.pxi", line 7081, in pandas._libs.hashtable.PyObjectHashTable.get_item
+    File "pandas/_libs/hashtable_class_helper.pxi", line 7089, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  KeyError: 'LN_IC50'
+  
+  The above exception was the direct cause of the following exception:
+  
+  Traceback (most recent call last):
+    File "/cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/load_response.py", line 44, in <module>
+      main(args)
+    File "/cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/load_response.py", line 28, in main
+      response_data = load_dataset(dataset_name=args.dataset_name, path_data=args.path_data, measure=args.measure)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/datasets/loader.py", line 280, in load_dataset
+      return load_custom(
+             ^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/datasets/loader.py", line 218, in load_custom
+      return DrugResponseDataset.from_csv(path_data, measure=measure, tissue_column=tissue_column)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/datasets/dataset.py", line 78, in from_csv
+      response=data[measure].values,
+               ~~~~^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/frame.py", line 4102, in __getitem__
+      indexer = self.columns.get_loc(key)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 3812, in get_loc
+      raise KeyError(key) from err
+  KeyError: 'LN_IC50'
+
+Work dir:
+  /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy/e4/46df1cd548fd2dd0237ff0c5fcb4a6
+
+Tip: you can replicate the issue by changing to the process work dir and entering the command `bash .command.run`
+May-12 16:21:38.278 [TaskFinalizer-4] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
+May-12 16:21:38.287 [TaskFinalizer-4] ERROR nextflow.Nextflow - Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting
+May-12 16:21:38.288 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: slurm) - terminating tasks monitor poll loop
+May-12 16:21:38.288 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-12 16:21:38.288 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-12 16:21:38.300 [Actor Thread 28] WARN  nextflow.processor.TaskProcessor - Input tuple does not match tuple declaration in process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS` -- offending value: [/cmnfs/home/externals/f.hamood/drevalpy/NONE_drug.csv, /cmnfs/home/externals/f.hamood/drevalpy/NONE_cl.csv]
+May-12 16:21:38.300 [Actor Thread 29] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS; work-dir=null
+  error [java.lang.InterruptedException]: java.lang.InterruptedException
+May-12 16:21:38.306 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'TaskFinalizer' shutdown completed (hard=false)
+May-12 16:21:38.310 [Actor Thread 28] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS (1); work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Path value cannot be null
+May-12 16:21:38.321 [main] INFO  nextflow.Nextflow - -[0;35m[nf-core/drugresponseeval][0;31m Pipeline completed with errors[0m-
+May-12 16:21:38.328 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=3; failedCount=1; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=29.6s; failedDuration=6ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=3; peakCpus=3; peakMemory=18 GB; ]
+May-12 16:21:38.328 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+May-12 16:21:38.331 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-12 16:21:39.177 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+May-12 16:21:39.541 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-12 16:21:39.595 [main] INFO  org.pf4j.AbstractPluginManager - Stop plugin 'nf-schema@2.2.0'
+May-12 16:21:39.595 [main] DEBUG nextflow.plugin.BasePlugin - Plugin stopped nf-schema
+May-12 16:21:39.598 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+May-12 16:21:39.599 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

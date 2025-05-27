@@ -1,0 +1,647 @@
+May-12 17:02:21.155 [main] DEBUG nextflow.cli.Launcher - $> nextflow run nf-core/drugresponseeval -r dev -profile daisybio --outdir results --run_id murine_data --models SingleDrugProteomicsElasticNet --baselines NaiveMeanEffectsPredictor --dataset_name mPDAC_cd --path_data /cmnfs/home/externals/f.hamood/drop2ai/datasets/ --curve_curator false --n_cv_splits 10 --measure AUC
+May-12 17:02:21.321 [main] DEBUG nextflow.cli.CmdRun - N E X T F L O W  ~  version 24.04.4
+May-12 17:02:21.357 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/cmnfs/home/externals/f.hamood/.nextflow/plugins; core-plugins: nf-amazon@2.5.3,nf-azure@1.6.1,nf-cloudcache@0.4.1,nf-codecommit@0.2.1,nf-console@1.1.3,nf-ga4gh@1.3.0,nf-google@1.13.2-patch1,nf-tower@1.9.1,nf-wave@1.4.2-patch1
+May-12 17:02:21.378 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-12 17:02:21.380 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-12 17:02:21.385 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.12.0 in 'deployment' mode
+May-12 17:02:21.410 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-12 17:02:21.436 [main] DEBUG nextflow.scm.ProviderConfig - Using SCM config path: /cmnfs/home/externals/f.hamood/.nextflow/scm
+May-12 17:02:23.240 [main] WARN  nextflow.config.Manifest - Invalid config manifest attribute `contributors`
+May-12 17:02:23.245 [main] DEBUG nextflow.scm.AssetManager - Git config: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/.git/config; branch: master; remote: origin; url: https://github.com/nf-core/drugresponseeval.git
+May-12 17:02:23.303 [main] DEBUG nextflow.scm.RepositoryFactory - Found Git repository result: [RepositoryFactory]
+May-12 17:02:23.323 [main] DEBUG nextflow.scm.AssetManager - Git config: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/.git/config; branch: master; remote: origin; url: https://github.com/nf-core/drugresponseeval.git
+May-12 17:02:24.320 [main] DEBUG nextflow.config.ConfigBuilder - Found config base: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/nextflow.config
+May-12 17:02:24.332 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/nextflow.config
+May-12 17:02:24.363 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /cmnfs/home/externals/f.hamood/.nextflow/secrets/store.json
+May-12 17:02:24.369 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@193bb809] - activable => nextflow.secret.LocalSecretsProvider@193bb809
+May-12 17:02:24.395 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `daisybio`
+May-12 17:02:26.136 [main] DEBUG nextflow.config.ConfigBuilder - Available config profiles: [bih, cfc_dev, uzl_omics, ifb_core, embl_hd, denbi_qbic, alice, mjolnir_globe, uppmax, giga, incliva, ilifu, ki_luria, uge, icr_alma, rosalind_uge, lugh, mccleary, unibe_ibu, vai, czbiohub_aws, jax, roslin, ccga_med, tes, scw, unc_longleaf, tigem, tubingen_apg, google, apollo, ipop_up, vsc_calcua, pdc_kth, googlels, ceci_nic5, humantechnopole, stjude, daisybio, eddie, medair, biowulf, apptainer, bi, bigpurple, adcra, cedars, pawsey_setonix, vsc_kul_uhasselt, pawsey_nimbus, ucl_myriad, utd_ganymede, charliecloud, seattlechildrens, icr_davros, ceres, keep_work, arm, munin, rosalind, hasta, cfc, uzh, shu_bmrc, ebi_codon_slurm, ebc, ccga_dx, crick, ku_sund_danhead, marvin, shifter, biohpc_gen, mana, mamba, york_viking, unc_lccc, wehi, awsbatch, wustl_htcf, arcc, ceci_dragon2, imperial, maestro, software_license, cannon, genotoul, nci_gadi, abims, janelia, nu_genomics, googlebatch, oist, sahmri, kaust, alliance_canada, mpcdf, leicester, vsc_ugent, create, sage, cambridge, jex, podman, ebi_codon, cheaha, xanadu, nyu_hpc, test, marjorie, computerome, ucd_sonic, gpu, seg_globe, mssm, sanger, dkfz, bluebear, pasteur, einstein, ethz_euler, m3c, test_full, imb, ucl_cscluster, tuos_stanage, azurebatch, hki, seadragon, crukmi, csiro_petrichor, qmul_apocrita, wave, docker, engaging, gis, hypatia, psmn, eva, unity, cropdiversityhpc, nygc, fgcz, conda, crg, singularity, mpcdf_viper, pe2, self_hosted_runner, tufts, uw_hyak_pedslabs, binac2, debug, genouest, cbe, unsw_katana, gitpod, phoenix, seawulf, uod_hpc, fub_curta, uct_hpc, aws_tower, binac, fsu_draco]
+May-12 17:02:26.213 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+May-12 17:02:26.215 [main] DEBUG nextflow.cli.CmdRun - Launching `https://github.com/nf-core/drugresponseeval` [angry_joliot] DSL2 - revision: 152ce049ac [dev]
+May-12 17:02:26.218 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins declared=[nf-schema@2.2.0]
+May-12 17:02:26.219 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-12 17:02:26.219 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[nf-schema@2.2.0]
+May-12 17:02:26.220 [main] DEBUG nextflow.plugin.PluginUpdater - Installing plugin nf-schema version: 2.2.0
+May-12 17:02:26.231 [main] INFO  org.pf4j.AbstractPluginManager - Plugin 'nf-schema@2.2.0' resolved
+May-12 17:02:26.231 [main] INFO  org.pf4j.AbstractPluginManager - Start plugin 'nf-schema@2.2.0'
+May-12 17:02:26.242 [main] DEBUG nextflow.plugin.BasePlugin - Plugin started nf-schema@2.2.0
+May-12 17:02:26.327 [main] DEBUG nextflow.Session - Session UUID: dba179eb-c8c9-4fe3-bb4a-b17fc96e2327
+May-12 17:02:26.328 [main] DEBUG nextflow.Session - Run name: angry_joliot
+May-12 17:02:26.328 [main] DEBUG nextflow.Session - Executor pool size: 32
+May-12 17:02:26.342 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-12 17:02:26.350 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=96; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-12 17:02:26.380 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 24.04.4 build 5917
+  Created: 01-08-2024 07:05 UTC 
+  System: Linux 5.15.0-138-generic
+  Runtime: Groovy 4.0.21 on OpenJDK 64-Bit Server VM 11.0.27+6-post-Ubuntu-0ubuntu122.04
+  Encoding: UTF-8 (UTF-8)
+  Process: 1432058@compms-cpu-2.exbio.wzw.tum.de [127.0.1.1]
+  CPUs: 32 - Mem: 62.8 GB (22.1 GB) - Swap: 8 GB (110.3 MB)
+May-12 17:02:26.414 [main] DEBUG nextflow.Session - Work-dir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy [nfs]
+May-12 17:02:26.486 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-12 17:02:26.504 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-12 17:02:26.580 [main] WARN  nextflow.config.Manifest - Invalid config manifest attribute `contributors`
+May-12 17:02:26.618 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-12 17:02:26.636 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 33; maxThreads: 1000
+May-12 17:02:26.760 [main] DEBUG nextflow.Session - Session start
+May-12 17:02:26.764 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow started -- trace file: /cmnfs/home/externals/f.hamood/drevalpy/drevalpy/results/pipeline_info/execution_trace_2025-05-12_17-02-24.txt
+May-12 17:02:26.985 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-12 17:02:27.217 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryMap:paramsSummaryMap]; plugin Id: nf-schema
+May-12 17:02:28.062 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryLog:paramsSummaryLog]; plugin Id: nf-schema
+May-12 17:02:28.067 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [validateParameters:validateParameters]; plugin Id: nf-schema
+May-12 17:02:28.078 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryMap:paramsSummaryMap]; plugin Id: nf-schema
+May-12 17:02:28.081 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [samplesheetToList:samplesheetToList]; plugin Id: nf-schema
+May-12 17:02:30.490 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryLog:paramsSummaryLog]; plugin Id: nf-schema
+May-12 17:02:30.493 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [validateParameters:validateParameters]; plugin Id: nf-schema
+May-12 17:02:30.497 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [paramsSummaryMap:paramsSummaryMap]; plugin Id: nf-schema
+May-12 17:02:30.498 [main] DEBUG nextflow.script.IncludeDef - Loading included plugin extensions with names: [samplesheetToList:samplesheetToList]; plugin Id: nf-schema
+May-12 17:02:30.908 [main] INFO  nextflow.Nextflow - 
+-[2m----------------------------------------------------[0m-
+                                        [0;32m,--.[0;30m/[0;32m,-.[0m
+[0;34m        ___     __   __   __   ___     [0;32m/,-._.--~'[0m
+[0;34m  |\ | |__  __ /  ` /  \ |__) |__         [0;33m}  {[0m
+[0;34m  | \| |       \__, \__/ |  \ |___     [0;32m\`-._,-`-,[0m
+                                        [0;32m`._,._,'[0m
+[0;35m  nf-core/drugresponseeval 1.1[0m
+-[2m----------------------------------------------------[0m-
+[1mModel options[0m
+  [0;34mmodels                    : [0;32mSingleDrugProteomicsElasticNet[0m
+  [0;34mbaselines                 : [0;32mNaiveMeanEffectsPredictor[0m
+
+[1mInput/output options[0m
+  [0;34mrun_id                    : [0;32mmurine_data[0m
+  [0;34mdataset_name              : [0;32mmPDAC_cd[0m
+  [0;34moutdir                    : [0;32mresults[0m
+
+[1mRandomization options[0m
+  [0;34mrandomization_mode        : [0;32mNone[0m
+
+[1mData options[0m
+  [0;34mpath_data                 : [0;32m/cmnfs/home/externals/f.hamood/drop2ai/datasets/[0m
+  [0;34mmeasure                   : [0;32mAUC[0m
+
+[1mAdditional options[0m
+  [0;34mresponse_transformation   : [0;32mNone[0m
+
+[1mInstitutional config options[0m
+  [0;34mconfig_profile_description: [0;32mDaiSyBio cluster profile provided by nf-core/configs.[0m
+  [0;34mconfig_profile_contact    : [0;32mJohannes Kersting (@JohannesKersting)[0m
+  [0;34mconfig_profile_url        : [0;32mhttps://www.mls.ls.tum.de/daisybio/startseite/[0m
+
+[1mGeneric options[0m
+  [0;34mtrace_report_suffix       : [0;32m2025-05-12_17-02-24[0m
+
+[1mCore Nextflow options[0m
+  [0;34mrevision                  : [0;32mdev[0m
+  [0;34mrunName                   : [0;32mangry_joliot[0m
+  [0;34mcontainer                 : [0;32mghcr.io/daisybio/drevalpy:latest[0m
+  [0;34mlaunchDir                 : [0;32m/cmnfs/home/externals/f.hamood/drevalpy/drevalpy[0m
+  [0;34mworkDir                   : [0;32m/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy[0m
+  [0;34mprojectDir                : [0;32m/cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval[0m
+  [0;34muserName                  : [0;32mf.hamood[0m
+  [0;34mprofile                   : [0;32mdaisybio[0m
+  [0;34mconfigFiles               : [0;32m[0m
+
+!! Only displaying parameters that differ from the pipeline defaults !!
+-[2m----------------------------------------------------[0m-
+* The nf-core framework
+    https://doi.org/10.1038/s41587-020-0439-x
+
+* Software dependencies
+    https://github.com/nf-core/drugresponseeval/blob/master/CITATIONS.md
+
+May-12 17:02:30.914 [main] DEBUG nextflow.validation.SchemaValidator - Starting parameters validation
+May-12 17:02:30.990 [main] WARN  nextflow.validation.SchemaValidator - The following invalid input values have been detected:
+
+* --max_memory: 1 TB
+* --max_cpus: 120
+* --max_time: 4d
+* --igenomes_base: /nfs/data/references/igenomes
+
+
+May-12 17:02:31.182 [main] DEBUG nextflow.validation.SchemaValidator - Finishing parameters validation
+May-12 17:02:31.324 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK
+May-12 17:02:31.347 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.347 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.365 [main] DEBUG nextflow.executor.Executor - [warm up] executor > slurm
+May-12 17:02:31.375 [main] DEBUG n.processor.TaskPollingMonitor - Creating task monitor for executor 'slurm' > capacity: 50; pollInterval: 5s; dumpInterval: 5m 
+May-12 17:02:31.379 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: slurm)
+May-12 17:02:31.381 [main] DEBUG n.processor.TaskPollingMonitor - Creating submit rate limit of 10 submissions per 1 seconds
+May-12 17:02:31.387 [main] DEBUG n.executor.AbstractGridExecutor - Creating executor 'slurm' > queue-stat-interval: 1m
+May-12 17:02:31.564 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE
+May-12 17:02:31.566 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:LOAD_RESPONSE` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE
+May-12 17:02:31.574 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.574 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.660 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT
+May-12 17:02:31.662 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:CV_SPLIT` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT
+May-12 17:02:31.672 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.672 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.723 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS
+May-12 17:02:31.726 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:MAKE_MODELS` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS
+May-12 17:02:31.732 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.732 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.739 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES
+May-12 17:02:31.744 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:MAKE_BASELINES` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES
+May-12 17:02:31.748 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.748 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.792 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT
+May-12 17:02:31.794 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:HPAM_SPLIT` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT
+May-12 17:02:31.799 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.799 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.848 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_high` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 17:02:31.849 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_gpu` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 17:02:31.852 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:TRAIN_AND_PREDICT_CV` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 17:02:31.858 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.858 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.884 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:EVALUATE_FIND_MAX
+May-12 17:02:31.886 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:EVALUATE_FIND_MAX` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:EVALUATE_FIND_MAX
+May-12 17:02:31.890 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.891 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:31.958 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_high` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 17:02:31.959 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_gpu` matches labels `process_high,process_gpu` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 17:02:31.961 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:PREDICT_FULL` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 17:02:31.966 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:31.966 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:32.020 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:CONSOLIDATE_RESULTS
+May-12 17:02:32.027 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:32.027 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:32.060 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:EVALUATE_FINAL
+May-12 17:02:32.064 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withName:EVALUATE_FINAL` matches process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:EVALUATE_FINAL
+May-12 17:02:32.070 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:32.070 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:32.086 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:COLLECT_RESULTS
+May-12 17:02:32.092 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:32.092 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:32.130 [main] DEBUG nextflow.script.ProcessConfig - Config settings `withLabel:process_single` matches labels `process_single` for process with name NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS
+May-12 17:02:32.140 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: slurm
+May-12 17:02:32.140 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'slurm'
+May-12 17:02:32.157 [main] DEBUG nextflow.Session - Config process names validation disabled as requested
+May-12 17:02:32.157 [main] DEBUG nextflow.Session - Igniting dataflow network (22)
+May-12 17:02:32.159 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK
+May-12 17:02:32.184 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE
+May-12 17:02:32.186 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT
+May-12 17:02:32.188 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS
+May-12 17:02:32.189 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES
+May-12 17:02:32.192 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT
+May-12 17:02:32.193 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV
+May-12 17:02:32.193 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:EVALUATE_FIND_MAX
+May-12 17:02:32.194 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:PREDICT_FULL
+May-12 17:02:32.195 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:CONSOLIDATE_RESULTS
+May-12 17:02:32.197 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:EVALUATE_FINAL
+May-12 17:02:32.198 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:MODEL_TESTING:COLLECT_RESULTS
+May-12 17:02:32.198 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:VISUALIZATION:VISUALIZE_RESULTS
+May-12 17:02:32.203 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_0072aa4d44b27ab2: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/../../../modules/local/postprocess_curvecurator_output/main.nf
+  Script_215a636da7ab24a2: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./subworkflows/local/utils_nfcore_drugresponseeval_pipeline/../../nf-core/utils_nfschema_plugin/main.nf
+  Script_5c4e8d4051efa81e: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./subworkflows/local/utils_nfcore_drugresponseeval_pipeline/../../nf-core/utils_nfcore_pipeline/main.nf
+  Script_21f8266630978a63: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/train_and_predict_cv/main.nf
+  Script_f3cccc66c2e0769a: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/visualization/main.nf
+  Script_c8814ff4ac0e5ea2: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/../../../modules/local/fit_curves/main.nf
+  Script_2078dcaa20971647: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/randomization_test/main.nf
+  Script_556ceba56ffae7d7: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/consolidate_results/main.nf
+  Script_8c7914289dfb2e9f: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/main.nf
+  Script_58e45f81086f58cc: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./subworkflows/local/utils_nfcore_drugresponseeval_pipeline/main.nf
+  Script_4f612cfd8c52e8cd: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/utils_nfcore_drugresponseeval_pipeline/../../nf-core/utils_nextflow_pipeline/main.nf
+  Script_dbcd6490d0fa4ebe: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/load_response/main.nf
+  Script_126a9aa930405145: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/preprocess_custom/../../../modules/local/preprocess_raw_viability/main.nf
+  Script_296c51d60b691044: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/randomization_split/main.nf
+  Script_d1b6838a6e9c891c: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/cv_split/main.nf
+  Script_fb3a2641bdde3298: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/main.nf
+  Script_97e690975e867a0b: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/predict_full/main.nf
+  Script_9a05c41d0aae68b7: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/evaluate_find_max/main.nf
+  Script_122e1500a37ceb8d: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/robustness_test/main.nf
+  Script_6fec4fe2a092b7df: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/main.nf
+  Script_1afb7d6c6c31d57e: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/evaluate_final/main.nf
+  Script_55bef36653991dc7: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/make_model_channel/main.nf
+  Script_ef6091571d5e1e2d: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/visualization/../../../modules/local/visualize_results/main.nf
+  Script_8c222dc3ac9f925b: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/../../../modules/local/hpam_split/main.nf
+  Script_4506e6a12e9ec8a9: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/model_testing/../../../modules/local/collect_results/main.nf
+  Script_144a7e8ebe97892a: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../subworkflows/local/run_cv/main.nf
+  Script_1fe20730fa417aa6: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/drugresponseeval.nf
+  Script_f4266247e2d168fe: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/./workflows/../modules/local/params_check/main.nf
+May-12 17:02:32.204 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-12 17:02:32.204 [main] DEBUG nextflow.Session - Session await
+May-12 17:02:32.351 [Actor Thread 31] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/hpam_split.py
+May-12 17:02:32.351 [Actor Thread 29] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/check_params.py
+May-12 17:02:32.563 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK > jobId: 2753167; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/dd/13dc4056645017a7cb8df61a3272c3
+May-12 17:02:32.564 [Task submitter] INFO  nextflow.Session - [dd/13dc40] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK
+May-12 17:02:32.606 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (SingleDrugProteomicsElasticNet) > jobId: 2753168; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a8/b14c75356a95af4046068f143c8558
+May-12 17:02:32.607 [Task submitter] INFO  nextflow.Session - [a8/b14c75] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (SingleDrugProteomicsElasticNet)
+May-12 17:02:32.641 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (NaiveMeanEffectsPredictor) > jobId: 2753169; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1b/dacbf0c81c9fabf7036e15e33bc0cd
+May-12 17:02:32.641 [Task submitter] INFO  nextflow.Session - [1b/dacbf0] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (NaiveMeanEffectsPredictor)
+May-12 17:03:06.401 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753167; id: 1; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:PARAMS_CHECK; status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/dd/13dc4056645017a7cb8df61a3272c3 started: 1747069356395; exited: 2025-05-12T17:02:40.598936Z; ]
+May-12 17:03:06.405 [Task monitor] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'TaskFinalizer' minSize=10; maxSize=96; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-12 17:03:06.415 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753168; id: 2; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (SingleDrugProteomicsElasticNet); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a8/b14c75356a95af4046068f143c8558 started: 1747069356431; exited: 2025-05-12T17:02:40.75894Z; ]
+May-12 17:03:06.419 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753169; id: 3; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:HPAM_SPLIT (NaiveMeanEffectsPredictor); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1b/dacbf0c81c9fabf7036e15e33bc0cd started: 1747069356435; exited: 2025-05-12T17:02:40.006923Z; ]
+May-12 17:03:06.488 [Actor Thread 30] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/load_response.py
+May-12 17:03:06.541 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: )) > jobId: 2753170; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7c/92681a7c2e3a7fd1e40be016591d7c
+May-12 17:03:06.541 [Task submitter] INFO  nextflow.Session - [7c/92681a] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: ))
+May-12 17:03:11.404 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753170; id: 4; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE (mPDAC_cd (cross: )); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7c/92681a7c2e3a7fd1e40be016591d7c started: 1747069391397; exited: 2025-05-12T17:03:08.833552Z; ]
+May-12 17:03:11.573 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:LOAD_RESPONSE > Skipping output binding because one or more optional files are missing: fileoutparam<1>
+May-12 17:03:11.626 [Actor Thread 23] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/cv_split.py
+May-12 17:03:11.626 [Actor Thread 31] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/make_model_channel.py
+May-12 17:03:11.698 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES (Make model channel) > jobId: 2753171; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/9b/66e1b8102076747b80b0e578057642
+May-12 17:03:11.698 [Task submitter] INFO  nextflow.Session - [9b/66e1b8] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES (Make model channel)
+May-12 17:03:11.732 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS (Make model channel) > jobId: 2753172; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/76/711f211e3b39501de28879560d9156
+May-12 17:03:11.732 [Task submitter] INFO  nextflow.Session - [76/711f21] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS (Make model channel)
+May-12 17:03:11.764 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT (LPO) > jobId: 2753173; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/17/0551131cc6dfc8874cc7b0c614b0e5
+May-12 17:03:11.765 [Task submitter] INFO  nextflow.Session - [17/055113] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT (LPO)
+May-12 17:03:16.414 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753173; id: 7; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:CV_SPLIT (LPO); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/17/0551131cc6dfc8874cc7b0c614b0e5 started: 1747069396407; exited: 2025-05-12T17:03:13.923659Z; ]
+May-12 17:03:46.400 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753171; id: 6; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_BASELINES (Make model channel); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/9b/66e1b8102076747b80b0e578057642 started: 1747069396397; exited: 2025-05-12T17:03:18.71776Z; ]
+May-12 17:03:46.404 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753172; id: 5; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:MAKE_MODELS (Make model channel); status: COMPLETED; exit: 0; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/76/711f211e3b39501de28879560d9156 started: 1747069396403; exited: 2025-05-12T17:03:18.70576Z; ]
+May-12 17:03:46.461 [Actor Thread 19] DEBUG nextflow.util.HashBuilder - Hash asset file sha-256: /cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/train_and_predict_cv.py
+May-12 17:03:46.544 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753174; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f4/becbc2bc5f04afc99493d4922a518b
+May-12 17:03:46.545 [Task submitter] INFO  nextflow.Session - [f4/becbc2] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.597 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753175; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/c9/6918c775c561a5678f898ea22a47bb
+May-12 17:03:46.597 [Task submitter] INFO  nextflow.Session - [c9/6918c7] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.644 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753176; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/46/eef5d31d90aef6dd65ad19e134838e
+May-12 17:03:46.644 [Task submitter] INFO  nextflow.Session - [46/eef5d3] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.691 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753177; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e9/18814fcedadfcdff3ae23c5dda47d9
+May-12 17:03:46.692 [Task submitter] INFO  nextflow.Session - [e9/18814f] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.734 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753178; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/4b/3e93f497363854a383f59976eddaf4
+May-12 17:03:46.737 [Task submitter] INFO  nextflow.Session - [4b/3e93f4] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.826 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753179; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/12/b180d9be34297bd9c34b7d20dc901c
+May-12 17:03:46.827 [Task submitter] INFO  nextflow.Session - [12/b180d9] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.871 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753180; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/6f/ac186427222e23e6c8ec57d95f90ea
+May-12 17:03:46.871 [Task submitter] INFO  nextflow.Session - [6f/ac1864] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:46.944 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753181; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1b/59db6c9b077f436aca83eeae773c21
+May-12 17:03:46.945 [Task submitter] INFO  nextflow.Session - [1b/59db6c] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.008 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753182; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e4/8e6304d87755abc21e59180b197f67
+May-12 17:03:47.009 [Task submitter] INFO  nextflow.Session - [e4/8e6304] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.055 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753183; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/3b/1f5070a00ee6d4624ca936ccdfe0ac
+May-12 17:03:47.057 [Task submitter] INFO  nextflow.Session - [3b/1f5070] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.097 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753184; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/14/811a166dcc9ddadb3d6baecf998830
+May-12 17:03:47.097 [Task submitter] INFO  nextflow.Session - [14/811a16] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.134 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753185; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/16/4585e12e1c642067b471b828bf66cb
+May-12 17:03:47.135 [Task submitter] INFO  nextflow.Session - [16/4585e1] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.180 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753186; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/15/79d5055dcaf3d10387e0694cc6e6b7
+May-12 17:03:47.180 [Task submitter] INFO  nextflow.Session - [15/79d505] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.216 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753187; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e4/d69a580a67f037773eabfa0da28665
+May-12 17:03:47.217 [Task submitter] INFO  nextflow.Session - [e4/d69a58] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.260 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753188; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/bc/ada931981ad70a90473bc2d3ddba55
+May-12 17:03:47.260 [Task submitter] INFO  nextflow.Session - [bc/ada931] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.309 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753189; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/3f/182177702d43ca0427ac4f0c7afddc
+May-12 17:03:47.309 [Task submitter] INFO  nextflow.Session - [3f/182177] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.368 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753190; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e2/da2ea7a7efc7e4245efe240cbe04f1
+May-12 17:03:47.369 [Task submitter] INFO  nextflow.Session - [e2/da2ea7] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.414 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753191; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/bb/4c7b917b68f196b7e02659a119ca9c
+May-12 17:03:47.415 [Task submitter] INFO  nextflow.Session - [bb/4c7b91] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.457 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753192; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/2c/d3f15388e5514c50ba264aeb0af73f
+May-12 17:03:47.457 [Task submitter] INFO  nextflow.Session - [2c/d3f153] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.502 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753193; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1c/1057c19c8417d7240cb7d72eb89fb1
+May-12 17:03:47.502 [Task submitter] INFO  nextflow.Session - [1c/1057c1] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.545 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753194; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/8d/9bc88ac4bd24befdffb23294d83378
+May-12 17:03:47.546 [Task submitter] INFO  nextflow.Session - [8d/9bc88a] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.624 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753195; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/16/21de2c7edc18b33eede9077a93a4b7
+May-12 17:03:47.625 [Task submitter] INFO  nextflow.Session - [16/21de2c] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.726 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753196; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/03/fd34615769c4ed78dd605635ea4df3
+May-12 17:03:47.727 [Task submitter] INFO  nextflow.Session - [03/fd3461] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.822 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753197; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/d5/007cdbd876c2c2bb4b4fa8f6cc81c2
+May-12 17:03:47.823 [Task submitter] INFO  nextflow.Session - [d5/007cdb] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:47.919 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753198; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/52/2745f2635ac967696eef91b3ce2964
+May-12 17:03:47.920 [Task submitter] INFO  nextflow.Session - [52/2745f2] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.025 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753199; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/08/a14c0de5af8fafbdc5cd2a829673f3
+May-12 17:03:48.025 [Task submitter] INFO  nextflow.Session - [08/a14c0d] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.123 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753200; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/39/e0759a6efad23821595c89d417d5ab
+May-12 17:03:48.124 [Task submitter] INFO  nextflow.Session - [39/e0759a] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.323 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753201; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7b/db6824712b3bf0364e97d3ccfa78f1
+May-12 17:03:48.323 [Task submitter] INFO  nextflow.Session - [7b/db6824] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.361 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753202; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/71/4ccb295cf57baddc00e67013aa6468
+May-12 17:03:48.361 [Task submitter] INFO  nextflow.Session - [71/4ccb29] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.440 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753203; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ea/aefd1a13a6d4c279c2177c834c9b55
+May-12 17:03:48.441 [Task submitter] INFO  nextflow.Session - [ea/aefd1a] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.524 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753204; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ef/e5fb34ca1efdfd0bdb4c23837f15d0
+May-12 17:03:48.525 [Task submitter] INFO  nextflow.Session - [ef/e5fb34] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.621 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753205; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f0/7b6c13357f73e19396072c70c39ed9
+May-12 17:03:48.621 [Task submitter] INFO  nextflow.Session - [f0/7b6c13] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.727 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753206; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1a/7c5d0142cd8e81e1dfa463db97a907
+May-12 17:03:48.728 [Task submitter] INFO  nextflow.Session - [1a/7c5d01] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.820 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753207; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a4/db9b412f1920a141fdbdab6a30914a
+May-12 17:03:48.820 [Task submitter] INFO  nextflow.Session - [a4/db9b41] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:48.929 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753208; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/28/fa9853ff8fadff8b2c4307afb0f818
+May-12 17:03:48.929 [Task submitter] INFO  nextflow.Session - [28/fa9853] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.026 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753209; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ad/2f5c080e1117ed1fa11207772b7642
+May-12 17:03:49.026 [Task submitter] INFO  nextflow.Session - [ad/2f5c08] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.120 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753210; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ce/396e3b5429bfa78e0c0af73a0cf162
+May-12 17:03:49.121 [Task submitter] INFO  nextflow.Session - [ce/396e3b] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.221 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753211; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f8/4d406419f6262cae9702e6c3ed4aca
+May-12 17:03:49.221 [Task submitter] INFO  nextflow.Session - [f8/4d4064] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.326 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753212; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ed/baee2996f63a8184bb494ab6ee2723
+May-12 17:03:49.327 [Task submitter] INFO  nextflow.Session - [ed/baee29] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.425 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753213; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7f/3ff36ddcc211d527bc33e5a768e18e
+May-12 17:03:49.425 [Task submitter] INFO  nextflow.Session - [7f/3ff36d] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.546 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753214; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/6b/aaaaf0e88523c963078140009071c5
+May-12 17:03:49.546 [Task submitter] INFO  nextflow.Session - [6b/aaaaf0] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.642 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753215; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/d6/f11a0a86e6bca71faa3686b1395a7e
+May-12 17:03:49.643 [Task submitter] INFO  nextflow.Session - [d6/f11a0a] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.750 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753216; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/9e/1080619125941e1f2c19662d53126b
+May-12 17:03:49.751 [Task submitter] INFO  nextflow.Session - [9e/108061] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:49.818 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753217; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/13/3045e343f324b226f89a14555de214
+May-12 17:03:49.818 [Task submitter] INFO  nextflow.Session - [13/3045e3] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:50.409 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753218; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/42/a0c39389d6288b8339de129d195b00
+May-12 17:03:50.410 [Task submitter] INFO  nextflow.Session - [42/a0c393] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:50.447 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753219; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/54/c3f2b6ccef61a20eacc71cf393fd40
+May-12 17:03:50.448 [Task submitter] INFO  nextflow.Session - [54/c3f2b6] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:50.486 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753220; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a6/e779b2a84ab6ec6946a8ffe53c2464
+May-12 17:03:50.487 [Task submitter] INFO  nextflow.Session - [a6/e779b2] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:50.526 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753221; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1c/d057f8a19659ce09f2b6dd8396048f
+May-12 17:03:50.527 [Task submitter] INFO  nextflow.Session - [1c/d057f8] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:50.566 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753222; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/53/8e216594c4810ea73cb924badb21d6
+May-12 17:03:50.566 [Task submitter] INFO  nextflow.Session - [53/8e2165] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:03:50.601 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false) > jobId: 2753223; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/fb/70e5db91a3e5e3c5c108579002ee23
+May-12 17:03:50.601 [Task submitter] INFO  nextflow.Session - [fb/70e5db] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)
+May-12 17:04:21.401 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753174; id: 22; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f4/becbc2bc5f04afc99493d4922a518b started: 1747069431396; exited: 2025-05-12T17:03:53.5555Z; ]
+May-12 17:04:21.437 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f4/becbc2bc5f04afc99493d4922a518b
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.459 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753175; id: 8; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/c9/6918c775c561a5678f898ea22a47bb started: 1747069431398; exited: 2025-05-12T17:03:53.524499Z; ]
+May-12 17:04:21.478 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753176; id: 14; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/46/eef5d31d90aef6dd65ad19e134838e started: 1747069431400; exited: 2025-05-12T17:03:53.634502Z; ]
+May-12 17:04:21.505 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753177; id: 18; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e9/18814fcedadfcdff3ae23c5dda47d9 started: 1747069431401; exited: 2025-05-12T17:03:53.632502Z; ]
+May-12 17:04:21.513 [TaskFinalizer-8] ERROR nextflow.processor.TaskProcessor - Error executing process > 'NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)'
+
+Caused by:
+  Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+
+
+Command executed:
+
+  train_and_predict_cv.py \
+      --model_name "SingleDrugProteomicsElasticNet.10029385" \
+      --path_data datasets \
+      --test_mode LPO \
+      --hyperparameters hpam_12.yaml \
+      --cv_data split_2.pkl \
+      --response_transformation None \
+      --model_checkpoint_dir TEMPORARY
+
+Command exit status:
+  1
+
+Command output:
+  Loading cell line features ...
+
+Command error:
+  Traceback (most recent call last):
+    File "/cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/train_and_predict_cv.py", line 58, in <module>
+      main()
+    File "/cmnfs/home/externals/f.hamood/.nextflow/assets/nf-core/drugresponseeval/bin/train_and_predict_cv.py", line 41, in main
+      validation_dataset = train_and_predict(
+                           ^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/experiment.py", line 907, in train_and_predict
+      cl_features = model.load_cell_line_features(data_path=path_data, dataset_name=train_dataset.dataset_name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/models/baselines/singledrug_elastic_net.py", line 134, in load_cell_line_features
+      return load_and_select_gene_features(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/models/utils.py", line 61, in load_and_select_gene_features
+      features=iterate_features(df=ge, feature_type=feature_type),
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/drevalpy/models/utils.py", line 110, in iterate_features
+      rows = rows.astype(float).to_numpy()
+             ^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/generic.py", line 6643, in astype
+      new_data = self._mgr.astype(dtype=dtype, copy=copy, errors=errors)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/internals/managers.py", line 430, in astype
+      return self.apply(
+             ^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/internals/managers.py", line 363, in apply
+      applied = getattr(b, f)(**kwargs)
+                ^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/internals/blocks.py", line 758, in astype
+      new_values = astype_array_safe(values, dtype, copy=copy, errors=errors)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/dtypes/astype.py", line 237, in astype_array_safe
+      new_values = astype_array(values, dtype, copy=copy)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/dtypes/astype.py", line 182, in astype_array
+      values = _astype_nansafe(values, dtype, copy=copy)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    File "/cmnfs/home/externals/f.hamood/.conda/envs/drevalpy/lib/python3.12/site-packages/pandas/core/dtypes/astype.py", line 133, in _astype_nansafe
+      return arr.astype(dtype, copy=True)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  ValueError: could not convert string to float: 'Cul4b'
+
+Work dir:
+  /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f4/becbc2bc5f04afc99493d4922a518b
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+May-12 17:04:21.519 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/46/eef5d31d90aef6dd65ad19e134838e
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.521 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/c9/6918c775c561a5678f898ea22a47bb
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.524 [TaskFinalizer-8] INFO  nextflow.Session - Execution cancelled -- Finishing pending tasks before exit
+May-12 17:04:21.526 [Task submitter] DEBUG nextflow.executor.GridTaskHandler - [SLURM] submitted process NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10074640_LPO_gpu:false) > jobId: 2753224; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/fb/9d41a0ff8490180d52309b406c6422
+May-12 17:04:21.526 [Task submitter] INFO  nextflow.Session - [fb/9d41a0] Submitted process > NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10074640_LPO_gpu:false)
+May-12 17:04:21.531 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e9/18814fcedadfcdff3ae23c5dda47d9
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.531 [TaskFinalizer-8] ERROR nextflow.Nextflow - Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting
+May-12 17:04:21.532 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753178; id: 16; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/4b/3e93f497363854a383f59976eddaf4 started: 1747069431403; exited: 2025-05-12T17:03:53.499499Z; ]
+May-12 17:04:21.533 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-12 17:04:21.557 [Actor Thread 28] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV; work-dir=null
+  error [java.lang.IllegalStateException]: Cannot obtain the semaphore to fork operator's body.
+May-12 17:04:21.575 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/4b/3e93f497363854a383f59976eddaf4
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.576 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753179; id: 10; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/12/b180d9be34297bd9c34b7d20dc901c started: 1747069431404; exited: 2025-05-12T17:03:53.492499Z; ]
+May-12 17:04:21.579 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/12/b180d9be34297bd9c34b7d20dc901c
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.580 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753180; id: 24; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/6f/ac186427222e23e6c8ec57d95f90ea started: 1747069431406; exited: 2025-05-12T17:03:53.674503Z; ]
+May-12 17:04:21.581 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/6f/ac186427222e23e6c8ec57d95f90ea
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.582 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753181; id: 19; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1b/59db6c9b077f436aca83eeae773c21 started: 1747069431407; exited: 2025-05-12T17:03:53.676503Z; ]
+May-12 17:04:21.583 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1b/59db6c9b077f436aca83eeae773c21
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.584 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753182; id: 11; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e4/8e6304d87755abc21e59180b197f67 started: 1747069431409; exited: 2025-05-12T17:03:54.206514Z; ]
+May-12 17:04:21.585 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e4/8e6304d87755abc21e59180b197f67
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.587 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753183; id: 28; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/3b/1f5070a00ee6d4624ca936ccdfe0ac started: 1747069461585; exited: 2025-05-12T17:04:00.307645Z; ]
+May-12 17:04:21.587 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/3b/1f5070a00ee6d4624ca936ccdfe0ac
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.590 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753184; id: 17; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/14/811a166dcc9ddadb3d6baecf998830 started: 1747069461587; exited: 2025-05-12T17:03:59.900637Z; ]
+May-12 17:04:21.590 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/14/811a166dcc9ddadb3d6baecf998830
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.592 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753185; id: 12; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/16/4585e12e1c642067b471b828bf66cb started: 1747069461590; exited: 2025-05-12T17:03:59.841635Z; ]
+May-12 17:04:21.593 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/16/4585e12e1c642067b471b828bf66cb
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.595 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753186; id: 9; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/15/79d5055dcaf3d10387e0694cc6e6b7 started: 1747069461593; exited: 2025-05-12T17:04:00.430648Z; ]
+May-12 17:04:21.595 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/15/79d5055dcaf3d10387e0694cc6e6b7
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.597 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753187; id: 13; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e4/d69a580a67f037773eabfa0da28665 started: 1747069461595; exited: 2025-05-12T17:04:00.559651Z; ]
+May-12 17:04:21.597 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e4/d69a580a67f037773eabfa0da28665
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.599 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753188; id: 23; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/bc/ada931981ad70a90473bc2d3ddba55 started: 1747069461598; exited: 2025-05-12T17:04:00.558651Z; ]
+May-12 17:04:21.600 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/bc/ada931981ad70a90473bc2d3ddba55
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.601 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753189; id: 15; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/3f/182177702d43ca0427ac4f0c7afddc started: 1747069461600; exited: 2025-05-12T17:04:00.407648Z; ]
+May-12 17:04:21.602 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/3f/182177702d43ca0427ac4f0c7afddc
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.603 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753190; id: 30; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e2/da2ea7a7efc7e4245efe240cbe04f1 started: 1747069461602; exited: 2025-05-12T17:04:00.378647Z; ]
+May-12 17:04:21.604 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/e2/da2ea7a7efc7e4245efe240cbe04f1
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.606 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753191; id: 26; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/bb/4c7b917b68f196b7e02659a119ca9c started: 1747069461604; exited: 2025-05-12T17:04:00.316646Z; ]
+May-12 17:04:21.606 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/bb/4c7b917b68f196b7e02659a119ca9c
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.608 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753192; id: 32; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/2c/d3f15388e5514c50ba264aeb0af73f started: 1747069461606; exited: 2025-05-12T17:04:06.678783Z; ]
+May-12 17:04:21.608 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/2c/d3f15388e5514c50ba264aeb0af73f
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.610 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753193; id: 21; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1c/1057c19c8417d7240cb7d72eb89fb1 started: 1747069461609; exited: 2025-05-12T17:04:06.685783Z; ]
+May-12 17:04:21.610 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1c/1057c19c8417d7240cb7d72eb89fb1
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.612 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753194; id: 25; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/8d/9bc88ac4bd24befdffb23294d83378 started: 1747069461611; exited: 2025-05-12T17:04:07.454799Z; ]
+May-12 17:04:21.613 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/8d/9bc88ac4bd24befdffb23294d83378
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.614 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753195; id: 27; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/16/21de2c7edc18b33eede9077a93a4b7 started: 1747069461613; exited: 2025-05-12T17:04:07.111792Z; ]
+May-12 17:04:21.615 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/16/21de2c7edc18b33eede9077a93a4b7
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.617 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753196; id: 31; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/03/fd34615769c4ed78dd605635ea4df3 started: 1747069461615; exited: 2025-05-12T17:04:09.274839Z; ]
+May-12 17:04:21.617 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/03/fd34615769c4ed78dd605635ea4df3
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.619 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753197; id: 34; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/d5/007cdbd876c2c2bb4b4fa8f6cc81c2 started: 1747069461617; exited: 2025-05-12T17:04:07.900809Z; ]
+May-12 17:04:21.619 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/d5/007cdbd876c2c2bb4b4fa8f6cc81c2
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.621 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753198; id: 20; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/52/2745f2635ac967696eef91b3ce2964 started: 1747069461619; exited: 2025-05-12T17:04:07.691805Z; ]
+May-12 17:04:21.621 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/52/2745f2635ac967696eef91b3ce2964
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.623 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753199; id: 29; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/08/a14c0de5af8fafbdc5cd2a829673f3 started: 1747069461621; exited: 2025-05-12T17:04:08.303818Z; ]
+May-12 17:04:21.623 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/08/a14c0de5af8fafbdc5cd2a829673f3
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.626 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753200; id: 40; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/39/e0759a6efad23821595c89d417d5ab started: 1747069461624; exited: 2025-05-12T17:04:08.166815Z; ]
+May-12 17:04:21.626 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/39/e0759a6efad23821595c89d417d5ab
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.628 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753201; id: 41; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7b/db6824712b3bf0364e97d3ccfa78f1 started: 1747069461626; exited: 2025-05-12T17:04:13.739935Z; ]
+May-12 17:04:21.628 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7b/db6824712b3bf0364e97d3ccfa78f1
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.630 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753202; id: 38; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/71/4ccb295cf57baddc00e67013aa6468 started: 1747069461628; exited: 2025-05-12T17:04:13.868938Z; ]
+May-12 17:04:21.630 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/71/4ccb295cf57baddc00e67013aa6468
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.632 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753203; id: 35; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ea/aefd1a13a6d4c279c2177c834c9b55 started: 1747069461630; exited: 2025-05-12T17:04:13.856937Z; ]
+May-12 17:04:21.632 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ea/aefd1a13a6d4c279c2177c834c9b55
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.634 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753204; id: 39; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ef/e5fb34ca1efdfd0bdb4c23837f15d0 started: 1747069461633; exited: 2025-05-12T17:04:15.022962Z; ]
+May-12 17:04:21.635 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ef/e5fb34ca1efdfd0bdb4c23837f15d0
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.636 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753205; id: 36; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f0/7b6c13357f73e19396072c70c39ed9 started: 1747069461635; exited: 2025-05-12T17:04:14.474951Z; ]
+May-12 17:04:21.637 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f0/7b6c13357f73e19396072c70c39ed9
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.638 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753206; id: 33; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1a/7c5d0142cd8e81e1dfa463db97a907 started: 1747069461637; exited: 2025-05-12T17:04:14.89796Z; ]
+May-12 17:04:21.639 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1a/7c5d0142cd8e81e1dfa463db97a907
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.640 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753207; id: 37; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a4/db9b412f1920a141fdbdab6a30914a started: 1747069461639; exited: 2025-05-12T17:04:14.952961Z; ]
+May-12 17:04:21.641 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a4/db9b412f1920a141fdbdab6a30914a
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.643 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753208; id: 42; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/28/fa9853ff8fadff8b2c4307afb0f818 started: 1747069461641; exited: 2025-05-12T17:04:15.255967Z; ]
+May-12 17:04:21.643 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/28/fa9853ff8fadff8b2c4307afb0f818
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.645 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753209; id: 43; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ad/2f5c080e1117ed1fa11207772b7642 started: 1747069461643; exited: 2025-05-12T17:04:15.898981Z; ]
+May-12 17:04:21.645 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ad/2f5c080e1117ed1fa11207772b7642
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.647 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753210; id: 45; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ce/396e3b5429bfa78e0c0af73a0cf162 started: 1747069461645; exited: 2025-05-12T17:04:19.170052Z; ]
+May-12 17:04:21.647 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ce/396e3b5429bfa78e0c0af73a0cf162
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.649 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753211; id: 44; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f8/4d406419f6262cae9702e6c3ed4aca started: 1747069461647; exited: 2025-05-12T17:04:19.494059Z; ]
+May-12 17:04:21.649 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/f8/4d406419f6262cae9702e6c3ed4aca
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.651 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753212; id: 46; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ed/baee2996f63a8184bb494ab6ee2723 started: 1747069461649; exited: 2025-05-12T17:04:19.291054Z; ]
+May-12 17:04:21.651 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/ed/baee2996f63a8184bb494ab6ee2723
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.653 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753213; id: 47; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7f/3ff36ddcc211d527bc33e5a768e18e started: 1747069461651; exited: 2025-05-12T17:04:19.915068Z; ]
+May-12 17:04:21.653 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/7f/3ff36ddcc211d527bc33e5a768e18e
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.655 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753214; id: 48; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/6b/aaaaf0e88523c963078140009071c5 started: 1747069461653; exited: 2025-05-12T17:04:20.586082Z; ]
+May-12 17:04:21.655 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/6b/aaaaf0e88523c963078140009071c5
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.657 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753215; id: 49; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/d6/f11a0a86e6bca71faa3686b1395a7e started: 1747069461656; exited: 2025-05-12T17:04:20.808087Z; ]
+May-12 17:04:21.657 [TaskFinalizer-10] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/d6/f11a0a86e6bca71faa3686b1395a7e
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.659 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753216; id: 54; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/9e/1080619125941e1f2c19662d53126b started: 1747069461658; exited: 2025-05-12T17:04:20.920089Z; ]
+May-12 17:04:21.659 [TaskFinalizer-1] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/9e/1080619125941e1f2c19662d53126b
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:21.661 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753217; id: 50; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/13/3045e343f324b226f89a14555de214 started: 1747069461660; exited: 2025-05-12T17:04:21.063093Z; ]
+May-12 17:04:21.662 [TaskFinalizer-8] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/13/3045e343f324b226f89a14555de214
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:56.402 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753218; id: 52; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/42/a0c39389d6288b8339de129d195b00 started: 1747069461662; exited: 2025-05-12T17:04:21.89311Z; ]
+May-12 17:04:56.403 [TaskFinalizer-3] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/42/a0c39389d6288b8339de129d195b00
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:56.406 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753219; id: 51; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/54/c3f2b6ccef61a20eacc71cf393fd40 started: 1747069461663; exited: 2025-05-12T17:04:24.976176Z; ]
+May-12 17:04:56.406 [TaskFinalizer-2] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/54/c3f2b6ccef61a20eacc71cf393fd40
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:56.408 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753220; id: 53; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a6/e779b2a84ab6ec6946a8ffe53c2464 started: 1747069461665; exited: 2025-05-12T17:04:24.977176Z; ]
+May-12 17:04:56.409 [TaskFinalizer-4] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/a6/e779b2a84ab6ec6946a8ffe53c2464
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:56.410 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753221; id: 55; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1c/d057f8a19659ce09f2b6dd8396048f started: 1747069461666; exited: 2025-05-12T17:04:24.991176Z; ]
+May-12 17:04:56.411 [TaskFinalizer-5] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/1c/d057f8a19659ce09f2b6dd8396048f
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:56.412 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753222; id: 56; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/53/8e216594c4810ea73cb924badb21d6 started: 1747069461668; exited: 2025-05-12T17:04:25.540188Z; ]
+May-12 17:04:56.413 [TaskFinalizer-6] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/53/8e216594c4810ea73cb924badb21d6
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:04:56.415 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753223; id: 57; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/fb/70e5db91a3e5e3c5c108579002ee23 started: 1747069461669; exited: 2025-05-12T17:04:26.165201Z; ]
+May-12 17:04:56.415 [TaskFinalizer-7] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/fb/70e5db91a3e5e3c5c108579002ee23
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10029385_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:05:26.404 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[jobId: 2753224; id: 365; name: NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10074640_LPO_gpu:false); status: COMPLETED; exit: 1; error: -; workDir: /nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/fb/9d41a0ff8490180d52309b406c6422 started: 1747069466400; exited: 2025-05-12T17:04:28.128243Z; ]
+May-12 17:05:26.405 [TaskFinalizer-9] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10074640_LPO_gpu:false); work-dir=/nfs/scratch/nf-core_work/cmnfs.home.externals.f.hamood.drevalpy.drevalpy/fb/9d41a0ff8490180d52309b406c6422
+  error [nextflow.exception.ProcessFailedException]: Process `NFCORE_DRUGRESPONSEEVAL:DRUGRESPONSEEVAL:RUN_CV:TRAIN_AND_PREDICT_CV (SingleDrugProteomicsElasticNet.10074640_LPO_gpu:false)` terminated with an error exit status (1)
+May-12 17:05:26.406 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: slurm) - terminating tasks monitor poll loop
+May-12 17:05:26.406 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-12 17:05:29.384 [SIGINT handler] DEBUG nextflow.Session - Session aborted -- Cause: SIGINT
+May-12 17:05:29.430 [SIGINT handler] ERROR nextflow.Nextflow - Pipeline failed. Please refer to troubleshooting docs: https://nf-co.re/docs/usage/troubleshooting
+May-12 17:05:29.466 [main] INFO  nextflow.Nextflow - -[0;35m[nf-core/drugresponseeval][0;31m Pipeline completed with errors[0m-
+May-12 17:05:29.478 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=7; failedCount=51; ignoredCount=0; cachedCount=0; pendingCount=27527; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=36.8s; failedDuration=1h 47m 55s; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=9; peakCpus=108; peakMemory=648 GB; ]
+May-12 17:05:29.478 [main] DEBUG nextflow.trace.TraceFileObserver - Workflow completed -- saving trace file
+May-12 17:05:29.483 [main] DEBUG nextflow.trace.ReportObserver - Workflow completed -- rendering execution report
+May-12 17:05:30.440 [main] DEBUG nextflow.trace.TimelineObserver - Workflow completed -- rendering execution timeline
+May-12 17:05:30.645 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-12 17:05:30.675 [main] INFO  org.pf4j.AbstractPluginManager - Stop plugin 'nf-schema@2.2.0'
+May-12 17:05:30.675 [main] DEBUG nextflow.plugin.BasePlugin - Plugin stopped nf-schema
+May-12 17:05:30.678 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
