@@ -3,8 +3,9 @@ from drevalpy.datasets.dataset import FeatureDataset, DrugResponseDataset
 import numpy as np
 
 
-class CustomProteomicsElasticNetModel(ElasticNetModel):
-    cell_line_views = ["proteomics"]
+class KinaseScoreElasticNetModel(ElasticNetModel):
+
+    cell_line_views = ["kinase_scores"]
     drug_views = ["onehot"]
 
     def __init__(self):
@@ -12,18 +13,17 @@ class CustomProteomicsElasticNetModel(ElasticNetModel):
 
     @classmethod
     def get_model_name(cls) -> str:
-        return "CustomProteomicsElasticNet"
+        return "KinaseScoreElasticNet"
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/proteomics.csv",
-                                                  id_column='cell_line_name', view_name="proteomics",
-                                                  drop_columns=['cellosaurus_id'])
+        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/{self.cell_line_views[0]}.csv",
+                                                  id_column='cell_line_name', view_name=self.cell_line_views[0])
 
         return feature_dataset
 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/drug_features_onehot.csv",
-                                                  id_column='pubchem_id', view_name="onehot")
+        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/drug_features_{self.drug_views[0]}.csv",
+                                                  id_column='pubchem_id', view_name=self.drug_views[0])
 
         return feature_dataset
 
@@ -39,6 +39,7 @@ class CustomProteomicsElasticNetModel(ElasticNetModel):
 
         if drug_input is None:
             raise ValueError(f"drug_input ({self.drug_views[0]}) is required for the sklearn models.")
+
         x = self.get_concatenated_features(
             cell_line_view=self.cell_line_views[0],
             drug_view=self.drug_views[0],

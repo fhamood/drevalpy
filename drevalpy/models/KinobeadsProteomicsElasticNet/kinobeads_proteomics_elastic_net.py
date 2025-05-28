@@ -3,27 +3,27 @@ from drevalpy.datasets.dataset import FeatureDataset, DrugResponseDataset
 import numpy as np
 
 
-class CustomProteomicsElasticNetModel(ElasticNetModel):
+class KinobeadsProteomicsElasticNetModel(ElasticNetModel):
     cell_line_views = ["proteomics"]
-    drug_views = ["onehot"]
+    drug_views = ["kinobeads"]
 
     def __init__(self):
         super().__init__()
 
     @classmethod
     def get_model_name(cls) -> str:
-        return "CustomProteomicsElasticNet"
+        return "KinobeadsProteomicsElasticNet"
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/proteomics.csv",
-                                                  id_column='cell_line_name', view_name="proteomics",
-                                                  drop_columns=['cellosaurus_id'])
+        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/{self.cell_line_views[0]}.csv",
+                                                  id_column='cell_line_name', view_name=self.cell_line_views[0])
 
         return feature_dataset
 
+
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/drug_features_onehot.csv",
-                                                  id_column='pubchem_id', view_name="onehot")
+        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/drug_features_{self.drug_views[0]}.csv",
+                                                  id_column='pubchem_id', view_name=self.drug_views[0])
 
         return feature_dataset
 
@@ -36,9 +36,9 @@ class CustomProteomicsElasticNetModel(ElasticNetModel):
         output_earlystopping: DrugResponseDataset | None = None,
         model_checkpoint_dir: str = "checkpoints",
     ) -> None:
-
         if drug_input is None:
             raise ValueError(f"drug_input ({self.drug_views[0]}) is required for the sklearn models.")
+
         x = self.get_concatenated_features(
             cell_line_view=self.cell_line_views[0],
             drug_view=self.drug_views[0],
