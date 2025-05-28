@@ -87,7 +87,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "ProteomicsRandomForest": ProteomicsRandomForest,
     "ProteomicsElasticNet": ProteomicsElasticNetModel,
     "CustomProteomicsElasticNet": CustomProteomicsElasticNetModel,
-    "PhosphoProteomicsElasticNet": PhosphoproteomicsElasticNetModel,
+    "PhosphoproteomicsElasticNet": PhosphoproteomicsElasticNetModel,
     "KinaseScoreElasticNet": KinaseScoreElasticNetModel,
     "KinobeadsProteomicsElasticNet": KinobeadsProteomicsElasticNetModel,
 }
