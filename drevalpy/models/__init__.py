@@ -83,7 +83,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DIPK": DIPKModel,
     "ProteomicsRandomForest": ProteomicsRandomForest,
     "ProteomicsElasticNet": ProteomicsElasticNetModel,
-    "CustomProteomicsElasticNetModel": CustomProteomicsElasticNetModel,
+    "CustomProteomicsElasticNet": CustomProteomicsElasticNetModel,
 }
 
 # MODEL_FACTORY is used in the pipeline!
