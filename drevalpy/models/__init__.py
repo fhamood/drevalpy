@@ -55,7 +55,7 @@ from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
 from .CustomProteomicsElasticNet.custom_proteomics_elastic_net import CustomProteomicsElasticNetModel
 from .PhosphoproteomicsElasticNet.phosphoproteomics_elastic_net import PhosphoproteomicsElasticNetModel
-from .KinaseScoreProteomicsElasticNet.kinase_score_elastic_net import KinaseScoreElasticNetModel
+from .KinaseScoreElasticNet.kinase_score_elastic_net import KinaseScoreElasticNetModel
 from .KinobeadsProteomicsElasticNet.kinobeads_proteomics_elastic_net import KinobeadsProteomicsElasticNetModel
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
@@ -87,8 +87,8 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "ProteomicsRandomForest": ProteomicsRandomForest,
     "ProteomicsElasticNet": ProteomicsElasticNetModel,
     "CustomProteomicsElasticNet": CustomProteomicsElasticNetModel,
-    "PhosphoProteomicsElasticNet": CustomProteomicsElasticNetModel,
-    "KinaseScoreElasticNet": CustomProteomicsElasticNetModel,
+    "PhosphoProteomicsElasticNet": PhosphoproteomicsElasticNetModel,
+    "KinaseScoreElasticNet": KinaseScoreElasticNetModel,
     "KinobeadsProteomicsElasticNet": KinobeadsProteomicsElasticNetModel,
 }
 

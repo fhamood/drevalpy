@@ -4,6 +4,7 @@ import numpy as np
 
 
 class CustomProteomicsElasticNetModel(ElasticNetModel):
+
     cell_line_views = ["proteomics"]
     drug_views = ["onehot"]
 
@@ -15,8 +16,8 @@ class CustomProteomicsElasticNetModel(ElasticNetModel):
         return "CustomProteomicsElasticNet"
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/{self.cell_line_views[0]}.csv",
-                                                  id_column='cell_line_name', view_name=self.cell_line_views[0],
+        feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/proteomics.csv",
+                                                  id_column='cell_line_name', view_name="proteomics",
                                                   drop_columns=['cellosaurus_id'])
 
         return feature_dataset
