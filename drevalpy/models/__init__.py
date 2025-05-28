@@ -53,6 +53,7 @@ from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwo
 from .SimpleNeuralNetwork.simple_neural_network import SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
+from .CustomProteomicsElasticNet.custom_proteomics_elastic_net import CustomProteomicsElasticNetModel
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
@@ -82,6 +83,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DIPK": DIPKModel,
     "ProteomicsRandomForest": ProteomicsRandomForest,
     "ProteomicsElasticNet": ProteomicsElasticNetModel,
+    "CustomProteomicsElasticNetModel": CustomProteomicsElasticNetModel,
 }
 
 # MODEL_FACTORY is used in the pipeline!
