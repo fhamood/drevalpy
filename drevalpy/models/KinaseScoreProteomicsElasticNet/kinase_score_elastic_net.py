@@ -17,7 +17,8 @@ class KinaseScoreElasticNetModel(ElasticNetModel):
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/{self.cell_line_views[0]}.csv",
-                                                  id_column='cell_line_name', view_name=self.cell_line_views[0])
+                                                  id_column='cell_line_name', view_name=self.cell_line_views[0],
+                                                  drop_columns=['cellosaurus_id'])
 
         return feature_dataset
 
