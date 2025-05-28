@@ -1,4 +1,4 @@
-PhosphoProteomicsElasticNet:
+PhosphoproteomicsElasticNet:
   l1_ratio:
     - 0
     - 0.5
