@@ -806,7 +806,7 @@ class FeatureDataset:
         :returns: FeatureDataset object containing data from provided csv file.
         """
         data = pd.read_csv(path_to_csv)
-        ids = data[id_column].values
+        ids = data[id_column].astype(str).values
         data_features = data.drop(columns=(drop_columns or []))
         data_features = data_features.set_index(id_column)
         # remove duplicate feature rows (rows with the same index)
