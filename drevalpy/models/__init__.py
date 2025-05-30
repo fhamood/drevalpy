@@ -57,6 +57,10 @@ from .CustomProteomicsElasticNet.custom_proteomics_elastic_net import CustomProt
 from .PhosphoproteomicsElasticNet.phosphoproteomics_elastic_net import PhosphoproteomicsElasticNetModel
 from .KinaseScoreElasticNet.kinase_score_elastic_net import KinaseScoreElasticNetModel
 from .KinobeadsProteomicsElasticNet.kinobeads_proteomics_elastic_net import KinobeadsProteomicsElasticNetModel
+from .PhosphoproteomicsRandomForest.phosphoproteomics_random_forest import PhosphoproteomicsRandomForest
+from .KinaseScoreRandomForest.kinase_score_random_forest import KinaseScoreRandomForest
+from .CustomProteomicsRandomForest.custom_proteomics_random_forest import CustomProteomicsRandomForest
+
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
@@ -89,6 +93,9 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "CustomProteomicsElasticNet": CustomProteomicsElasticNetModel,
     "PhosphoproteomicsElasticNet": PhosphoproteomicsElasticNetModel,
     "KinaseScoreElasticNet": KinaseScoreElasticNetModel,
+    "CustomProteomicsRandomForest": CustomProteomicsRandomForest,
+    "PhosphoproteomicsRandomForest": PhosphoproteomicsRandomForest,
+    "KinaseScoreRandomForest": KinaseScoreRandomForest,
     "KinobeadsProteomicsElasticNet": KinobeadsProteomicsElasticNetModel,
 }
 
