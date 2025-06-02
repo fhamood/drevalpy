@@ -5,7 +5,7 @@ import numpy as np
 
 class SingleDrugKinaseScoreElasticNetModel(SingleDrugElasticNet):
 
-    cell_line_views = ["kinase_score"]
+    cell_line_views = ["kinase_scores"]
 
     def __init__(self):
         super().__init__()
