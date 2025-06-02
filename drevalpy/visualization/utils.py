@@ -257,7 +257,7 @@ def prep_results(
         eval_results_per_cell_line[["algorithm", "rand_setting", "test_mode", "split", "CV_split"]] = (
             eval_results_per_cell_line["model"].str.split("_", expand=True)
         )
-        all_cello_ids = [cell_line_metadata[cell_line] for cell_line in eval_results_per_cell_line["cell_line"]]
+        all_cello_ids = [cell_line_metadata[cell_line] for cell_line in eval_results_per_cell_line["cell_line"].astype(str)]
         eval_results_per_cell_line["cellosaurus_id"] = all_cello_ids
         eval_results_per_cell_line = eval_results_per_cell_line.rename(columns={"cell_line": "cell_line_name"})
 
