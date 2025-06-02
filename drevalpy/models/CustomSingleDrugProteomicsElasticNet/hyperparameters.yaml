@@ -1,0 +1,8 @@
+KinaseScoreElasticNet:
+  l1_ratio:
+    - 0.05
+    - 0.9
+  alpha:
+    - 0.03
+    - 1
+    - 0.3
