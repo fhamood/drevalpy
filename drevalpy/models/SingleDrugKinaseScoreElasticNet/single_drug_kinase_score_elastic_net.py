@@ -12,7 +12,7 @@ class SingleDrugKinaseScoreElasticNetModel(SingleDrugElasticNet):
 
     @classmethod
     def get_model_name(cls) -> str:
-        return "CustomSingleDrugKinaseScoreElasticNet"
+        return "SingleDrugKinaseScoreElasticNet"
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         feature_dataset = FeatureDataset.from_csv(f"{data_path}/{dataset_name}/{self.cell_line_views[0]}.csv",
