@@ -268,7 +268,7 @@ def prep_results(
     t_vs_p = t_vs_p.drop("split", axis=1)
     all_drugs = [drug_metadata[drug] for drug in t_vs_p["drug"]]
     t_vs_p["drug_name"] = all_drugs
-    all_cello_ids = [cell_line_metadata[cell_line] for cell_line in t_vs_p["cell_line"]]
+    all_cello_ids = [cell_line_metadata[cell_line] for cell_line in t_vs_p["cell_line"].astype(str)]
     t_vs_p["cellosaurus_id"] = all_cello_ids
     t_vs_p = t_vs_p.rename(columns={"cell_line": "cell_line_name", "drug": "pubchem_id"})
     t_vs_p["pubchem_id"] = t_vs_p["pubchem_id"].astype(str)
