@@ -270,7 +270,7 @@ def prep_results(
         eval_results_per_cell_line[["algorithm", "rand_setting", "test_mode", "split", "CV_split"]] = (
             eval_results_per_cell_line["model"].str.split("_", expand=True)
         )
-        all_cello_ids = [cell_line_metadata[cell_line] for cell_line in eval_results_per_cell_line["cell_line"]]
+        all_cello_ids = [cell_line_metadata[cell_line] for cell_line in eval_results_per_cell_line["cell_line"].astype(str)]
         eval_results_per_cell_line["cellosaurus_id"] = all_cello_ids
         eval_results_per_cell_line = eval_results_per_cell_line.rename(columns={"cell_line": CELL_LINE_IDENTIFIER})
 
@@ -281,7 +281,7 @@ def prep_results(
     t_vs_p = t_vs_p.drop("split", axis=1)
     all_drugs = [drug_metadata[drug] for drug in t_vs_p["drug"]]
     t_vs_p["drug_name"] = all_drugs
-    all_cello_ids = [cell_line_metadata[cell_line] for cell_line in t_vs_p["cell_line"]]
+    all_cello_ids = [cell_line_metadata[cell_line] for cell_line in t_vs_p["cell_line"].astype(str)]
     t_vs_p["cellosaurus_id"] = all_cello_ids
     t_vs_p = t_vs_p.rename(columns={"cell_line": CELL_LINE_IDENTIFIER, "drug": DRUG_IDENTIFIER})
     t_vs_p[DRUG_IDENTIFIER] = t_vs_p[DRUG_IDENTIFIER].astype(str)

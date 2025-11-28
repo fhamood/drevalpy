@@ -56,6 +56,15 @@ from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwo
 from .SimpleNeuralNetwork.simple_neural_network import ChemBERTaNeuralNetwork, SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
+from .CustomProteomicsElasticNet.custom_proteomics_elastic_net import CustomProteomicsElasticNetModel
+from .PhosphoproteomicsElasticNet.phosphoproteomics_elastic_net import PhosphoproteomicsElasticNetModel
+from .KinaseScoreElasticNet.kinase_score_elastic_net import KinaseScoreElasticNetModel
+from .KinobeadsProteomicsElasticNet.kinobeads_proteomics_elastic_net import KinobeadsProteomicsElasticNetModel
+from .PhosphoproteomicsRandomForest.phosphoproteomics_random_forest import PhosphoproteomicsRandomForest
+from .KinaseScoreRandomForest.kinase_score_random_forest import KinaseScoreRandomForest
+from .CustomProteomicsRandomForest.custom_proteomics_random_forest import CustomProteomicsRandomForest
+# from .SingleDrugKinaseScoreElasticNet.single_drug_kinase_score_elastic_net import SingleDrugKinaseScoreElasticNetModel
+from .SingleDrugElasticNets.single_drug_elastic_nets import SingleDrugPhosphoproteomicsElasticNet, SingleDrugKinaseScoreElasticNet, CustomSingleDrugProteomicsElasticNet
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
@@ -65,6 +74,9 @@ SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "SingleDrugElasticNet": SingleDrugElasticNet,
     "SingleDrugProteomicsElasticNet": SingleDrugProteomicsElasticNet,
     "SingleDrugProteomicsRandomForest": SingleDrugProteomicsRandomForest,
+    "CustomSingleDrugProteomicsElasticNet": CustomSingleDrugProteomicsElasticNet,
+    "SingleDrugPhosphoproteomicsElasticNet": SingleDrugPhosphoproteomicsElasticNet,
+    "SingleDrugKinaseScoreElasticNet": SingleDrugKinaseScoreElasticNet,
 }
 
 # MULTI_DRUG_MODEL_FACTORY is used in the pipeline!
@@ -87,6 +99,13 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "ProteomicsElasticNet": ProteomicsElasticNetModel,
     "DrugGNN": DrugGNN,
     "ChemBERTaNeuralNetwork": ChemBERTaNeuralNetwork,
+    "CustomProteomicsElasticNet": CustomProteomicsElasticNetModel,
+    "PhosphoproteomicsElasticNet": PhosphoproteomicsElasticNetModel,
+    "KinaseScoreElasticNet": KinaseScoreElasticNetModel,
+    "CustomProteomicsRandomForest": CustomProteomicsRandomForest,
+    "PhosphoproteomicsRandomForest": PhosphoproteomicsRandomForest,
+    "KinaseScoreRandomForest": KinaseScoreRandomForest,
+    "KinobeadsProteomicsElasticNet": KinobeadsProteomicsElasticNetModel,
 }
 
 # MODEL_FACTORY is used in the pipeline!
