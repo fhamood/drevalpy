@@ -28,6 +28,8 @@ __all__ = [
     "SingleDrugProteomicsRandomForest",
     "DrugGNN",
     "ChemBERTaNeuralNetwork",
+    "PhosphoproteomicsRandomForest",
+    "CustomProteomicsRandomForest"
 ]
 
 from .baselines.multi_omics_random_forest import MultiOmicsRandomForest
