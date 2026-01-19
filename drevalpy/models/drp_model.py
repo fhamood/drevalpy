@@ -104,9 +104,10 @@ class DRPModel(ABC):
 
         self.hyperparameters = hyperparameters
         # Only update wandb.config if we're not in hyperparameter tuning phase
-        # During tuning, trial hyperparameters are logged as metrics instead
+        # During tuning, trial hyperparameters are stored in config.hyperparameters
+        # Nest hyperparameters under a single key to prevent them from appearing as separate table columns
         if not self._in_hyperparameter_tuning:
-            wandb.config.update(hyperparameters)
+            wandb.config.update({"hyperparameters": hyperparameters})
 
     def is_wandb_enabled(self) -> bool:
         """
@@ -114,7 +115,9 @@ class DRPModel(ABC):
 
         :returns: True if wandb is initialized and active, False otherwise
         """
-        return self.wandb_run is not None
+        # Check both self.wandb_run and wandb.run to handle cases where
+        # PyTorch Lightning's WandbLogger might have affected the run state
+        return self.wandb_project is not None and (self.wandb_run is not None or wandb.run is not None)
 
     def get_wandb_logger(self) -> Any | None:
         """
@@ -209,10 +212,11 @@ class DRPModel(ABC):
         results = evaluate(dataset, metric=metrics_to_compute)
 
         # Log to wandb if enabled
-        if self.is_wandb_enabled():
+        # Check both is_wandb_enabled() and wandb.run to ensure the run is active
+        if self.is_wandb_enabled() and wandb.run is not None:
             # Prefix indicates which split the metrics belong to (e.g. \"val\" or \"test\")
             wandb_metrics = {f"{prefix}{k}": v for k, v in results.items()}
-            self.log_metrics(wandb_metrics)
+            # Log to summary only (not history) since these are final metrics logged once
             self.log_final_metrics(wandb_metrics)
 
         return results
@@ -221,18 +225,23 @@ class DRPModel(ABC):
         """
         Store final metrics in the wandb run summary.
 
-        This method is used to record final or best metrics (e.g., after validation
-        or after a hyperparameter trial) separate from the per-step logs.
+        This method is used to record final metrics (e.g., after validation
+        or after a hyperparameter trial). Metrics are stored with their original
+        names (e.g., val_RMSE, test_RMSE) without additional prefixes.
 
         :param metrics: dictionary of metric names to values
         """
         if not self.is_wandb_enabled():
             return
 
+        # Ensure wandb.run is active before logging
+        if wandb.run is None:
+            return
+
         for key, value in metrics.items():
-            # Prefix with "final_" to distinguish from history metrics if not already prefixed
-            summary_key = key if key.startswith("final_") else f"final_{key}"
-            wandb.run.summary[summary_key] = value
+            # Store metrics directly without adding "final_" prefix
+            # The prefix (val_ or test_) already indicates the split
+            wandb.run.summary[key] = value
 
     def finish_wandb(self) -> None:
         """Finish the wandb run. Call this when training is complete."""

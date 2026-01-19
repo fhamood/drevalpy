@@ -257,7 +257,6 @@ def drug_response_experiment(
                     final_config = {
                         **base_wandb_config,
                         "phase": "final_training",
-                        "best_hyperparameters": best_hpams,
                     }
                     model.init_wandb(
                         project=wandb_project,
@@ -1233,11 +1232,6 @@ def hpam_tune(
             print(f"current best {metric} score: {np.round(score, 3)}")
             best_score = score
             best_hyperparameters = hyperparameter
-
-            # Log best score so far to wandb if enabled, using a clear name.
-            # This is separate from val_{metric} and won't duplicate the val metric series.
-            if model.is_wandb_enabled():
-                model.log_metrics({f"best_val_{metric}": best_score})
 
         # Close this trial's run after all logging is done
         if model.is_wandb_enabled():
