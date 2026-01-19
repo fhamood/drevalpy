@@ -1221,30 +1221,27 @@ def hpam_tune(
             model_checkpoint_dir=model_checkpoint_dir,
         )[metric]
 
+        # Note: train_and_evaluate() already logs val_* metrics once via
+        # DRPModel.compute_and_log_final_metrics(..., prefix="val_").
+        # Avoid logging val_{metric} again here (it would create duplicate points).
         if np.isnan(score):
-            # Finish the wandb run for this trial if it exists, even when score is NaN
             if model.is_wandb_enabled():
-                # Log NaN metric with validation prefix for clarity (e.g., val_RMSE)
-                model.log_metrics({f"val_{metric}": score})
-                model.log_final_metrics({f"val_{metric}": score})
                 model.finish_wandb()
             continue
-
-        # Log trial result to wandb if enabled
-        if model.is_wandb_enabled():
-            # Log using validation-prefixed metric name (e.g., val_RMSE)
-            model.log_metrics({f"val_{metric}": score})
-            model.log_final_metrics({f"val_{metric}": score})
-            model.finish_wandb()
 
         if (mode == "min" and score < best_score) or (mode == "max" and score > best_score):
             print(f"current best {metric} score: {np.round(score, 3)}")
             best_score = score
             best_hyperparameters = hyperparameter
 
-            # Log best score so far to wandb if enabled, using a clear name
+            # Log best score so far to wandb if enabled, using a clear name.
+            # This is separate from val_{metric} and won't duplicate the val metric series.
             if model.is_wandb_enabled():
                 model.log_metrics({f"best_val_{metric}": best_score})
+
+        # Close this trial's run after all logging is done
+        if model.is_wandb_enabled():
+            model.finish_wandb()
 
     if best_hyperparameters is None:
         warnings.warn("all hpams lead to NaN respone. using last hpam combination.", stacklevel=2)
