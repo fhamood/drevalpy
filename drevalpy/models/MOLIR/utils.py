@@ -18,7 +18,9 @@ from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
-from drevalpy.models.drp_model import DRPModel
+
+from ..drp_model import DRPModel
+from ..lightning_metrics_mixin import RegressionMetricsMixin
 
 
 class RegressionDataset(Dataset):
@@ -313,7 +315,7 @@ class MOLIRegressor(nn.Module):
         return self.regressor(x)
 
 
-class MOLIModel(pl.LightningModule):
+class MOLIModel(RegressionMetricsMixin, pl.LightningModule):
     """
     PyTorch Lightning module for the MOLIR model.
 
@@ -362,6 +364,9 @@ class MOLIModel(pl.LightningModule):
         self.mutation_encoder = MOLIEncoder(input_dim_mut, self.h_dim2, self.dropout_rate)
         self.cna_encoder = MOLIEncoder(input_dim_cnv, self.h_dim3, self.dropout_rate)
         self.regressor = MOLIRegressor(self.h_dim1 + self.h_dim2 + self.h_dim3, self.dropout_rate)
+
+        # Initialize metrics storage for epoch-end R^2 and PCC computation
+        self._init_metrics_storage()
 
     def fit(
         self,
@@ -534,6 +539,10 @@ class MOLIModel(pl.LightningModule):
         # Compute loss
         loss = self._compute_loss(z, preds, response)
         self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
+
+        # Store predictions and targets for epoch-end metrics via mixin
+        self._store_predictions(preds, response, is_training=True)
+
         return loss
 
     def validation_step(self, batch: list[torch.Tensor], batch_idx: int) -> torch.Tensor:
@@ -555,6 +564,10 @@ class MOLIModel(pl.LightningModule):
         # Compute loss
         val_loss = self._compute_loss(z, preds, response)
         self.log("val_loss", val_loss, on_step=False, on_epoch=True, prog_bar=True)
+
+        # Store predictions and targets for epoch-end metrics via mixin
+        self._store_predictions(preds, response, is_training=False)
+
         return val_loss
 
     def configure_optimizers(self) -> torch.optim.Optimizer:

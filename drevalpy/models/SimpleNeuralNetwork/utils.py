@@ -13,6 +13,8 @@ from torch.utils.data import DataLoader, Dataset
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 
+from ..lightning_metrics_mixin import RegressionMetricsMixin
+
 
 class RegressionDataset(Dataset):
     """Dataset for regression tasks for the data loader."""
@@ -93,7 +95,7 @@ class RegressionDataset(Dataset):
         return len(self.output.response)
 
 
-class FeedForwardNetwork(pl.LightningModule):
+class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
     """Feed forward neural network for regression tasks with basic architecture."""
 
     def __init__(self, hyperparameters: dict[str, int | float | list[int]], input_dim: int) -> None:
@@ -137,6 +139,9 @@ class FeedForwardNetwork(pl.LightningModule):
         self.fully_connected_layers.append(nn.Linear(self.n_units_per_layer[-1], 1))
         if self.dropout_prob is not None:
             self.dropout_layer = nn.Dropout(p=self.dropout_prob)
+
+        # Initialize metrics storage for epoch-end R^2 and PCC computation
+        self._init_metrics_storage()
 
     def fit(
         self,
@@ -301,6 +306,10 @@ class FeedForwardNetwork(pl.LightningModule):
         y_pred = self.forward(x)
         result = self.loss(y_pred, y)
         self.log(log_as, result, on_step=True, on_epoch=True, prog_bar=True)
+
+        # Store predictions and targets for epoch-end metrics via mixin
+        self._store_predictions(y_pred, y, is_training=(log_as == "train_loss"))
+
         return result
 
     def training_step(self, batch):

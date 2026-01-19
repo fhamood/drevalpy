@@ -10,6 +10,7 @@ from pytorch_lightning.callbacks import EarlyStopping, TQDMProgressBar
 from torch import nn
 
 from ...datasets.dataset import DrugResponseDataset, FeatureDataset
+from ..lightning_metrics_mixin import RegressionMetricsMixin
 from ..MOLIR.utils import create_dataset_and_loaders, generate_triplets_indices
 
 
@@ -164,7 +165,7 @@ class SuperFELTEncoder(pl.LightningModule):
         return triplet_loss
 
 
-class SuperFELTRegressor(pl.LightningModule):
+class SuperFELTRegressor(RegressionMetricsMixin, pl.LightningModule):
     """
     SuperFELT regressor definition.
 
@@ -203,6 +204,9 @@ class SuperFELTRegressor(pl.LightningModule):
         for encoder in self.encoders:
             encoder.eval()
         self.regression_loss = nn.MSELoss()
+
+        # Initialize metrics storage for epoch-end R^2 and PCC computation
+        self._init_metrics_storage()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
@@ -268,6 +272,10 @@ class SuperFELTRegressor(pl.LightningModule):
         pred = self.regressor(encoded)
         loss = self.regression_loss(pred.squeeze(), response)
         self.log("train_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
+
+        # Store predictions and targets for epoch-end metrics via mixin
+        self._store_predictions(pred.squeeze(), response, is_training=True)
+
         return loss
 
     def validation_step(self, batch: list[torch.Tensor], batch_idx: int) -> torch.Tensor:
@@ -283,6 +291,10 @@ class SuperFELTRegressor(pl.LightningModule):
         pred = self.regressor(encoded)
         loss = self.regression_loss(pred.squeeze(), response)
         self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
+
+        # Store predictions and targets for epoch-end metrics via mixin
+        self._store_predictions(pred.squeeze(), response, is_training=False)
+
         return loss
 
 
