@@ -13,6 +13,11 @@ import pandas as pd
 import torch
 from sklearn.base import TransformerMixin
 
+try:
+    import wandb
+except ImportError:
+    wandb = None  # type: ignore[assignment]
+
 from .datasets.dataset import DrugResponseDataset, FeatureDataset, split_early_stopping_data
 from .evaluation import get_mode
 from .models import MODEL_FACTORY, MULTI_DRUG_MODEL_FACTORY, SINGLE_DRUG_MODEL_FACTORY
@@ -248,6 +253,7 @@ def drug_response_experiment(
                 train_dataset.shuffle(random_state=42)
 
                 # Initialize wandb for the final training on the full train+validation set
+                # This happens regardless of whether hyperparameter tuning was performed
                 if wandb_project is not None:
                     final_run_name = f"{model_name}"
                     if drug_id is not None:
@@ -278,17 +284,21 @@ def drug_response_experiment(
 
                 # Log final metrics on test set for all models
                 # Metrics will be logged as test_RMSE, test_R^2, test_Pearson, etc.
+                # This happens regardless of whether hyperparameter tuning was performed
                 if (
-                    model.is_wandb_enabled()
+                    wandb_project is not None
+                    and wandb is not None
                     and len(test_dataset) > 0
                     and test_dataset.predictions is not None
                     and len(test_dataset.predictions) > 0
                 ):
-                    model.compute_and_log_final_metrics(
-                        test_dataset,
-                        additional_metrics=[hpam_optimization_metric],
-                        prefix="test_",
-                    )
+                    # Ensure wandb run is active before logging metrics
+                    if wandb.run is not None:
+                        model.compute_and_log_final_metrics(
+                            test_dataset,
+                            additional_metrics=[hpam_optimization_metric],
+                            prefix="test_",
+                        )
 
                 for cross_study_dataset in cross_study_datasets:
                     print(f"Cross study prediction on {cross_study_dataset.dataset_name}")
