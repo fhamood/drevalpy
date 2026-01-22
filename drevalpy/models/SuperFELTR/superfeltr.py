@@ -237,7 +237,7 @@ class SuperFELTR(DRPModel):
         mutations = input_data["mutations"]
         cnvs = input_data["copy_number_variation_gistic"]
 
-        (gene_expression, mutations, cnvs) = filter_and_sort_omics(
+        gene_expression, mutations, cnvs = filter_and_sort_omics(
             model=self, gene_expression=gene_expression, mutations=mutations, cnvs=cnvs, cell_line_input=cell_line_input
         )
 
