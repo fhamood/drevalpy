@@ -183,13 +183,13 @@ class MOLIR(DRPModel):
             cell_line_input=cell_line_input,
             drug_input=drug_input,
         )
-        (gene_expression, mutations, cnvs) = (
+        gene_expression, mutations, cnvs = (
             input_data["gene_expression"],
             input_data["mutations"],
             input_data["copy_number_variation_gistic"],
         )
 
-        (gene_expression, mutations, cnvs) = filter_and_sort_omics(
+        gene_expression, mutations, cnvs = filter_and_sort_omics(
             model=self, gene_expression=gene_expression, mutations=mutations, cnvs=cnvs, cell_line_input=cell_line_input
         )
 
