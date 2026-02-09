@@ -75,6 +75,7 @@ and the Freie Universität Berlin (FU, Germany).
 Leaderboard
 -----------
 
-.. image:: docs/_static/img/leaderboard.png
+.. image:: _static/img/leaderboard_light.png
    :alt: DrEvalPy Leaderboard
    :align: center
+   :width: 70%
