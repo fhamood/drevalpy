@@ -30,6 +30,7 @@ __all__ = [
     "DrugGNN",
     "ChemBERTaNeuralNetwork",
     "PharmaFormerModel",
+    "KNNRegressor",
 ]
 
 from .baselines.multi_omics_random_forest import MultiOmicsRandomForest

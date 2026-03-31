@@ -1,0 +1,6 @@
+KNNRegressor:
+  n_neighbors:
+    - 10
+
+  weights:
+    - distance 
