@@ -87,6 +87,10 @@ pep8-naming = "*"
 optional = true
 dependencies = { torch = ">=2.1", torch-geometric = "*" }
 
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.19.1"
+ruff = "^0.15.8"
+
 [tool.black]
 line-length = 120
 
