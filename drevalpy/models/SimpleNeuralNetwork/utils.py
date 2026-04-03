@@ -317,6 +317,7 @@ class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
         Overwrites the training step from the LightningModule.
 
         Does a forward pass, calculates the loss and logs the loss.
+
         :param batch: batch of data
         :returns: loss
         """
@@ -328,6 +329,7 @@ class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
         Overwrites the validation step from the LightningModule.
 
         Does a forward pass, calculates the loss and logs the loss.
+
         :param batch: batch of data
         :returns: loss
         """

@@ -68,6 +68,7 @@ class SklearnModel(DRPModel):
         Trains the model.
 
         The number of features is the number of genes + the number of fingerprints.
+
         :param output: training dataset containing the response output
         :param cell_line_input: training dataset containing gene expression data
         :param drug_input: training dataset containing fingerprints data
@@ -164,6 +165,7 @@ class SklearnModel(DRPModel):
         Save the trained model and any associated preprocessing components to the given directory.
 
         Saves:
+
         - model.pkl: the trained sklearn model
         - hyperparameters.json: dictionary of model hyperparameters (if present)
         - scaler.pkl: fitted gene expression scaler (if present)
@@ -186,6 +188,7 @@ class SklearnModel(DRPModel):
         Load a trained sklearn-based model and its preprocessing components from disk.
 
         Loads:
+
         - model.pkl: the trained sklearn model
         - hyperparameters.json: model hyperparameters (optional)
         - scaler.pkl: gene expression scaler (optional)
@@ -411,6 +414,7 @@ class ProteomicsRandomForest(RandomForest):
         Trains the model.
 
         The number of features is the number of genes + the number of fingerprints.
+
         :param output: training dataset containing the response output
         :param cell_line_input: training dataset containing gene expression data
         :param drug_input: training dataset containing fingerprints data
@@ -553,6 +557,7 @@ class ProteomicsElasticNetModel(ElasticNetModel):
         Trains the model.
 
         The number of features is the number of genes + the number of fingerprints.
+
         :param output: training dataset containing the response output
         :param cell_line_input: training dataset containing gene expression data
         :param drug_input: training dataset containing fingerprints data
