@@ -1,14 +1,15 @@
-"""Contains sklearn baseline models: ElasticNet, RandomForest, SVM."""
+"""Contains sklearn baseline models: ElasticNet, RandomForest, SVM, AdaBoost."""
 
 import json
 import os
 
 import joblib
 import numpy as np
-from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
+from sklearn.ensemble import AdaBoostRegressor, HistGradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import ElasticNet, Lasso, Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 from drevalpy.models.drp_model import DRPModel
@@ -68,7 +69,6 @@ class SklearnModel(DRPModel):
         Trains the model.
 
         The number of features is the number of genes + the number of fingerprints.
-
         :param output: training dataset containing the response output
         :param cell_line_input: training dataset containing gene expression data
         :param drug_input: training dataset containing fingerprints data
@@ -165,7 +165,6 @@ class SklearnModel(DRPModel):
         Save the trained model and any associated preprocessing components to the given directory.
 
         Saves:
-
         - model.pkl: the trained sklearn model
         - hyperparameters.json: dictionary of model hyperparameters (if present)
         - scaler.pkl: fitted gene expression scaler (if present)
@@ -188,7 +187,6 @@ class SklearnModel(DRPModel):
         Load a trained sklearn-based model and its preprocessing components from disk.
 
         Loads:
-
         - model.pkl: the trained sklearn model
         - hyperparameters.json: model hyperparameters (optional)
         - scaler.pkl: gene expression scaler (optional)
@@ -414,7 +412,6 @@ class ProteomicsRandomForest(RandomForest):
         Trains the model.
 
         The number of features is the number of genes + the number of fingerprints.
-
         :param output: training dataset containing the response output
         :param cell_line_input: training dataset containing gene expression data
         :param drug_input: training dataset containing fingerprints data
@@ -557,7 +554,6 @@ class ProteomicsElasticNetModel(ElasticNetModel):
         Trains the model.
 
         The number of features is the number of genes + the number of fingerprints.
-
         :param output: training dataset containing the response output
         :param cell_line_input: training dataset containing gene expression data
         :param drug_input: training dataset containing fingerprints data
@@ -621,3 +617,33 @@ class ProteomicsElasticNetModel(ElasticNetModel):
             drug_input=drug_input,
         )
         return self.model.predict(x)
+
+
+class AdaBoostDecisionTree(SklearnModel):
+    """AdaBoost model using Decision Trees as week learners for drug response prediction."""
+
+    @classmethod
+    def get_model_name(cls) -> str:
+        """
+        Returns the model name.
+
+        :returns: AdaBoostDecisionTree
+        """
+        return "AdaBoostDecisionTree"
+
+    def build_model(self, hyperparameters: dict):
+        """
+        Builds the model from hyperparameters.
+
+        :param hyperparameters: Hyperparameters for the model. Contains n_estimators, max_depth,
+            min_samples_split and min_samples_leaf.
+        """
+        self.model = AdaBoostRegressor(
+            estimator=DecisionTreeRegressor(
+                max_depth=hyperparameters["max_depth"],
+                min_samples_split=hyperparameters["min_samples_split"],
+                min_samples_leaf=hyperparameters["min_samples_leaf"],
+            ),
+            n_estimators=hyperparameters["n_estimators"],
+        )
+        self.hyperparameters = hyperparameters
