@@ -2,6 +2,8 @@ from typing import Any
 import numpy as np
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import normalize
+from sklearn.decomposition import PCA
 
 from drevalpy.models.drp_model import DRPModel
 from drevalpy.datasets.dataset import FeatureDataset, DrugResponseDataset
@@ -24,6 +26,8 @@ class KNNRegressor(DRPModel):
         self.model: KNeighborsRegressor 
         self.hyperparameters: dict[str, Any] = {}
         self.scaler_gex = StandardScaler()
+        self.pca = None
+        self.featureshape = None
 
     @classmethod
     def get_model_name(cls) -> str:
@@ -91,6 +95,11 @@ class KNNRegressor(DRPModel):
             cell_line_input=cell_line_input,
             drug_input=drug_input,
         )
+        self.featureshape = x.shape[1]
+        x = normalize(X=x)
+        self.pca = PCA(n_components= self.hyperparameters.get("variance", 0.75))
+        x = self.pca.fit_transform(X = x)
+
         self.model.fit(x, output.response)
         
     def predict(
@@ -115,4 +124,8 @@ class KNNRegressor(DRPModel):
             cell_line_input=cell_line_input,
             drug_input=drug_input,
         )
+        x = normalize(X = x)
+        if x.shape[1] != self.featureshape:
+            raise ValueError("input feature size is unequall to training feature size")
+        x = self.pca.transform(X=x)
         return self.model.predict(x)
