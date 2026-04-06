@@ -25,6 +25,7 @@ from drevalpy.models.drp_model import DRPModel
         "SimpleNeuralNetwork",
         "MultiOmicsNeuralNetwork",
         "PharmaFormer",
+        "KNNRegressor"
     ],
 )
 def test_global_models(
@@ -79,6 +80,10 @@ def test_global_models(
     elif model_name == "PharmaFormer":
         hpam_combi["epochs"] = 1
         hpam_combi["patience"] = 2
+    elif model_name == "KNNRegressor":
+        hpam_combi["n_neighbours"] = 3
+        hpam_combi["weights"] = "distance"
+        hpam_combi["variance"] = 0.75
     model.build_model(hyperparameters=hpam_combi)
 
     with tempfile.TemporaryDirectory() as tmpdirname:
