@@ -221,6 +221,7 @@ class MultiOmicsNeuralNetwork(DRPModel):
         Save the trained model, hyperparameters, scalers, PCA object, and feature dimensions to disk.
 
         Files saved:
+
         - model.pt
         - hyperparameters.json
         - gene_scaler.pkl
@@ -257,6 +258,7 @@ class MultiOmicsNeuralNetwork(DRPModel):
         Load a trained MultiOmicsNeuralNetwork instance from disk.
 
         Required files:
+
         - model.pt
         - hyperparameters.json
         - gene_scaler.pkl

@@ -39,6 +39,7 @@ from drevalpy.models.drp_model import DRPModel
         "GradientBoosting",
         "ProteomicsRandomForest",
         "ProteomicsElasticNet",
+        "AdaBoostDecisionTree",
     ],
 )
 @pytest.mark.parametrize("test_mode", ["LTO", "LPO", "LCO", "LDO"])
@@ -336,6 +337,11 @@ def _call_other_baselines(
                 hpam_combi["subsample"] = 0.1
         elif model == "MultiOmicsRandomForest":
             hpam_combi["n_components"] = 10
+        elif model == "AdaBoostDecisionTree":
+            hpam_combi["n_estimators"] = 2
+            hpam_combi["max_depth"] = 2
+            hpam_combi["min_samples_split"] = 2
+            hpam_combi["min_samples_leaf"] = 1
         model_instance.build_model(hpam_combi)
         if model == "ElasticNet":
             if hpam_combi["l1_ratio"] == 0.0:

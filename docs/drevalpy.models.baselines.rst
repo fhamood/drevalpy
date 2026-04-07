@@ -40,3 +40,10 @@ Multi-OMICS Random Forest
    :members:
    :undoc-members:
    :show-inheritance:
+
+AdaBoost with Decision Tree
+------------------------------------------------------------
+.. automodule:: drevalpy.models.baselines.sklearn_models
+   :members:
+   :undoc-members:
+   :show-inheritance:

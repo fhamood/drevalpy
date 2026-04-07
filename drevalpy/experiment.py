@@ -1444,6 +1444,7 @@ def generate_data_saving_path(model_name, drug_id, result_path, suffix) -> str:
 
     For single drug models, the path is result_path/model_name/drugs/drug_id/suffix.
     For all others, it is result_path/model_name/suffix.
+
     :param model_name: model name
     :param drug_id: drug id
     :param result_path: path to the results directory
