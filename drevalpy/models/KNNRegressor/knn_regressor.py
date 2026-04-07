@@ -36,22 +36,22 @@ class KNNRegressor(DRPModel):
         """
         return "KNNRegressor"
     
-    @classmethod
-    def load_cell_line_features(cls, data_path: str, dataset_name: str) -> FeatureDataset:
-        """Loads the cell line features.
+    def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
+        """
+        Loads the cell line features.
 
         :param data_path: Path to the gene expression and landmark genes
         :param dataset_name: name of the dataset
         :return: FeatureDataset containing the cell line gene expression features.
         """
+
         return load_and_select_gene_features(
             feature_type="gene_expression",
-            gene_list="None",
             data_path=data_path,
             dataset_name=dataset_name,
-        )
-    
-    @classmethod
+            gene_list= None
+            )
+ 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
 
         return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)

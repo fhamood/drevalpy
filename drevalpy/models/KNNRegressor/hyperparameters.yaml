@@ -6,7 +6,7 @@ KNNRegressor:
 
   weights:
     - distance 
-
+  
   variance:
     - 0.75
     - 0.8
