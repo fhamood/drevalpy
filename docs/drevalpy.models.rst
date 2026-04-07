@@ -31,3 +31,4 @@ Implemented models
    drevalpy.models.SimpleNeuralNetwork
    drevalpy.models.SuperFELTR
    drevalpy.models.baselines
+   drevalpy.models.KNNRegressor
