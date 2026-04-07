@@ -62,6 +62,7 @@ from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwo
 from .SimpleNeuralNetwork.simple_neural_network import ChemBERTaNeuralNetwork, SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
+from .Lasso.lasso_model import LassoModel
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
@@ -96,6 +97,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "ChemBERTaNeuralNetwork": ChemBERTaNeuralNetwork,
     "PharmaFormer": PharmaFormerModel,
     "AdaBoostDecisionTree": AdaBoostDecisionTree,
+    "Lasso": LassoModel,
 }
 
 # MODEL_FACTORY is used in the pipeline!
