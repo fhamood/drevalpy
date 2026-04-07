@@ -281,6 +281,7 @@ class SingleDrugProteomicsElasticNet(SingleDrugElasticNet):
         Save the trained model and proteomics transformer.
 
         Saves:
+
         - model.pkl: the fitted ElasticNet model
         - transformer.pkl: the fitted ProteomicsMedianCenterAndImputeTransformer
 
@@ -312,6 +313,7 @@ class SingleDrugProteomicsElasticNet(SingleDrugElasticNet):
         Load a trained SingleDrugProteomicsElasticNet model and transformer.
 
         Loads:
+
         - model.pkl: trained ElasticNet model
         - transformer.pkl: fitted ProteomicsMedianCenterAndImputeTransformer
 

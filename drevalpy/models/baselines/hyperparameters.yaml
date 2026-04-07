@@ -191,3 +191,14 @@ SingleDrugProteomicsRandomForest:
     - -1
   criterion:
     - squared_error
+AdaBoostDecisionTree:
+  n_estimators:
+    - 50
+  max_depth:
+    - 4
+  min_samples_split:
+    - 2
+    - 6
+  min_samples_leaf:
+    - 1
+    - 3

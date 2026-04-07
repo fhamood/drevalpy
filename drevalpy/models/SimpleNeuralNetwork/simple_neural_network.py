@@ -70,6 +70,7 @@ class SimpleNeuralNetwork(DRPModel):
 
         The gene expression data is first arcsinh transformed. Afterward, the StandardScaler() is fitted on the
         training gene expression data only. Then, it transforms all gene expression data.
+
         :param output: training data associated with the response output
         :param cell_line_input: cell line omics features
         :param drug_input: drug omics features
@@ -201,6 +202,7 @@ class SimpleNeuralNetwork(DRPModel):
         This enables full reconstruction of the model using `load`.
 
         Files saved:
+
         - model.pt: PyTorch state_dict of the trained model
         - hyperparameters.json: Dictionary containing all relevant model hyperparameters
         - scaler.pkl: Fitted StandardScaler for gene expression features
@@ -222,6 +224,7 @@ class SimpleNeuralNetwork(DRPModel):
         Load a trained SimpleNeuralNetwork instance from disk.
 
         This includes:
+
         - model.pt: PyTorch state_dict of the trained model
         - hyperparameters.json: Dictionary with model hyperparameters
         - scaler.pkl: Fitted StandardScaler for gene expression features

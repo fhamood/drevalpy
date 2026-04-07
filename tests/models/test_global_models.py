@@ -25,6 +25,7 @@ from drevalpy.models.drp_model import DRPModel
         "SimpleNeuralNetwork",
         "MultiOmicsNeuralNetwork",
         "PharmaFormer",
+        "AdaBoostDecisionTree",
     ],
 )
 def test_global_models(
@@ -79,6 +80,11 @@ def test_global_models(
     elif model_name == "PharmaFormer":
         hpam_combi["epochs"] = 1
         hpam_combi["patience"] = 2
+    elif model_name == "AdaBoostDecisionTree":
+        hpam_combi["max_depth"] = 2
+        hpam_combi["min_samples_split"] = 2
+        hpam_combi["min_samples_leaf"] = 2
+        hpam_combi["n_estimators"] = 2
     model.build_model(hyperparameters=hpam_combi)
 
     with tempfile.TemporaryDirectory() as tmpdirname:

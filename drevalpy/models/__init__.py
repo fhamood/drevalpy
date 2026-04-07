@@ -30,6 +30,7 @@ __all__ = [
     "DrugGNN",
     "ChemBERTaNeuralNetwork",
     "PharmaFormerModel",
+    "AdaBoostDecisionTree",
 ]
 
 from .baselines.multi_omics_random_forest import MultiOmicsRandomForest
@@ -44,6 +45,7 @@ from .baselines.naive_pred import (
 from .baselines.singledrug_elastic_net import SingleDrugElasticNet, SingleDrugProteomicsElasticNet
 from .baselines.singledrug_random_forest import SingleDrugProteomicsRandomForest, SingleDrugRandomForest
 from .baselines.sklearn_models import (
+    AdaBoostDecisionTree,
     ElasticNetModel,
     GradientBoosting,
     ProteomicsElasticNetModel,
@@ -93,6 +95,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DrugGNN": DrugGNN,
     "ChemBERTaNeuralNetwork": ChemBERTaNeuralNetwork,
     "PharmaFormer": PharmaFormerModel,
+    "AdaBoostDecisionTree": AdaBoostDecisionTree,
 }
 
 # MODEL_FACTORY is used in the pipeline!

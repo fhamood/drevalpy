@@ -1,14 +1,15 @@
-"""Contains sklearn baseline models: ElasticNet, RandomForest, SVM."""
+"""Contains sklearn baseline models: ElasticNet, RandomForest, SVM, AdaBoost."""
 
 import json
 import os
 
 import joblib
 import numpy as np
-from sklearn.ensemble import HistGradientBoostingRegressor, RandomForestRegressor
+from sklearn.ensemble import AdaBoostRegressor, HistGradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import ElasticNet, Lasso, Ridge
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 from drevalpy.models.drp_model import DRPModel
@@ -616,3 +617,33 @@ class ProteomicsElasticNetModel(ElasticNetModel):
             drug_input=drug_input,
         )
         return self.model.predict(x)
+
+
+class AdaBoostDecisionTree(SklearnModel):
+    """AdaBoost model using Decision Trees as week learners for drug response prediction."""
+
+    @classmethod
+    def get_model_name(cls) -> str:
+        """
+        Returns the model name.
+
+        :returns: AdaBoostDecisionTree
+        """
+        return "AdaBoostDecisionTree"
+
+    def build_model(self, hyperparameters: dict):
+        """
+        Builds the model from hyperparameters.
+
+        :param hyperparameters: Hyperparameters for the model. Contains n_estimators, max_depth,
+            min_samples_split and min_samples_leaf.
+        """
+        self.model = AdaBoostRegressor(
+            estimator=DecisionTreeRegressor(
+                max_depth=hyperparameters["max_depth"],
+                min_samples_split=hyperparameters["min_samples_split"],
+                min_samples_leaf=hyperparameters["min_samples_leaf"],
+            ),
+            n_estimators=hyperparameters["n_estimators"],
+        )
+        self.hyperparameters = hyperparameters
