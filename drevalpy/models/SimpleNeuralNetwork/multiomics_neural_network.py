@@ -243,7 +243,7 @@ class MultiFeatureNeuralNetwork(DRPModel):
 
         # concatenate in the order of self.cell_line_views
         array_list = []
-        for view in self.cell_line_views:
+        for view in self.cell_line_views + self.drug_views:
             feature_mat = inputs[view]
             array_list.append(feature_mat)
 
@@ -315,8 +315,9 @@ class MultiFeatureNeuralNetwork(DRPModel):
         instance = cls()
 
         with open(os.path.join(directory, "hyperparameters.json")) as f:
-            instance.hyperparameters = json.load(f)
+            hyperparameters = json.load(f)
 
+        instance.build_model(hyperparameters)
         instance.gene_expression_scaler = joblib.load(os.path.join(directory, "gene_scaler.pkl"))
         instance.methylation_scaler = joblib.load(os.path.join(directory, "methylation_scaler.pkl"))
         instance.methylation_pca = joblib.load(os.path.join(directory, "methylation_pca.pkl"))

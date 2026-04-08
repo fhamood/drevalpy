@@ -27,7 +27,7 @@ SimpleNeuralNetwork:
 
 MultiFeatureNeuralNetwork:
   cell_line_views:
-    - - gene expression
+    - - gene_expression
       - methylation
       - mutations
       - copy_number_variation_gistic
