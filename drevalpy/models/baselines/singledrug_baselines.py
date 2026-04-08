@@ -19,6 +19,15 @@ class SingleDrugElasticNet(ElasticNetModel):
         """
         return "SingleDrugElasticNet"
 
+    def build_model(self, hyperparameters: dict):
+        """
+        Overwrites drug views to be empty.
+
+        :param hyperparameters: hyperparameters
+        """
+        super().build_model(hyperparameters)
+        self.drug_views = []
+
     def load_drug_features(self, data_path, dataset_name):
         """
         Load drug features. Not needed for SingleDrugElasticNet.
@@ -45,6 +54,15 @@ class SingleDrugRandomForest(RandomForest):
         :returns: SingleDrugRandomForest
         """
         return "SingleDrugRandomForest"
+
+    def build_model(self, hyperparameters: dict):
+        """
+        Overwrites drug views to be empty.
+
+        :param hyperparameters: hyperparameters
+        """
+        super().build_model(hyperparameters)
+        self.drug_views = []
 
     def load_drug_features(self, data_path, dataset_name):
         """
