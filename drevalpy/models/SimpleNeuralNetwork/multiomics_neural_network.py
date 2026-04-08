@@ -1,4 +1,4 @@
-"""Contains the baseline MultiOmicsNeuralNetwork model."""
+"""Contains the baseline MultiFeatureNeuralNetwork model."""
 
 import json
 import os
@@ -12,12 +12,20 @@ from sklearn.preprocessing import StandardScaler
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 
+from ...datasets.utils import DRUG_IDENTIFIER
 from ..drp_model import DRPModel
-from ..utils import get_multiomics_feature_dataset, load_drug_fingerprint_features, prepare_expression_and_methylation
+from ..utils import (
+    _get_view_as_list,
+    get_multiomics_feature_dataset,
+    load_drug_fingerprint_features,
+    load_drug_ids_from_csv,
+    load_generic_csv,
+    prepare_expression_and_methylation,
+)
 from .utils import FeedForwardNetwork
 
 
-class MultiOmicsNeuralNetwork(DRPModel):
+class MultiFeatureNeuralNetwork(DRPModel):
     """Simple Feedforward Neural Network model with dropout using multiple omics data."""
 
     cell_line_views = [
@@ -31,7 +39,7 @@ class MultiOmicsNeuralNetwork(DRPModel):
 
     def __init__(self):
         """
-        Initalization method for MultiOmicsNeuralNetwork Model.
+        Initalization method for MultiFeatureNeuralNetwork Model.
 
         The PCA is initialized to None because it depends on hyperparameter, therefore built in build_model.
         """
@@ -41,15 +49,16 @@ class MultiOmicsNeuralNetwork(DRPModel):
         self.methylation_pca = None
         self.pca_ncomp = 100
         self.gene_expression_scaler = StandardScaler()
+        self.input_dims = dict()
 
     @classmethod
     def get_model_name(cls) -> str:
         """
         Returns the model name.
 
-        :returns: MultiOmicsNeuralNetwork
+        :returns: MultiFeatureNeuralNetwork
         """
-        return "MultiOmicsNeuralNetwork"
+        return "MultiFeatureNeuralNetwork"
 
     def build_model(self, hyperparameters: dict):
         """
@@ -65,7 +74,62 @@ class MultiOmicsNeuralNetwork(DRPModel):
         self.log_hyperparameters(hyperparameters)
 
         self.hyperparameters = hyperparameters
+        self.cell_line_views = _get_view_as_list(
+            hyperparameters.get(
+                "cell_line_views", ["gene_expression", "methylation", "mutations", "copy_number_variation_gistic"]
+            )
+        )
+        self.drug_views = _get_view_as_list(hyperparameters.get("drug_views", ["fingerprints"]))
         self.pca_ncomp = hyperparameters["methylation_pca_components"]
+
+    def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
+        """
+        Loads the cell line features.
+
+        :param data_path: data path e.g. data/
+        :param dataset_name: dataset name e.g. GDSC1
+        :return: FeatureDataset containing the cell line omics features, filtered through the
+            drug target genes
+        :raises ValueError: if no cell line view is selected
+        """
+        if len(self.cell_line_views) == 0:
+            raise ValueError("No cell line view is selected.")
+        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
+        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
+        gene_list_defaults = {
+            "gene_expression": "drug_target_genes_all_drugs",
+            "methylation": "methylation_intersection",
+            "mutations": "drug_target_genes_all_drugs",
+            "copy_number_variation_gistic": "drug_target_genes_all_drugs",
+            "proteomics": "drug_target_genes_all_drugs_proteomics",
+        }
+        gene_lists = {feature_name: gene_list_defaults.get(feature_name, None) for feature_name in self.cell_line_views}
+
+        return get_multiomics_feature_dataset(
+            data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name, omics=self.cell_line_views
+        )
+
+    def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
+        """
+        Load the drug features.
+
+        :param data_path: path to the drug features, in this case the drug fingerprints, e.g., data/
+        :param dataset_name: name of the dataset, e.g., GDSC1
+        :returns: FeatureDataset containing the drug fingerprint features
+        :raises ValueError: if no or more than one drug view is selected
+        """
+        if (len(self.drug_views) > 1) | (len(self.drug_views) == 0):
+            raise ValueError("Only one drug view is supported for MultiFeatureNeuralNetwork.")
+        print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
+
+        if self.drug_views[0] == "fingerprints":
+            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
+        elif len(self.drug_views) == 0:
+            return load_drug_ids_from_csv(data_path, dataset_name)
+        else:
+            return load_generic_csv(
+                path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
+            )
 
     def train(
         self,
@@ -83,17 +147,19 @@ class MultiOmicsNeuralNetwork(DRPModel):
         :param drug_input: drug omics features
         :param output_earlystopping: optional early stopping dataset
         :param model_checkpoint_dir: directory to save the model checkpoints
-        :raises ValueError: if drug_input (fingerprints) is missing
+        :raises ValueError: if drug_input is missing
         """
         if drug_input is None:
-            raise ValueError("Drug input (fingerprints) is needed for the MultiOmicsNeuralNetwork model.")
-        first_feature = next(iter(cell_line_input.features.values()))
-        n_met_features = first_feature["methylation"].shape[0]
-        if n_met_features > self.pca_ncomp:
-            self.methylation_pca = PCA(n_components=self.pca_ncomp)
-        else:
-            self.methylation_pca = PCA(n_components=n_met_features)
+            raise ValueError(f"Drug input ({self.drug_views[0]}) is needed for the MultiFeatureNeuralNetwork model.")
+        first_cl_feature = next(iter(cell_line_input.features.values()))
+        if "methylation" in self.cell_line_views:
+            n_met_features = first_cl_feature["methylation"].shape[0]
+            if n_met_features > self.pca_ncomp:
+                self.methylation_pca = PCA(n_components=self.pca_ncomp)
+            else:
+                self.methylation_pca = PCA(n_components=n_met_features)
 
+        # if gene expression or methylation don't even occur, this just returns cell_line_input, so it's fine
         cell_line_input = prepare_expression_and_methylation(
             cell_line_input=cell_line_input,
             cell_line_ids=np.unique(output.cell_line_ids),
@@ -102,23 +168,22 @@ class MultiOmicsNeuralNetwork(DRPModel):
             methylation_scaler=self.methylation_scaler,
             methylation_pca=self.methylation_pca,
         )
+        first_drug_feature = next(iter(drug_input.features.values()))
 
-        first_feature = next(iter(cell_line_input.features.values()))
-        dim_gex = first_feature["gene_expression"].shape[0]
-        dim_met = self.methylation_pca.n_components
-        dim_mut = first_feature["mutations"].shape[0]
-        dim_cnv = first_feature["copy_number_variation_gistic"].shape[0]
-        dim_fingerprint = next(iter(drug_input.features.values()))["fingerprints"].shape[0]
+        cell_line_dims = {
+            view: first_cl_feature[view].shape[0] for view in self.cell_line_views if view != "methylation"
+        }
+        if "methylation" in self.cell_line_views:
+            cell_line_dims["methylation"] = self.methylation_pca.n_components
 
-        self.dim_gex = dim_gex
-        self.dim_met = dim_met
-        self.dim_mut = dim_mut
-        self.dim_cnv = dim_cnv
-        self.dim_fp = dim_fingerprint
+        drug_dims = {view: first_drug_feature[view].shape[0] for view in self.drug_views}
+
+        self.input_dims = {**cell_line_dims, **drug_dims}
+        total_dim = sum(self.input_dims.values())
 
         self.model = FeedForwardNetwork(
             hyperparameters=self.hyperparameters,
-            input_dim=dim_gex + dim_met + dim_mut + dim_cnv + dim_fingerprint,
+            input_dim=total_dim,
         )
 
         with warnings.catch_warnings():
@@ -176,47 +241,14 @@ class MultiOmicsNeuralNetwork(DRPModel):
             drug_input=drug_input,
         )
 
-        x = np.concatenate(
-            (
-                inputs["gene_expression"],
-                inputs["methylation"],
-                inputs["mutations"],
-                inputs["copy_number_variation_gistic"],
-                inputs["fingerprints"],
-            ),
-            axis=1,
-        )
+        # concatenate in the order of self.cell_line_views
+        array_list = []
+        for view in self.cell_line_views:
+            feature_mat = inputs[view]
+            array_list.append(feature_mat)
+
+        x = np.concatenate(array_list, axis=1)
         return self.model.predict(x)
-
-    def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        """
-        Loads the cell line features.
-
-        :param data_path: data path e.g. data/
-        :param dataset_name: dataset name e.g. GDSC1
-        :return: FeatureDataset containing the cell line omics features, filtered through the
-            drug target genes
-        """
-        gene_lists = {
-            "gene_expression": "drug_target_genes_all_drugs",
-            "methylation": "methylation_intersection",
-            "mutations": "drug_target_genes_all_drugs",
-            "copy_number_variation_gistic": "drug_target_genes_all_drugs",
-            "proteomics": "drug_target_genes_all_drugs_proteomics",
-        }
-        return get_multiomics_feature_dataset(
-            data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name, omics=self.cell_line_views
-        )
-
-    def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
-        """
-        Load the drug features.
-
-        :param data_path: path to the drug features, in this case the drug fingerprints, e.g., data/
-        :param dataset_name: name of the dataset, e.g., GDSC1
-        :returns: FeatureDataset containing the drug fingerprint features
-        """
-        return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
 
     def save(self, directory: str) -> None:
         """
@@ -245,19 +277,15 @@ class MultiOmicsNeuralNetwork(DRPModel):
         joblib.dump(self.methylation_pca, os.path.join(directory, "methylation_pca.pkl"))
 
         metadata = {
-            "dim_gex": self.dim_gex,
-            "dim_met": self.dim_met,
-            "dim_mut": self.dim_mut,
-            "dim_cnv": self.dim_cnv,
-            "dim_fp": self.dim_fp,
+            "input_dims": self.input_dims,
         }
         with open(os.path.join(directory, "metadata.json"), "w") as f:
             json.dump(metadata, f)
 
     @classmethod
-    def load(cls, directory: str) -> "MultiOmicsNeuralNetwork":
+    def load(cls, directory: str) -> "MultiFeatureNeuralNetwork":
         """
-        Load a trained MultiOmicsNeuralNetwork instance from disk.
+        Load a trained MultiFeatureNeuralNetwork instance from disk.
 
         Required files:
 
@@ -269,7 +297,7 @@ class MultiOmicsNeuralNetwork(DRPModel):
         - metadata.json
 
         :param directory: Directory containing the saved model files
-        :return: Fully restored MultiOmicsNeuralNetwork instance
+        :return: Fully restored MultiFeatureNeuralNetwork instance
         :raises FileNotFoundError: if any required file is missing
         """
         required_files = [
@@ -296,17 +324,12 @@ class MultiOmicsNeuralNetwork(DRPModel):
         with open(os.path.join(directory, "metadata.json")) as f:
             metadata = json.load(f)
 
-        instance.dim_gex = metadata["dim_gex"]
-        instance.dim_met = metadata["dim_met"]
-        instance.dim_mut = metadata["dim_mut"]
-        instance.dim_cnv = metadata["dim_cnv"]
-        instance.dim_fp = metadata["dim_fp"]
-
-        input_dim = instance.dim_gex + instance.dim_met + instance.dim_mut + instance.dim_cnv + instance.dim_fp
+        instance.input_dims = metadata["input_dims"]
+        total_dim = sum(instance.input_dims.values())
 
         instance.model = FeedForwardNetwork(
             hyperparameters=instance.hyperparameters,
-            input_dim=input_dim,
+            input_dim=total_dim,
         )
         instance.model.load_state_dict(torch.load(os.path.join(directory, "model.pt")))  # noqa: S614
         instance.model.eval()

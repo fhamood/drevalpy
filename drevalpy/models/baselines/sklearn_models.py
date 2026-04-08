@@ -14,8 +14,10 @@ from sklearn.tree import DecisionTreeRegressor
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 from drevalpy.models.drp_model import DRPModel
 
+from ...datasets.utils import CELL_LINE_IDENTIFIER, DRUG_IDENTIFIER
 from ..utils import (
     ProteomicsMedianCenterAndImputeTransformer,
+    _get_view_as_list,
     load_and_select_gene_features,
     load_drug_fingerprint_features,
     load_drug_ids_from_csv,
@@ -77,12 +79,8 @@ class SklearnModel(DRPModel):
         :param hyperparameters: Custom hyperparameters for the model, have to be defined in the child class.
         """
         self.hyperparameters = hyperparameters
-        self.cell_line_views = hyperparameters.get("cell_line_views", ["gene_expression"])
-        if isinstance(self.cell_line_views, str):
-            self.cell_line_views = [self.cell_line_views]
-        self.drug_views = hyperparameters.get("drug_views", ["fingerprints"])
-        if isinstance(self.drug_views, str):
-            self.drug_views = [self.drug_views]
+        self.cell_line_views = _get_view_as_list(hyperparameters.get("cell_line_views", ["gene_expression"]))
+        self.drug_views = _get_view_as_list(hyperparameters.get("drug_views", ["fingerprints"]))
 
         # proteomics features are not supported for all models
         if "proteomics" in self.cell_line_views:
@@ -129,7 +127,12 @@ class SklearnModel(DRPModel):
                 dataset_name=dataset_name,
             )
         else:
-            return load_generic_csv(path=data_path, dataset_name=dataset_name, feature_name=self.cell_line_views[0])
+            return load_generic_csv(
+                path=data_path,
+                dataset_name=dataset_name,
+                feature_name=self.cell_line_views[0],
+                index_col=CELL_LINE_IDENTIFIER,
+            )
 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset | None:
         """
@@ -145,14 +148,16 @@ class SklearnModel(DRPModel):
         """
         if len(self.drug_views) > 1:
             raise ValueError("Only one drug view is supported.")
-        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
+        print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
 
         if self.drug_views[0] == "fingerprints":
             return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
         elif len(self.drug_views) == 0:
             return load_drug_ids_from_csv(data_path, dataset_name)
         else:
-            return load_generic_csv(path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0])
+            return load_generic_csv(
+                path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
+            )
 
     def train(
         self,
