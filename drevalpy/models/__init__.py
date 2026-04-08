@@ -29,7 +29,7 @@ __all__ = [
     "AdaBoostDecisionTree",
 ]
 
-from .baselines.multi_omics_random_forest import MultiFeatureRandomForest
+from .baselines.multi_feature_random_forest import MultiFeatureRandomForest
 from .baselines.naive_pred import (
     NaiveCellLineMeanPredictor,
     NaiveDrugMeanPredictor,
@@ -77,7 +77,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "SVR": SVMRegressor,
     "SimpleNeuralNetwork": SimpleNeuralNetwork,
     "MultiOmicsNeuralNetwork": MultiOmicsNeuralNetwork,
-    "MultiOmicsRandomForest": MultiFeatureRandomForest,
+    "MultiFeatureRandomForest": MultiFeatureRandomForest,
     "GradientBoosting": GradientBoosting,
     "SRMF": SRMF,
     "DIPK": DIPKModel,

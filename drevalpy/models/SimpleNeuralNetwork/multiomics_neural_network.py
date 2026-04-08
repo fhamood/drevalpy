@@ -204,7 +204,9 @@ class MultiOmicsNeuralNetwork(DRPModel):
             "copy_number_variation_gistic": "drug_target_genes_all_drugs",
             "proteomics": "drug_target_genes_all_drugs_proteomics",
         }
-        return get_multiomics_feature_dataset(data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name)
+        return get_multiomics_feature_dataset(
+            data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name, omics=self.cell_line_views
+        )
 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """

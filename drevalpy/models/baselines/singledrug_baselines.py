@@ -1,6 +1,6 @@
 """SingleDrugElasticNet and SingleDrugRandomForest class. Fit a model for each drug separately."""
 
-from drevalpy.models import ElasticNetModel, RandomForest
+from .sklearn_models import ElasticNetModel, RandomForest
 
 
 class SingleDrugElasticNet(ElasticNetModel):

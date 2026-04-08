@@ -28,8 +28,8 @@ from ..utils import (
 class SklearnModel(DRPModel):
     """Parent class that contains the common methods for the sklearn models."""
 
-    cell_line_views = ["gene_expression"]
-    drug_views = ["fingerprints"]
+    cell_line_views = []
+    drug_views = []
 
     def __init__(self):
         """
@@ -78,7 +78,11 @@ class SklearnModel(DRPModel):
         """
         self.hyperparameters = hyperparameters
         self.cell_line_views = hyperparameters.get("cell_line_views", ["gene_expression"])
+        if isinstance(self.cell_line_views, str):
+            self.cell_line_views = [self.cell_line_views]
         self.drug_views = hyperparameters.get("drug_views", ["fingerprints"])
+        if isinstance(self.drug_views, str):
+            self.drug_views = [self.drug_views]
 
         # proteomics features are not supported for all models
         if "proteomics" in self.cell_line_views:
@@ -112,8 +116,10 @@ class SklearnModel(DRPModel):
         :returns: FeatureDataset containing the cell line features
         :raises ValueError: If more than one cell line view is specified as this is a single-omic model by default.
         """
-        if len(self.cell_line_views) > 1:
+        if (len(self.cell_line_views) > 1) | (len(self.cell_line_views) == 0):
             raise ValueError("Only one cell line view is supported for the single-omic sklearn models.")
+        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
+
         if "gene_expression" in self.cell_line_views:
             gene_list = "landmark_genes_reduced"
             return load_and_select_gene_features(
@@ -139,6 +145,8 @@ class SklearnModel(DRPModel):
         """
         if len(self.drug_views) > 1:
             raise ValueError("Only one drug view is supported.")
+        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
+
         if self.drug_views[0] == "fingerprints":
             return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
         elif len(self.drug_views) == 0:
@@ -330,16 +338,16 @@ class ElasticNetModel(SklearnModel):
 
         :param hyperparameters: Contains L1 ratio and alpha.
         """
-        if hyperparameters["l1_ratio"] == 0.0:
-            self.model = Ridge(alpha=hyperparameters["alpha"])
-        elif hyperparameters["l1_ratio"] == 1.0:
-            self.model = Lasso(alpha=hyperparameters["alpha"])
+        super().build_model(hyperparameters)
+        if self.hyperparameters["l1_ratio"] == 0.0:
+            self.model = Ridge(alpha=self.hyperparameters["alpha"])
+        elif self.hyperparameters["l1_ratio"] == 1.0:
+            self.model = Lasso(alpha=self.hyperparameters["alpha"])
         else:
             self.model = ElasticNet(
-                alpha=hyperparameters["alpha"],
-                l1_ratio=hyperparameters["l1_ratio"],
+                alpha=self.hyperparameters["alpha"],
+                l1_ratio=self.hyperparameters["l1_ratio"],
             )
-        self.hyperparameters = hyperparameters
 
 
 class RandomForest(SklearnModel):
@@ -361,15 +369,15 @@ class RandomForest(SklearnModel):
         :param hyperparameters: Hyperparameters for the model. Contains n_estimators, criterion, max_samples,
             and n_jobs.
         """
-        if hyperparameters["max_depth"] == "None":
-            hyperparameters["max_depth"] = None
+        super().build_model(hyperparameters)
+        if self.hyperparameters["max_depth"] == "None":
+            self.hyperparameters["max_depth"] = None
         self.model = RandomForestRegressor(
-            n_estimators=hyperparameters["n_estimators"],
-            criterion=hyperparameters["criterion"],
-            max_samples=hyperparameters["max_samples"],
-            n_jobs=hyperparameters["n_jobs"],
+            n_estimators=self.hyperparameters["n_estimators"],
+            criterion=self.hyperparameters["criterion"],
+            max_samples=self.hyperparameters["max_samples"],
+            n_jobs=self.hyperparameters["n_jobs"],
         )
-        self.hyperparameters = hyperparameters
 
 
 class SVMRegressor(SklearnModel):
@@ -390,13 +398,13 @@ class SVMRegressor(SklearnModel):
 
         :param hyperparameters: Hyperparameters for the model. Contains kernel, C, epsilon, and max_iter.
         """
+        super().build_model(hyperparameters)
         self.model = SVR(
-            kernel=hyperparameters["kernel"],
-            C=hyperparameters["C"],
-            epsilon=hyperparameters["epsilon"],
-            max_iter=hyperparameters["max_iter"],
+            kernel=self.hyperparameters["kernel"],
+            C=self.hyperparameters["C"],
+            epsilon=self.hyperparameters["epsilon"],
+            max_iter=self.hyperparameters["max_iter"],
         )
-        self.hyperparameters = hyperparameters
 
 
 class GradientBoosting(SklearnModel):
@@ -418,14 +426,14 @@ class GradientBoosting(SklearnModel):
         :param hyperparameters: Hyperparameters for the model. Contains n_estimators, learning_rate, max_depth,
             and subsample
         """
-        if hyperparameters["max_depth"] == "None":
-            hyperparameters["max_depth"] = None
+        super().build_model(hyperparameters)
+        if self.hyperparameters["max_depth"] == "None":
+            self.hyperparameters["max_depth"] = None
         self.model = HistGradientBoostingRegressor(
-            max_iter=hyperparameters.get("max_iter", 100),
-            learning_rate=hyperparameters.get("learning_rate", 0.1),
-            max_depth=hyperparameters.get("max_depth", 3),
+            max_iter=self.hyperparameters.get("max_iter", 100),
+            learning_rate=self.hyperparameters.get("learning_rate", 0.1),
+            max_depth=self.hyperparameters.get("max_depth", 3),
         )
-        self.hyperparameters = hyperparameters
 
 
 class AdaBoostDecisionTree(SklearnModel):
@@ -447,12 +455,12 @@ class AdaBoostDecisionTree(SklearnModel):
         :param hyperparameters: Hyperparameters for the model. Contains n_estimators, max_depth,
             min_samples_split and min_samples_leaf.
         """
+        super().build_model(hyperparameters)
         self.model = AdaBoostRegressor(
             estimator=DecisionTreeRegressor(
-                max_depth=hyperparameters["max_depth"],
-                min_samples_split=hyperparameters["min_samples_split"],
-                min_samples_leaf=hyperparameters["min_samples_leaf"],
+                max_depth=self.hyperparameters["max_depth"],
+                min_samples_split=self.hyperparameters["min_samples_split"],
+                min_samples_leaf=self.hyperparameters["min_samples_leaf"],
             ),
-            n_estimators=hyperparameters["n_estimators"],
+            n_estimators=self.hyperparameters["n_estimators"],
         )
-        self.hyperparameters = hyperparameters

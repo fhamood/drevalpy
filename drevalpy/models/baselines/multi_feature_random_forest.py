@@ -27,7 +27,7 @@ class MultiFeatureRandomForest(RandomForest):
         """
         Returns the model name.
 
-        :returns: MultiOmicsRandomForest
+        :returns: MultiFeatureRandomForest
         """
         return "MultiFeatureRandomForest"
 
@@ -57,7 +57,9 @@ class MultiFeatureRandomForest(RandomForest):
         }
         gene_lists = {feature_name: gene_list_defaults.get(feature_name, None) for feature_name in self.cell_line_views}
 
-        return get_multiomics_feature_dataset(data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name)
+        return get_multiomics_feature_dataset(
+            data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name, omics=self.cell_line_views
+        )
 
     def train(
         self,
@@ -155,7 +157,7 @@ class MultiFeatureRandomForest(RandomForest):
         Loads the trained model, hyperparameters, scaler, and PCA transformer from the specified directory.
 
         :param directory: Path to the directory where model components are stored.
-        :returns: An instance of MultiOmicsRandomForest with restored state.
+        :returns: An instance of MultiFeatureRandomForest with restored state.
         """
         instance: MultiFeatureRandomForest = super().load(directory)  # type: ignore[assignment]
         pca_path = os.path.join(directory, "pca.pkl")
