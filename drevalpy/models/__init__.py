@@ -14,7 +14,7 @@ __all__ = [
     "RandomForest",
     "SVMRegressor",
     "SimpleNeuralNetwork",
-    "MultiOmicsNeuralNetwork",
+    "MultiFeatureNeuralNetwork",
     "MultiFeatureRandomForest",
     "SingleDrugRandomForest",
     "SingleDrugElasticNet",
@@ -24,7 +24,6 @@ __all__ = [
     "SuperFELTR",
     "DIPKModel",
     "DrugGNN",
-    "ChemBERTaNeuralNetwork",
     "PharmaFormerModel",
     "AdaBoostDecisionTree",
 ]
@@ -51,8 +50,8 @@ from .drp_model import DRPModel
 from .DrugGNN import DrugGNN
 from .MOLIR.molir import MOLIR
 from .PharmaFormer.pharmaformer import PharmaFormerModel
-from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwork
-from .SimpleNeuralNetwork.simple_neural_network import ChemBERTaNeuralNetwork, SimpleNeuralNetwork
+from .SimpleNeuralNetwork.multiomics_neural_network import MultiFeatureNeuralNetwork
+from .SimpleNeuralNetwork.simple_neural_network import SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
 
@@ -76,13 +75,12 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "RandomForest": RandomForest,
     "SVR": SVMRegressor,
     "SimpleNeuralNetwork": SimpleNeuralNetwork,
-    "MultiOmicsNeuralNetwork": MultiOmicsNeuralNetwork,
+    "MultiFeatureNeuralNetwork": MultiFeatureNeuralNetwork,
     "MultiFeatureRandomForest": MultiFeatureRandomForest,
     "GradientBoosting": GradientBoosting,
     "SRMF": SRMF,
     "DIPK": DIPKModel,
     "DrugGNN": DrugGNN,
-    "ChemBERTaNeuralNetwork": ChemBERTaNeuralNetwork,
     "PharmaFormer": PharmaFormerModel,
     "AdaBoostDecisionTree": AdaBoostDecisionTree,
 }

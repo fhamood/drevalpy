@@ -19,11 +19,11 @@ from drevalpy.models.drp_model import DRPModel
     "model_name",
     [
         "DrugGNN",
-        "ChemBERTaNeuralNetwork",
         "SRMF",
         "DIPK",
-        "SimpleNeuralNetwork",
-        "MultiOmicsNeuralNetwork",
+        "SimpleNeuralNetwork[fingerprints]",
+        "SimpleNeuralNetwork[chemberta]",
+        "MultiFeatureNeuralNetwork",
         "PharmaFormer",
         "AdaBoostDecisionTree",
     ],
@@ -38,7 +38,7 @@ def test_global_models(
     Test global drug response models.
 
     :param sample_dataset: from conftest.py
-    :param model_name: e.g., DIPK, SRMF, SimpleNeuralNetwork, or MultiOmicsNeuralNetwork
+    :param model_name: e.g., DIPK, SRMF, SimpleNeuralNetwork, or MultiFeatureNeuralNetwork
     :param test_mode: LPO
     :param cross_study_dataset: from conftest.py
     :raises ValueError: if drug input is None
@@ -52,7 +52,35 @@ def test_global_models(
     es_dataset = split["early_stopping"]
     val_dataset = split["validation"]
 
-    model = MODEL_FACTORY[model_name]()
+    whole_name = model_name
+    if model_name.startswith("SimpleNeuralNetwork"):
+        model_name = "SimpleNeuralNetwork"
+
+    model_class = cast(type[DRPModel], MODEL_FACTORY[model_name])
+    model = model_class()
+    hpams = model.get_hyperparameter_set()
+    hpam_combi = hpams[0]
+    if model_name == "DIPK":
+        hpam_combi["epochs"] = 1
+        hpam_combi["epochs_autoencoder"] = 1
+        hpam_combi["heads"] = 1
+    elif model_name in ["SimpleNeuralNetwork", "MultiFeatureNeuralNetwork"]:
+        hpam_combi["units_per_layer"] = [2, 2]
+        hpam_combi["max_epochs"] = 1
+        if whole_name == "SimpleNeuralNetwork[chemberta]":
+            hpam_combi["drug_views"] = "drug_chemberta_embeddings"
+        elif whole_name == "SimpleNeuralNetwork[fingerprints]":
+            hpam_combi["drug_views"] = "fingerprints"
+    elif model_name == "PharmaFormer":
+        hpam_combi["epochs"] = 1
+        hpam_combi["patience"] = 2
+    elif model_name == "AdaBoostDecisionTree":
+        hpam_combi["max_depth"] = 2
+        hpam_combi["min_samples_split"] = 2
+        hpam_combi["min_samples_leaf"] = 2
+        hpam_combi["n_estimators"] = 2
+    model.build_model(hyperparameters=hpam_combi)
+
     path_data = os.path.join("..", "data")
     cell_line_input = model.load_cell_line_features(data_path=path_data, dataset_name="TOYv1")
     drug_input = model.load_drug_features(data_path=path_data, dataset_name="TOYv1")
@@ -65,27 +93,6 @@ def test_global_models(
     val_es_dataset.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
     es_dataset.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
     val_dataset.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
-
-    model_class = cast(type[DRPModel], MODEL_FACTORY[model_name])
-    model = model_class()
-    hpams = model.get_hyperparameter_set()
-    hpam_combi = hpams[0]
-    if model_name == "DIPK":
-        hpam_combi["epochs"] = 1
-        hpam_combi["epochs_autoencoder"] = 1
-        hpam_combi["heads"] = 1
-    elif model_name in ["SimpleNeuralNetwork", "MultiOmicsNeuralNetwork"]:
-        hpam_combi["units_per_layer"] = [2, 2]
-        hpam_combi["max_epochs"] = 1
-    elif model_name == "PharmaFormer":
-        hpam_combi["epochs"] = 1
-        hpam_combi["patience"] = 2
-    elif model_name == "AdaBoostDecisionTree":
-        hpam_combi["max_depth"] = 2
-        hpam_combi["min_samples_split"] = 2
-        hpam_combi["min_samples_leaf"] = 2
-        hpam_combi["n_estimators"] = 2
-    model.build_model(hyperparameters=hpam_combi)
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         if model_name == "SRMF":
@@ -126,12 +133,6 @@ def test_global_models(
             loaded_model = model_class.load(model_dir)
             assert isinstance(loaded_model, DRPModel)
 
-            preds_before = model.predict(
-                drug_ids=prediction_dataset.drug_ids,
-                cell_line_ids=prediction_dataset.cell_line_ids,
-                drug_input=drug_input,
-                cell_line_input=cell_line_input,
-            )
             preds_after = loaded_model.predict(
                 drug_ids=prediction_dataset.drug_ids,
                 cell_line_ids=prediction_dataset.cell_line_ids,
@@ -139,7 +140,7 @@ def test_global_models(
                 cell_line_input=cell_line_input,
             )
 
-            assert preds_before.shape == preds_after.shape
+            assert prediction_dataset._predictions.shape == preds_after.shape
             assert isinstance(preds_after, np.ndarray)
         except NotImplementedError:
             print(f"{model_name}: save/load not implemented")

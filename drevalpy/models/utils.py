@@ -11,16 +11,17 @@ from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 from drevalpy.datasets.utils import CELL_LINE_IDENTIFIER, DRUG_IDENTIFIER, TISSUE_IDENTIFIER
 
 
-def load_generic_csv(path: str, dataset_name: str, feature_name: str) -> FeatureDataset:
+def load_generic_csv(path: str, dataset_name: str, feature_name: str, index_col=CELL_LINE_IDENTIFIER) -> FeatureDataset:
     """
     Loads a generic CSV file with cell line IDs as index and features as columns.
 
     :param path: path to the data, e.g., data/
     :param dataset_name: name of the dataset, e.g., GDSC2
     :param feature_name: name of the feature, e.g., gene_expression
+    :param index_col: name of the index column, e.g., cell_line_id
     :returns: FeatureDataset with the features
     """
-    feature_csv = pd.read_csv(f"{path}/{dataset_name}/{feature_name}.csv", index_col=CELL_LINE_IDENTIFIER)
+    feature_csv = pd.read_csv(f"{path}/{dataset_name}/{feature_name}.csv", index_col=index_col)
     feature_csv.index = feature_csv.index.astype(str)
     if "cellosaurus_id" in feature_csv.columns:
         feature_csv = feature_csv.drop(columns=["cellosaurus_id"])
@@ -267,7 +268,8 @@ def prepare_expression_and_methylation(
     :returns: FeatureDataset with the transformed features
     """
     cell_line_input = cell_line_input.copy()
-    if gene_expression_scaler is not None:
+    first_feature = next(iter(cell_line_input.features.values()))
+    if ("gene_expression" in first_feature.keys()) and (gene_expression_scaler is not None):
         cell_line_input.apply(function=np.arcsinh, view="gene_expression")
         if training:
             cell_line_input.fit_transform_features(
@@ -282,7 +284,7 @@ def prepare_expression_and_methylation(
                 view="gene_expression",
             )
 
-    if methylation_scaler is not None and methylation_pca is not None:
+    if ("methylation" in first_feature.keys()) and (methylation_scaler is not None) and (methylation_pca is not None):
         if training:
             cell_line_input.fit_transform_features(
                 train_ids=cell_line_ids,
@@ -499,3 +501,7 @@ def prepare_proteomics(
             view="proteomics",
         )
     return cell_line_input
+
+
+def _get_view_as_list(value):
+    return [value] if isinstance(value, str) else value
