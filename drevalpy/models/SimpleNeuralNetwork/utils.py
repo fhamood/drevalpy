@@ -115,10 +115,12 @@ class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
 
         if not isinstance(hyperparameters["units_per_layer"], list):
             raise TypeError("units_per_layer must be a list of integers")
+        if not all(isinstance(x, int) for x in hyperparameters["units_per_layer"]):
+            raise TypeError("units_per_layer must be a list of integers")
         if not isinstance(hyperparameters["dropout_prob"], float):
             raise TypeError("dropout_prob must be a float")
 
-        n_units_per_layer: list[int] = hyperparameters["units_per_layer"]
+        n_units_per_layer: list[int] = hyperparameters["units_per_layer"]  # type: ignore[assignment]
         dropout_prob: float = hyperparameters["dropout_prob"]
         self.n_units_per_layer = n_units_per_layer
         self.dropout_prob = dropout_prob
