@@ -282,7 +282,7 @@ def _call_other_baselines(
     model: str,
     train_dataset: DrugResponseDataset,
     val_dataset: DrugResponseDataset,
-) -> tuple[DRPModel, np.ndarray]:
+):
     """
     Call the other baselines.
 
