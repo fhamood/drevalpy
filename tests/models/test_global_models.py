@@ -25,8 +25,7 @@ from drevalpy.models.drp_model import DRPModel
         "SimpleNeuralNetwork",
         "MultiOmicsNeuralNetwork",
         "PharmaFormer",
-        "KNNRegressor"
-        "AdaBoostDecisionTree",
+        "KNNRegressor" "AdaBoostDecisionTree",
     ],
 )
 def test_global_models(

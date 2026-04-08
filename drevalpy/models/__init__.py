@@ -57,13 +57,13 @@ from .baselines.sklearn_models import (
 from .DIPK.dipk import DIPKModel
 from .drp_model import DRPModel
 from .DrugGNN import DrugGNN
+from .KNNRegressor.knn_regressor import KNNRegressor
 from .MOLIR.molir import MOLIR
 from .PharmaFormer.pharmaformer import PharmaFormerModel
 from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwork
 from .SimpleNeuralNetwork.simple_neural_network import ChemBERTaNeuralNetwork, SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
-from .KNNRegressor.knn_regressor import KNNRegressor
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
