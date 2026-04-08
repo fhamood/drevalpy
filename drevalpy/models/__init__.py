@@ -31,6 +31,7 @@ __all__ = [
     "ChemBERTaNeuralNetwork",
     "PharmaFormerModel",
     "AdaBoostDecisionTree",
+    "Lasso",
 ]
 
 from .baselines.multi_omics_random_forest import MultiOmicsRandomForest
@@ -48,6 +49,7 @@ from .baselines.sklearn_models import (
     AdaBoostDecisionTree,
     ElasticNetModel,
     GradientBoosting,
+    LassoModel,
     ProteomicsElasticNetModel,
     ProteomicsRandomForest,
     RandomForest,
@@ -62,7 +64,6 @@ from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwo
 from .SimpleNeuralNetwork.simple_neural_network import ChemBERTaNeuralNetwork, SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
-from .Lasso.lasso_model import LassoModel
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
