@@ -15,25 +15,21 @@ __all__ = [
     "SVMRegressor",
     "SimpleNeuralNetwork",
     "MultiOmicsNeuralNetwork",
-    "MultiOmicsRandomForest",
+    "MultiFeatureRandomForest",
     "SingleDrugRandomForest",
     "SingleDrugElasticNet",
-    "SingleDrugProteomicsElasticNet",
     "SRMF",
     "GradientBoosting",
     "MOLIR",
     "SuperFELTR",
     "DIPKModel",
-    "ProteomicsRandomForest",
-    "ProteomicsElasticNetModel",
-    "SingleDrugProteomicsRandomForest",
     "DrugGNN",
     "ChemBERTaNeuralNetwork",
     "PharmaFormerModel",
     "AdaBoostDecisionTree",
 ]
 
-from .baselines.multi_omics_random_forest import MultiOmicsRandomForest
+from .baselines.multi_omics_random_forest import MultiFeatureRandomForest
 from .baselines.naive_pred import (
     NaiveCellLineMeanPredictor,
     NaiveDrugMeanPredictor,
@@ -42,14 +38,11 @@ from .baselines.naive_pred import (
     NaiveTissueDrugMeanPredictor,
     NaiveTissueMeanPredictor,
 )
-from .baselines.singledrug_elastic_net import SingleDrugElasticNet, SingleDrugProteomicsElasticNet
-from .baselines.singledrug_random_forest import SingleDrugProteomicsRandomForest, SingleDrugRandomForest
+from .baselines.singledrug_baselines import SingleDrugElasticNet, SingleDrugRandomForest
 from .baselines.sklearn_models import (
     AdaBoostDecisionTree,
     ElasticNetModel,
     GradientBoosting,
-    ProteomicsElasticNetModel,
-    ProteomicsRandomForest,
     RandomForest,
     SVMRegressor,
 )
@@ -65,12 +58,10 @@ from .SuperFELTR.superfeltr import SuperFELTR
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
+    "SingleDrugElasticNet": SingleDrugElasticNet,
     "SingleDrugRandomForest": SingleDrugRandomForest,
     "MOLIR": MOLIR,
     "SuperFELTR": SuperFELTR,
-    "SingleDrugElasticNet": SingleDrugElasticNet,
-    "SingleDrugProteomicsElasticNet": SingleDrugProteomicsElasticNet,
-    "SingleDrugProteomicsRandomForest": SingleDrugProteomicsRandomForest,
 }
 
 # MULTI_DRUG_MODEL_FACTORY is used in the pipeline!
@@ -86,12 +77,10 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "SVR": SVMRegressor,
     "SimpleNeuralNetwork": SimpleNeuralNetwork,
     "MultiOmicsNeuralNetwork": MultiOmicsNeuralNetwork,
-    "MultiOmicsRandomForest": MultiOmicsRandomForest,
+    "MultiOmicsRandomForest": MultiFeatureRandomForest,
     "GradientBoosting": GradientBoosting,
     "SRMF": SRMF,
     "DIPK": DIPKModel,
-    "ProteomicsRandomForest": ProteomicsRandomForest,
-    "ProteomicsElasticNet": ProteomicsElasticNetModel,
     "DrugGNN": DrugGNN,
     "ChemBERTaNeuralNetwork": ChemBERTaNeuralNetwork,
     "PharmaFormer": PharmaFormerModel,

@@ -11,6 +11,43 @@ from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 from drevalpy.datasets.utils import CELL_LINE_IDENTIFIER, DRUG_IDENTIFIER, TISSUE_IDENTIFIER
 
 
+def load_generic_csv(path: str, dataset_name: str, feature_name: str) -> FeatureDataset:
+    """
+    Loads a generic CSV file with cell line IDs as index and features as columns.
+
+    :param path: path to the data, e.g., data/
+    :param dataset_name: name of the dataset, e.g., GDSC2
+    :param feature_name: name of the feature, e.g., gene_expression
+    :returns: FeatureDataset with the features
+    """
+    feature_csv = pd.read_csv(f"{path}/{dataset_name}/{feature_name}.csv", index_col=CELL_LINE_IDENTIFIER)
+    feature_csv.index = feature_csv.index.astype(str)
+    if "cellosaurus_id" in feature_csv.columns:
+        feature_csv = feature_csv.drop(columns=["cellosaurus_id"])
+    return FeatureDataset(features=iterate_features(df=feature_csv, feature_type=feature_name))
+
+
+def iterate_features(df: pd.DataFrame, feature_type: str) -> dict[str, dict[str, np.ndarray]]:
+    """
+    Iterate over features.
+
+    :param df: DataFrame with the features
+    :param feature_type: type of feature, e.g., gene_expression, methylation, etc.
+    :returns: dictionary with the features
+    """
+    features: dict[str, dict[str, np.ndarray]] = {}
+    for cl in df.index:
+        if cl in features.keys():
+            continue
+        rows = df.loc[cl]
+        rows = rows.astype(float).to_numpy()
+        if (len(rows.shape) > 1) and (rows.shape[0] > 1):  # multiple rows returned
+            # take mean
+            rows = np.mean(rows, axis=0)
+        features[cl] = {feature_type: rows}
+    return features
+
+
 def load_cl_ids_from_csv(path: str, dataset_name: str) -> FeatureDataset:
     """
     Load cell line ids from csv file.
@@ -97,27 +134,6 @@ def load_and_select_gene_features(
         cl_features.features[cell_line][feature_type] = cl_features.features[cell_line][feature_type][indices_to_keep]
 
     return cl_features
-
-
-def iterate_features(df: pd.DataFrame, feature_type: str) -> dict[str, dict[str, np.ndarray]]:
-    """
-    Iterate over features.
-
-    :param df: DataFrame with the features
-    :param feature_type: type of feature, e.g., gene_expression, methylation, etc.
-    :returns: dictionary with the features
-    """
-    features: dict[str, dict[str, np.ndarray]] = {}
-    for cl in df.index:
-        if cl in features.keys():
-            continue
-        rows = df.loc[cl]
-        rows = rows.astype(float).to_numpy()
-        if (len(rows.shape) > 1) and (rows.shape[0] > 1):  # multiple rows returned
-            # take mean
-            rows = np.mean(rows, axis=0)
-        features[cl] = {feature_type: rows}
-    return features
 
 
 def load_drug_ids_from_csv(data_path: str, dataset_name: str) -> FeatureDataset:

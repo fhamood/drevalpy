@@ -12,8 +12,8 @@ from ..utils import get_multiomics_feature_dataset
 from .sklearn_models import RandomForest
 
 
-class MultiOmicsRandomForest(RandomForest):
-    """Multi-OMICS Random Forest model."""
+class MultiFeatureRandomForest(RandomForest):
+    """Multi-Feature Random Forest model."""
 
     cell_line_views = [
         "gene_expression",
@@ -22,16 +22,6 @@ class MultiOmicsRandomForest(RandomForest):
         "copy_number_variation_gistic",
     ]
 
-    def __init__(self):
-        """
-        Initializes the model.
-
-        Sets the PCA to None, which is initialized in the build_model method.
-        """
-        super().__init__()
-        self.pca = None
-        self.pca_ncomp = 100
-
     @classmethod
     def get_model_name(cls) -> str:
         """
@@ -39,33 +29,34 @@ class MultiOmicsRandomForest(RandomForest):
 
         :returns: MultiOmicsRandomForest
         """
-        return "MultiOmicsRandomForest"
-
-    def build_model(self, hyperparameters: dict):
-        """
-        Builds the model from hyperparameters.
-
-        :param hyperparameters: Hyperparameters for the model.
-        """
-        super().build_model(hyperparameters)
-        self.pca_ncomp = hyperparameters["n_components"]
+        return "MultiFeatureRandomForest"
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
         Loads the cell line features.
 
+        Here are the defaults for some omics:
+        * gene_expression: drug_target_genes_all_drugs
+        * methylation: methylation_intersection
+        * mutations: drug_target_genes_all_drugs
+        * copy_number_variation_gistic: drug_target_genes_all_drugs
+        * proteomics: drug_target_genes_all_drugs_proteomics
+
+        For all other features, the whole csv is loaded by default.
+
         :param data_path: data path e.g. data/
         :param dataset_name: dataset name e.g. GDSC1
-        :returns: FeatureDataset containing the cell line omics features, filtered through the
-            drug target genes
+        :returns: FeatureDataset containing the cell line omics features, filtered through the specified lists
         """
-        gene_lists = {
+        gene_list_defaults = {
             "gene_expression": "drug_target_genes_all_drugs",
             "methylation": "methylation_intersection",
             "mutations": "drug_target_genes_all_drugs",
             "copy_number_variation_gistic": "drug_target_genes_all_drugs",
             "proteomics": "drug_target_genes_all_drugs_proteomics",
         }
+        gene_lists = {feature_name: gene_list_defaults.get(feature_name, None) for feature_name in self.cell_line_views}
+
         return get_multiomics_feature_dataset(data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name)
 
     def train(
@@ -91,36 +82,21 @@ class MultiOmicsRandomForest(RandomForest):
             cell_line_input=cell_line_input,
             drug_input=drug_input,
         )
-        (
-            gene_expression,
-            methylation,
-            mutations,
-            copy_number_variation_gistic,
-            fingerprints,
-        ) = (
-            inputs["gene_expression"],
-            inputs["methylation"],
-            inputs["mutations"],
-            inputs["copy_number_variation_gistic"],
-            inputs["fingerprints"],
-        )
+        # concatenate in the order of self.cell_line_views
+        array_list = []
+        for view in self.cell_line_views:
+            feature_mat = inputs[view]
 
-        if methylation.shape[1] > self.pca_ncomp:
-            self.pca = PCA(n_components=self.pca_ncomp)
-        else:
-            self.pca = PCA(n_components=methylation.shape[1])
-        methylation = self.pca.fit_transform(methylation)
+            if view == "methylation":
+                if feature_mat.shape[1] > self.methylation_n_components:
+                    self.methylation_pca = PCA(n_components=self.methylation_n_components)
+                else:
+                    self.methylation_pca = PCA(n_components=feature_mat.shape[1])
+                feature_mat = self.methylation_pca.fit_transform(feature_mat)
 
-        x = np.concatenate(
-            (
-                gene_expression,
-                methylation,
-                mutations,
-                copy_number_variation_gistic,
-                fingerprints,
-            ),
-            axis=1,
-        )
+            array_list.append(feature_mat)
+
+        x = np.concatenate(array_list, axis=1)
         self.model.fit(x, output.response)
 
     def predict(
@@ -140,7 +116,7 @@ class MultiOmicsRandomForest(RandomForest):
         :returns: predicted response
         :raises RuntimeError: if PCA has not been fit
         """
-        if not hasattr(self.pca, "components_"):
+        if not hasattr(self.methylation_pca, "components_"):
             raise RuntimeError("PCA has not been fit. Call train() before predict().")
 
         inputs = self.get_feature_matrices(
@@ -149,31 +125,18 @@ class MultiOmicsRandomForest(RandomForest):
             cell_line_input=cell_line_input,
             drug_input=drug_input,
         )
-        (
-            gene_expression,
-            methylation,
-            mutations,
-            copy_number_variation_gistic,
-            fingerprints,
-        ) = (
-            inputs["gene_expression"],
-            inputs["methylation"],
-            inputs["mutations"],
-            inputs["copy_number_variation_gistic"],
-            inputs["fingerprints"],
-        )
+        # concatenate in the order of self.cell_line_views
+        array_list = []
+        for view in self.cell_line_views:
+            feature_mat = inputs[view]
 
-        methylation = self.pca.transform(methylation)
-        x = np.concatenate(
-            (
-                gene_expression,
-                methylation,
-                mutations,
-                copy_number_variation_gistic,
-                fingerprints,
-            ),
-            axis=1,
-        )
+            if view == "methylation":
+                feature_mat = self.methylation_pca.transform(feature_mat)
+
+            array_list.append(feature_mat)
+
+        x = np.concatenate(array_list, axis=1)
+
         return self.model.predict(x)
 
     def save(self, directory: str) -> None:
@@ -183,19 +146,19 @@ class MultiOmicsRandomForest(RandomForest):
         :param directory: Path to the directory where model components will be saved.
         """
         super().save(directory)
-        if self.pca is not None:
-            joblib.dump(self.pca, os.path.join(directory, "pca.pkl"))
+        if self.methylation_pca is not None:
+            joblib.dump(self.methylation_pca, os.path.join(directory, "pca.pkl"))
 
     @classmethod
-    def load(cls, directory: str) -> "MultiOmicsRandomForest":
+    def load(cls, directory: str) -> "MultiFeatureRandomForest":
         """
         Loads the trained model, hyperparameters, scaler, and PCA transformer from the specified directory.
 
         :param directory: Path to the directory where model components are stored.
         :returns: An instance of MultiOmicsRandomForest with restored state.
         """
-        instance: MultiOmicsRandomForest = super().load(directory)  # type: ignore[assignment]
+        instance: MultiFeatureRandomForest = super().load(directory)  # type: ignore[assignment]
         pca_path = os.path.join(directory, "pca.pkl")
         if os.path.exists(pca_path):
-            instance.pca = joblib.load(pca_path)
+            instance.methylation_pca = joblib.load(pca_path)
         return instance
