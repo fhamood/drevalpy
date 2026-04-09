@@ -198,3 +198,24 @@ SingleDrugElasticNet:
     - 0.3
   proteomics_normalization_downshift:
     - 1.8
+
+Lasso:
+  cell_line_views:
+    - gene_expression
+    - proteomics
+  drug_views:
+    - fingerprints
+  alpha:
+    - 0.0001
+    - 0.001
+    - 0.01
+    - 0.1
+    - 1
+  proteomics_feature_threshold:
+    - 0.7
+  proteomics_n_features:
+    - 1000
+  proteomics_normalization_width:
+    - 0.3
+  proteomics_normalization_downshift:
+    - 1.8

@@ -469,3 +469,30 @@ class AdaBoostDecisionTree(SklearnModel):
             ),
             n_estimators=self.hyperparameters["n_estimators"],
         )
+
+
+class LassoModel(SklearnModel):
+    """Lasso regression model for drug response prediction."""
+
+    @classmethod
+    def get_model_name(cls) -> str:
+        """
+        Returns the model name.
+
+        :returns: Lasso
+        """
+        return "Lasso"
+
+    def build_model(self, hyperparameters: dict):
+        """
+        Builds the Lasso model from hyperparameters.
+
+        :param hyperparameters: Contains alpha.
+        """
+        super().build_model(hyperparameters)
+        self.model = Lasso(
+            alpha=self.hyperparameters["alpha"],
+            max_iter=10000,
+            tol=1e-3,
+            selection="random",
+        )
