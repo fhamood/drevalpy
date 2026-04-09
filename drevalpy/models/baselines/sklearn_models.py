@@ -647,3 +647,55 @@ class AdaBoostDecisionTree(SklearnModel):
             n_estimators=hyperparameters["n_estimators"],
         )
         self.hyperparameters = hyperparameters
+
+
+class LassoModel(SklearnModel):
+    """
+    Lasso regression model for drug response prediction.
+
+    This model combines cell line gene expression features and drug fingerprint
+    features into a single input matrix and uses a sklearn Lasso model to predict
+    drug response values.
+
+    Lasso applies L1 regularization, which shrinks coefficients to zero.
+    Some coefficients can become zero, enabling feature selection and reducing model complexity.
+    """
+
+    def __init__(self):
+        """
+        Initializes the Lasso model.
+
+        self.model: stores the sklearn Lasso model
+        self.input_scaler: scales the combined input matrix
+        self.hyperparameters: stores the passed hyperparameters
+        """
+        super().__init__()
+        self.model = None
+        self.input_scaler = StandardScaler()
+        self.hyperparameters = None
+
+    @classmethod
+    def get_model_name(cls) -> str:
+        """
+        Returns the model name.
+
+        :returns: Lasso
+        """
+        return "Lasso"
+
+    def build_model(self, hyperparameters: dict) -> None:
+        """
+        Build the sklearn Lasso model using hyperparameters.
+
+        The hyperparameters are stored in the model instance and then passed to "sklearn.linear_model.Lasso".
+
+        :param hyperparameters: dictionary containing model hyperparameters
+        """
+        self.model = Lasso(
+            alpha=hyperparameters["alpha"],
+            max_iter=10000,
+            tol=1e-3,
+            selection="random",
+        )
+
+        self.hyperparameters = hyperparameters
