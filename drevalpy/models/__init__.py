@@ -26,6 +26,7 @@ __all__ = [
     "DrugGNN",
     "PharmaFormerModel",
     "AdaBoostDecisionTree",
+    "Lasso",
 ]
 
 from .baselines.multi_feature_random_forest import MultiFeatureRandomForest
@@ -42,6 +43,7 @@ from .baselines.sklearn_models import (
     AdaBoostDecisionTree,
     ElasticNetModel,
     GradientBoosting,
+    LassoModel,
     RandomForest,
     SVMRegressor,
 )
@@ -83,6 +85,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DrugGNN": DrugGNN,
     "PharmaFormer": PharmaFormerModel,
     "AdaBoostDecisionTree": AdaBoostDecisionTree,
+    "Lasso": LassoModel,
 }
 
 # MODEL_FACTORY is used in the pipeline!

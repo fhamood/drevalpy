@@ -38,6 +38,7 @@ from drevalpy.models.drp_model import DRPModel
         "MultiFeatureRandomForest",
         "GradientBoosting",
         "AdaBoostDecisionTree",
+        "Lasso",
     ],
 )
 @pytest.mark.parametrize("test_mode", ["LTO", "LPO", "LCO", "LDO"])
