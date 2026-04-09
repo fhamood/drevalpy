@@ -78,6 +78,8 @@ class SklearnModel(DRPModel):
 
         :param hyperparameters: Custom hyperparameters for the model, have to be defined in the child class.
         """
+        # Log hyperparameters to wandb if enabled
+        self.log_hyperparameters(hyperparameters)
         self.hyperparameters = hyperparameters
         self.cell_line_views = _get_view_as_list(hyperparameters.get("cell_line_views", ["gene_expression"]))
         self.drug_views = _get_view_as_list(hyperparameters.get("drug_views", ["fingerprints"]))
