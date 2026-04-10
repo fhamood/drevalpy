@@ -253,14 +253,9 @@ class MultiFeatureNeuralNetwork(DRPModel):
         """
         Save the trained model, hyperparameters, scalers, PCA object, and feature dimensions to disk.
 
-        Files saved:
-
-        - model.pt
-        - hyperparameters.json
-        - gene_scaler.pkl
-        - methylation_scaler.pkl
-        - methylation_pca.pkl
-        - metadata.json
+        Files always saved: model.pt, hyperparameters.json, metadata.json.
+        Conditionally saved: gene_scaler.pkl (if gene_expression in views),
+        methylation_scaler.pkl and methylation_pca.pkl (if methylation in views).
 
         :param directory: Target directory
         """
@@ -271,9 +266,11 @@ class MultiFeatureNeuralNetwork(DRPModel):
         with open(os.path.join(directory, "hyperparameters.json"), "w") as f:
             json.dump(self.hyperparameters, f)
 
-        joblib.dump(self.gene_expression_scaler, os.path.join(directory, "gene_scaler.pkl"))
-        joblib.dump(self.methylation_scaler, os.path.join(directory, "methylation_scaler.pkl"))
-        joblib.dump(self.methylation_pca, os.path.join(directory, "methylation_pca.pkl"))
+        if "gene_expression" in self.cell_line_views:
+            joblib.dump(self.gene_expression_scaler, os.path.join(directory, "gene_scaler.pkl"))
+        if "methylation" in self.cell_line_views:
+            joblib.dump(self.methylation_scaler, os.path.join(directory, "methylation_scaler.pkl"))
+            joblib.dump(self.methylation_pca, os.path.join(directory, "methylation_pca.pkl"))
 
         metadata = {
             "input_dims": self.input_dims,
@@ -286,40 +283,36 @@ class MultiFeatureNeuralNetwork(DRPModel):
         """
         Load a trained MultiFeatureNeuralNetwork instance from disk.
 
-        Required files:
-
-        - model.pt
-        - hyperparameters.json
-        - gene_scaler.pkl
-        - methylation_scaler.pkl
-        - methylation_pca.pkl
-        - metadata.json
+        Always required: model.pt, hyperparameters.json, metadata.json.
+        Conditionally required: gene_scaler.pkl (if gene_expression in views),
+        methylation_scaler.pkl and methylation_pca.pkl (if methylation in views).
 
         :param directory: Directory containing the saved model files
         :return: Fully restored MultiFeatureNeuralNetwork instance
         :raises FileNotFoundError: if any required file is missing
         """
-        required_files = [
-            "model.pt",
-            "hyperparameters.json",
-            "gene_scaler.pkl",
-            "methylation_scaler.pkl",
-            "methylation_pca.pkl",
-            "metadata.json",
-        ]
-        missing = [f for f in required_files if not os.path.exists(os.path.join(directory, f))]
-        if missing:
-            raise FileNotFoundError(f"Missing model files: {', '.join(missing)}")
-
         instance = cls()
 
         with open(os.path.join(directory, "hyperparameters.json")) as f:
             hyperparameters = json.load(f)
 
         instance.build_model(hyperparameters)
-        instance.gene_expression_scaler = joblib.load(os.path.join(directory, "gene_scaler.pkl"))
-        instance.methylation_scaler = joblib.load(os.path.join(directory, "methylation_scaler.pkl"))
-        instance.methylation_pca = joblib.load(os.path.join(directory, "methylation_pca.pkl"))
+
+        required_files = ["model.pt", "hyperparameters.json", "metadata.json"]
+        if "gene_expression" in instance.cell_line_views:
+            required_files.append("gene_scaler.pkl")
+        if "methylation" in instance.cell_line_views:
+            required_files.extend(["methylation_scaler.pkl", "methylation_pca.pkl"])
+
+        missing = [f for f in required_files if not os.path.exists(os.path.join(directory, f))]
+        if missing:
+            raise FileNotFoundError(f"Missing model files: {', '.join(missing)}")
+
+        if "gene_expression" in instance.cell_line_views:
+            instance.gene_expression_scaler = joblib.load(os.path.join(directory, "gene_scaler.pkl"))
+        if "methylation" in instance.cell_line_views:
+            instance.methylation_scaler = joblib.load(os.path.join(directory, "methylation_scaler.pkl"))
+            instance.methylation_pca = joblib.load(os.path.join(directory, "methylation_pca.pkl"))
 
         with open(os.path.join(directory, "metadata.json")) as f:
             metadata = json.load(f)
