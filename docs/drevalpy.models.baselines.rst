@@ -131,7 +131,7 @@ cell line features (no drug features). Available models: ``SingleDrugRandomFores
    :undoc-members:
    :show-inheritance:
 
-Multi-Feature Random Forest
+Multi-View Random Forest
 -------------------------------------------------------------
 
 A Random Forest that accepts multiple cell line views simultaneously (e.g., gene expression, methylation,
