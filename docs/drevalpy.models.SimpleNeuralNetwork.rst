@@ -64,7 +64,7 @@ Simple Neural Network Model
 Multi-OMICS Neural Network
 ----------------------------------------------------------------------
 
-.. automodule:: drevalpy.models.SimpleNeuralNetwork.multiomics_neural_network
+.. automodule:: drevalpy.models.SimpleNeuralNetwork.multi_view_neural_network
    :members:
    :undoc-members:
    :show-inheritance:

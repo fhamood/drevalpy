@@ -136,7 +136,7 @@ SVR:
     - 500
 
 # Global multi-input sklearn models, input can be adjusted to omic list of choice
-MultiFeatureRandomForest:
+MultiViewRandomForest:
   cell_line_views:
     - - gene_expression
       - methylation

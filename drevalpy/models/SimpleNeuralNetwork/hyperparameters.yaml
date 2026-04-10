@@ -25,7 +25,7 @@ SimpleNeuralNetwork:
   max_epochs:
     - 100
 
-MultiFeatureNeuralNetwork:
+MultiViewNeuralNetwork:
   cell_line_views:
     - - gene_expression
       - methylation

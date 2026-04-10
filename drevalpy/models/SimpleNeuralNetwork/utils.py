@@ -34,7 +34,7 @@ class RegressionDataset(Dataset):
         :param cell_line_input: input omics data
         :param drug_input: input fingerprint data
         :param cell_line_views: either gene expression for the SimpleNeuralNetwork or all omics data for the
-            MultiFeatureNeuralNetwork
+            MultiViewNeuralNetwork
         :param drug_views: fingerprints
         :raises AssertionError: if the views are not found in the input data
         """
@@ -107,7 +107,7 @@ class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
 
         :param hyperparameters: hyperparameters
         :param input_dim: input dimension, for SimpleNeuralNetwork it is the sum of the gene expression and
-            fingerprint, for MultiFeatureNeuralNetwork it is the sum of all omics data and fingerprints
+            fingerprint, for MultiViewNeuralNetwork it is the sum of all omics data and fingerprints
         :raises TypeError: if the hyperparameters are not of the correct type
         """
         super().__init__()
@@ -187,7 +187,7 @@ class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
             }
         if drug_input is None:
             raise ValueError(
-                "Drug input (fingerprints) are required for SimpleNeuralNetwork and " "MultiFeatureNeuralNetwork."
+                "Drug input (fingerprints) are required for SimpleNeuralNetwork and " "MultiViewNeuralNetwork."
             )
 
         train_dataset = RegressionDataset(

@@ -14,8 +14,8 @@ __all__ = [
     "RandomForest",
     "SVMRegressor",
     "SimpleNeuralNetwork",
-    "MultiFeatureNeuralNetwork",
-    "MultiFeatureRandomForest",
+    "MultiViewNeuralNetwork",
+    "MultiViewRandomForest",
     "SingleDrugRandomForest",
     "SingleDrugElasticNet",
     "SRMF",
@@ -29,7 +29,7 @@ __all__ = [
     "Lasso",
 ]
 
-from .baselines.multi_feature_random_forest import MultiFeatureRandomForest
+from .baselines.multi_view_random_forest import MultiViewRandomForest
 from .baselines.naive_pred import (
     NaiveCellLineMeanPredictor,
     NaiveDrugMeanPredictor,
@@ -52,7 +52,7 @@ from .drp_model import DRPModel
 from .DrugGNN import DrugGNN
 from .MOLIR.molir import MOLIR
 from .PharmaFormer.pharmaformer import PharmaFormerModel
-from .SimpleNeuralNetwork.multiomics_neural_network import MultiFeatureNeuralNetwork
+from .SimpleNeuralNetwork.multi_view_neural_network import MultiViewNeuralNetwork
 from .SimpleNeuralNetwork.simple_neural_network import SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
@@ -77,8 +77,8 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "RandomForest": RandomForest,
     "SVR": SVMRegressor,
     "SimpleNeuralNetwork": SimpleNeuralNetwork,
-    "MultiFeatureNeuralNetwork": MultiFeatureNeuralNetwork,
-    "MultiFeatureRandomForest": MultiFeatureRandomForest,
+    "MultiViewNeuralNetwork": MultiViewNeuralNetwork,
+    "MultiViewRandomForest": MultiViewRandomForest,
     "GradientBoosting": GradientBoosting,
     "SRMF": SRMF,
     "DIPK": DIPKModel,

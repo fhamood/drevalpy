@@ -7,7 +7,7 @@ Example: Flexible Inputs with DrEvalPy's Baselines
 -------------------------------------------------------------
 
 The sklearn baseline models (``ElasticNet``, ``Lasso``, ``RandomForest``, ``GradientBoosting``, ``SVR``, ``AdaBoostDecisionTree``,
-``SingleDrugRandomForest``, ``SingleDrugElasticNet``, ``MultiFeatureRandomForest``) and the neural network baselines (``SimpleNeuralNetwork``, ``MultiFeatureNeuralNetwork``)
+``SingleDrugRandomForest``, ``SingleDrugElasticNet``, ``MultiViewRandomForest``) and the neural network baselines (``SimpleNeuralNetwork``, ``MultiViewNeuralNetwork``)
 support **flexible inputs**. Instead of writing a new Python class for each omic data type, you can simply change which omic the model uses by editing ``hyperparameters.yaml``.
 
 For example, to run a Random Forest on **mynewdatamodality** data instead of gene expression, change the

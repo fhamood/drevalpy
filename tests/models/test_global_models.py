@@ -23,7 +23,7 @@ from drevalpy.models.drp_model import DRPModel
         "DIPK",
         "SimpleNeuralNetwork[fingerprints]",
         "SimpleNeuralNetwork[chemberta]",
-        "MultiFeatureNeuralNetwork",
+        "MultiViewNeuralNetwork",
         "PharmaFormer",
         "AdaBoostDecisionTree",
     ],
@@ -38,7 +38,7 @@ def test_global_models(
     Test global drug response models.
 
     :param sample_dataset: from conftest.py
-    :param model_name: e.g., DIPK, SRMF, SimpleNeuralNetwork, or MultiFeatureNeuralNetwork
+    :param model_name: e.g., DIPK, SRMF, SimpleNeuralNetwork, or MultiViewNeuralNetwork
     :param test_mode: LPO
     :param cross_study_dataset: from conftest.py
     :raises ValueError: if drug input is None
@@ -64,7 +64,7 @@ def test_global_models(
         hpam_combi["epochs"] = 1
         hpam_combi["epochs_autoencoder"] = 1
         hpam_combi["heads"] = 1
-    elif model_name in ["SimpleNeuralNetwork", "MultiFeatureNeuralNetwork"]:
+    elif model_name in ["SimpleNeuralNetwork", "MultiViewNeuralNetwork"]:
         hpam_combi["units_per_layer"] = [2, 2]
         hpam_combi["max_epochs"] = 1
         if whole_name == "SimpleNeuralNetwork[chemberta]":
@@ -166,12 +166,12 @@ def test_global_models(
 
 
 @pytest.mark.parametrize("test_mode", ["LTO"])
-def test_multi_feature_neural_network_custom_views(
+def test_multi_view_neural_network_custom_views(
     sample_dataset: DrugResponseDataset,
     test_mode: str,
 ) -> None:
     """
-    Test MultiFeatureNeuralNetwork with a fully custom cell line view (not a built-in omic).
+    Test MultiViewNeuralNetwork with a fully custom cell line view (not a built-in omic).
 
     Creates a fake CSV feature file and uses it via load_generic_csv to verify
     the flexible input pipeline works end-to-end including save/load without methylation.
@@ -209,7 +209,7 @@ def test_multi_feature_neural_network_custom_views(
         es_dataset = split["early_stopping"]
         val_es_dataset = split["validation_es"]
 
-        model_class = cast(type[DRPModel], MODEL_FACTORY["MultiFeatureNeuralNetwork"])
+        model_class = cast(type[DRPModel], MODEL_FACTORY["MultiViewNeuralNetwork"])
         model = model_class()
 
         hpam_combi = {

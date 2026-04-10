@@ -1,1 +1,1 @@
-"""Module for the baseline models SimpleNeuralNetwork and MultiFeatureNeuralNetwork."""
+"""Module for the baseline models SimpleNeuralNetwork and MultiViewNeuralNetwork."""

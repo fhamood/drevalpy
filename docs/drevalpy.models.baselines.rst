@@ -48,11 +48,11 @@ To train the same Random Forest on **proteomics** data instead, change ``cell_li
         - 100
       ...
 
-For the ``MultiFeatureRandomForest``, multiple cell line views can be specified as a nested list:
+For the ``MultiViewRandomForest``, multiple cell line views can be specified as a nested list:
 
 .. code-block:: yaml
 
-    MultiFeatureRandomForest:
+    MultiViewRandomForest:
       cell_line_views:
         - - gene_expression
           - methylation
@@ -138,7 +138,7 @@ A Random Forest that accepts multiple cell line views simultaneously (e.g., gene
 mutations, and copy number variation). Each view is loaded and preprocessed independently, then all feature
 matrices are concatenated before training. Methylation data is reduced with PCA before concatenation.
 
-.. automodule:: drevalpy.models.baselines.multi_feature_random_forest
+.. automodule:: drevalpy.models.baselines.multi_view_random_forest
    :members:
    :undoc-members:
    :show-inheritance:
