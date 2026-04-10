@@ -47,3 +47,11 @@ AdaBoost with Decision Tree
    :members:
    :undoc-members:
    :show-inheritance:
+
+KNNRegressor
+------------------------------------------------------------
+.. automodule:: drevalpy.models.baselines.sklearn_models
+   :members:
+   :undoc-members:
+   :show-inheritance:
+

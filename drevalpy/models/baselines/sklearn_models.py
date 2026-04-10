@@ -7,6 +7,7 @@ import joblib
 import numpy as np
 from sklearn.ensemble import AdaBoostRegressor, HistGradientBoostingRegressor, RandomForestRegressor
 from sklearn.linear_model import ElasticNet, Lasso, Ridge
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.preprocessing import StandardScaler
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
@@ -645,5 +646,29 @@ class AdaBoostDecisionTree(SklearnModel):
                 min_samples_leaf=hyperparameters["min_samples_leaf"],
             ),
             n_estimators=hyperparameters["n_estimators"],
+        )
+        self.hyperparameters = hyperparameters
+
+
+class KNNRegressor(SklearnModel):
+    """KNNRegressor model for using k-nearest neighbors for drug response prediction."""
+
+    @classmethod
+    def get_model_name(cls) -> str:
+        """
+        Returns the model name.
+
+        :returns: KNNRegressor
+        """
+        return "KNNRegressor"
+
+    def build_model(self, hyperparameters: dict):
+        """
+        Builds the model from hyperparameters.
+
+        :param hyperparameters: Hyperparameters for the model. Contains neighbors, weights.
+        """
+        self.model = KNeighborsRegressor(
+            n_neighbors=hyperparameters["n_neighbors"], weights=hyperparameters.get("weights", "distance")
         )
         self.hyperparameters = hyperparameters

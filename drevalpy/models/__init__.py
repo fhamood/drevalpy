@@ -49,6 +49,7 @@ from .baselines.sklearn_models import (
     AdaBoostDecisionTree,
     ElasticNetModel,
     GradientBoosting,
+    KNNRegressor,
     ProteomicsElasticNetModel,
     ProteomicsRandomForest,
     RandomForest,
@@ -57,7 +58,6 @@ from .baselines.sklearn_models import (
 from .DIPK.dipk import DIPKModel
 from .drp_model import DRPModel
 from .DrugGNN import DrugGNN
-from .KNNRegressor.knn_regressor import KNNRegressor
 from .MOLIR.molir import MOLIR
 from .PharmaFormer.pharmaformer import PharmaFormerModel
 from .SimpleNeuralNetwork.multiomics_neural_network import MultiOmicsNeuralNetwork

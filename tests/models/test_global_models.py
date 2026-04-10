@@ -25,7 +25,8 @@ from drevalpy.models.drp_model import DRPModel
         "SimpleNeuralNetwork",
         "MultiOmicsNeuralNetwork",
         "PharmaFormer",
-        "KNNRegressor" "AdaBoostDecisionTree",
+        "KNNRegressor",
+        "AdaBoostDecisionTree",
     ],
 )
 def test_global_models(
@@ -81,7 +82,7 @@ def test_global_models(
         hpam_combi["epochs"] = 1
         hpam_combi["patience"] = 2
     elif model_name == "KNNRegressor":
-        hpam_combi["n_neighbours"] = 3
+        hpam_combi["n_neighbors"] = 3
         hpam_combi["weights"] = "distance"
         hpam_combi["variance"] = 0.75
     elif model_name == "AdaBoostDecisionTree":

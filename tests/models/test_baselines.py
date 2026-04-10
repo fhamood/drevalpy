@@ -40,6 +40,7 @@ from drevalpy.models.drp_model import DRPModel
         "ProteomicsRandomForest",
         "ProteomicsElasticNet",
         "AdaBoostDecisionTree",
+        "KNNRegressor",
     ],
 )
 @pytest.mark.parametrize("test_mode", ["LTO", "LPO", "LCO", "LDO"])
@@ -342,6 +343,10 @@ def _call_other_baselines(
             hpam_combi["max_depth"] = 2
             hpam_combi["min_samples_split"] = 2
             hpam_combi["min_samples_leaf"] = 1
+        elif model == "KNNRegressor":
+            hpam_combi["n_neighbors"] = 3
+            hpam_combi["weights"] = "distance"
+            hpam_combi["variance"] = 0.75
         model_instance.build_model(hpam_combi)
         if model == "ElasticNet":
             if hpam_combi["l1_ratio"] == 0.0:
