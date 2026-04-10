@@ -163,3 +163,111 @@ def test_global_models(
             split_index=0,
             single_drug_id=None,
         )
+
+
+@pytest.mark.parametrize("test_mode", ["LTO"])
+def test_multi_feature_neural_network_custom_views(
+    sample_dataset: DrugResponseDataset,
+    test_mode: str,
+) -> None:
+    """
+    Test MultiFeatureNeuralNetwork with a fully custom cell line view (not a built-in omic).
+
+    Creates a fake CSV feature file and uses it via load_generic_csv to verify
+    the flexible input pipeline works end-to-end including save/load without methylation.
+
+    :param sample_dataset: from conftest.py
+    :param test_mode: LTO
+    :raises ValueError: if drug input is None
+    """
+    import pandas as pd
+
+    path_data = os.path.join("..", "data")
+    toy_dir = os.path.join(path_data, "TOYv1")
+
+    # Read existing cell line names from gene_expression.csv (cell_line_name is the index used by the loader)
+    gex = pd.read_csv(os.path.join(toy_dir, "gene_expression.csv"))
+    cell_line_names = gex["cell_line_name"].values
+
+    # Create a fake custom feature CSV with random data, matching the real CSV format
+    rng = np.random.default_rng(42)
+    n_features = 10
+    custom_df = pd.DataFrame(
+        rng.standard_normal((len(cell_line_names), n_features)),
+        columns=[f"feat_{i}" for i in range(n_features)],
+    )
+    custom_df.insert(0, "cell_line_name", cell_line_names)
+    custom_csv_path = os.path.join(toy_dir, "custom_test_view.csv")
+    custom_df.to_csv(custom_csv_path, index=False)
+
+    try:
+        drug_response = sample_dataset
+        drug_response.split_dataset(n_cv_splits=2, mode=test_mode, validation_ratio=0.4)
+        assert drug_response.cv_splits is not None
+        split = drug_response.cv_splits[0]
+        train_dataset = split["train"]
+        es_dataset = split["early_stopping"]
+        val_es_dataset = split["validation_es"]
+
+        model_class = cast(type[DRPModel], MODEL_FACTORY["MultiFeatureNeuralNetwork"])
+        model = model_class()
+
+        hpam_combi = {
+            "cell_line_views": ["custom_test_view"],
+            "drug_views": "fingerprints",
+            "units_per_layer": [2, 2],
+            "dropout_prob": 0.3,
+            "max_epochs": 1,
+        }
+        model.build_model(hyperparameters=hpam_combi)
+
+        cell_line_input = model.load_cell_line_features(data_path=path_data, dataset_name="TOYv1")
+        drug_input = model.load_drug_features(data_path=path_data, dataset_name="TOYv1")
+        if drug_input is None:
+            raise ValueError("Drug input is None")
+
+        cell_lines_to_keep = cell_line_input.identifiers
+        drugs_to_keep = drug_input.identifiers
+        train_dataset.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
+        es_dataset.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
+        val_es_dataset.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
+
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            model.train(
+                output=train_dataset,
+                cell_line_input=cell_line_input,
+                drug_input=drug_input,
+                output_earlystopping=es_dataset,
+                model_checkpoint_dir=tmpdirname,
+            )
+
+        preds = model.predict(
+            drug_ids=val_es_dataset.drug_ids,
+            cell_line_ids=val_es_dataset.cell_line_ids,
+            drug_input=drug_input,
+            cell_line_input=cell_line_input,
+        )
+        assert isinstance(preds, np.ndarray)
+        assert len(preds) == len(val_es_dataset)
+
+        # Save and load roundtrip — no methylation files should be required
+        with tempfile.TemporaryDirectory() as model_dir:
+            model.save(model_dir)
+            # Verify no methylation files were saved
+            assert not os.path.exists(os.path.join(model_dir, "methylation_scaler.pkl"))
+            assert not os.path.exists(os.path.join(model_dir, "methylation_pca.pkl"))
+
+            loaded_model = model_class.load(model_dir)
+            assert isinstance(loaded_model, DRPModel)
+
+            preds_after = loaded_model.predict(
+                drug_ids=val_es_dataset.drug_ids,
+                cell_line_ids=val_es_dataset.cell_line_ids,
+                drug_input=drug_input,
+                cell_line_input=cell_line_input,
+            )
+            assert preds.shape == preds_after.shape
+    finally:
+        # Clean up the fake CSV
+        if os.path.exists(custom_csv_path):
+            os.remove(custom_csv_path)
