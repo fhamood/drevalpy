@@ -118,14 +118,14 @@ class MultiFeatureNeuralNetwork(DRPModel):
         :returns: FeatureDataset containing the drug fingerprint features
         :raises ValueError: if no or more than one drug view is selected
         """
-        if (len(self.drug_views) > 1) | (len(self.drug_views) == 0):
+        if len(self.drug_views) > 1:
             raise ValueError("Only one drug view is supported for MultiFeatureNeuralNetwork.")
         print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
 
-        if self.drug_views[0] == "fingerprints":
-            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
-        elif len(self.drug_views) == 0:
+        if len(self.drug_views) == 0:
             return load_drug_ids_from_csv(data_path, dataset_name)
+        elif self.drug_views[0] == "fingerprints":
+            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
         else:
             return load_generic_csv(
                 path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
