@@ -95,7 +95,6 @@ class MultiFeatureNeuralNetwork(DRPModel):
         if len(self.cell_line_views) == 0:
             raise ValueError("No cell line view is selected.")
         print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
-        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
         gene_list_defaults = {
             "gene_expression": "drug_target_genes_all_drugs",
             "methylation": "methylation_intersection",
