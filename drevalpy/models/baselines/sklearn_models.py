@@ -116,7 +116,12 @@ class SklearnModel(DRPModel):
         :returns: FeatureDataset containing the cell line features
         :raises ValueError: If more than one cell line view is specified as this is a single-omic model by default.
         """
-        if (len(self.cell_line_views) > 1) | (len(self.cell_line_views) == 0):
+        if len(self.cell_line_views) == 0:
+            raise ValueError(
+                "cell_line_views is empty. Try to call build_model() before load_cell_line_features() "
+                "so the model knows which omics to load."
+            )
+        if len(self.cell_line_views) > 1:
             raise ValueError("Only one cell line view is supported for the single-omic sklearn models.")
         print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
 
@@ -152,10 +157,10 @@ class SklearnModel(DRPModel):
             raise ValueError("Only one drug view is supported.")
         print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
 
-        if self.drug_views[0] == "fingerprints":
-            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
-        elif len(self.drug_views) == 0:
+        if len(self.drug_views) == 0:
             return load_drug_ids_from_csv(data_path, dataset_name)
+        elif self.drug_views[0] == "fingerprints":
+            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
         else:
             return load_generic_csv(
                 path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
