@@ -14,14 +14,11 @@ from sklearn.tree import DecisionTreeRegressor
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 from drevalpy.models.drp_model import DRPModel
 
-from ...datasets.utils import CELL_LINE_IDENTIFIER, DRUG_IDENTIFIER
 from ..utils import (
     ProteomicsMedianCenterAndImputeTransformer,
     _get_view_as_list,
-    load_and_select_gene_features,
-    load_drug_fingerprint_features,
-    load_drug_ids_from_csv,
-    load_generic_csv,
+    load_single_cell_line_view,
+    load_single_drug_view,
     prepare_proteomics,
     scale_gene_expression,
 )
@@ -106,65 +103,23 @@ class SklearnModel(DRPModel):
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
-        Loads the cell line features.
-
-        If the cell_line_views contains "gene_expression", the gene expression features are subsetted with the
-        landmarks_genes_reduced list. Otherwise, the whole csv is loaded and used as feature input.
+        Loads the cell line features for a single-view sklearn model.
 
         :param data_path: Path to the data
         :param dataset_name: Name of the dataset
         :returns: FeatureDataset containing the cell line features
-        :raises ValueError: If more than one cell line view is specified as this is a single-omic model by default.
         """
-        if len(self.cell_line_views) == 0:
-            raise ValueError(
-                "cell_line_views is empty. Try to call build_model() before load_cell_line_features() "
-                "so the model knows which omics to load."
-            )
-        if len(self.cell_line_views) > 1:
-            raise ValueError("Only one cell line view is supported for the single-omic sklearn models.")
-        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
-
-        if "gene_expression" in self.cell_line_views:
-            gene_list = "landmark_genes_reduced"
-            return load_and_select_gene_features(
-                feature_type="gene_expression",
-                gene_list=gene_list,
-                data_path=data_path,
-                dataset_name=dataset_name,
-            )
-        else:
-            return load_generic_csv(
-                path=data_path,
-                dataset_name=dataset_name,
-                feature_name=self.cell_line_views[0],
-                index_col=CELL_LINE_IDENTIFIER,
-            )
+        return load_single_cell_line_view(self.cell_line_views, data_path, dataset_name, self.get_model_name())
 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset | None:
         """
-        Load the drug features.
-
-        By default, these are fingerprints. If self.drug_views == [], drug IDs are loaded. If it's something else,
-        the csv is loaded and used as feature input.
+        Load the drug features for a single-view sklearn model.
 
         :param data_path: Path to the data
         :param dataset_name: Name of the dataset
         :returns: FeatureDataset containing the drug features
-        :raises ValueError: if more than one drug view is specified
         """
-        if len(self.drug_views) > 1:
-            raise ValueError("Only one drug view is supported.")
-        print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
-
-        if len(self.drug_views) == 0:
-            return load_drug_ids_from_csv(data_path, dataset_name)
-        elif self.drug_views[0] == "fingerprints":
-            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
-        else:
-            return load_generic_csv(
-                path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
-            )
+        return load_single_drug_view(self.drug_views, data_path, dataset_name, self.get_model_name())
 
     def train(
         self,

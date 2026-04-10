@@ -12,14 +12,11 @@ from sklearn.preprocessing import StandardScaler
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 
-from ...datasets.utils import CELL_LINE_IDENTIFIER, DRUG_IDENTIFIER
 from ..drp_model import DRPModel
 from ..utils import (
     _get_view_as_list,
-    load_and_select_gene_features,
-    load_drug_fingerprint_features,
-    load_drug_ids_from_csv,
-    load_generic_csv,
+    load_single_cell_line_view,
+    load_single_drug_view,
     scale_gene_expression,
 )
 from .utils import FeedForwardNetwork
@@ -68,59 +65,23 @@ class SimpleNeuralNetwork(DRPModel):
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
-        Loads the cell line features.
+        Loads the cell line features for a single-view neural network.
 
-        :param data_path: Path to the gene expression and landmark genes
+        :param data_path: Path to the data
         :param dataset_name: name of the dataset
-        :return: FeatureDataset containing the cell line gene expression features, filtered through the landmark genes
-        :raises ValueError: if more than one cell line view is selected
+        :returns: FeatureDataset containing the cell line features
         """
-        if len(self.cell_line_views) == 0:
-            raise ValueError(
-                "cell_line_views is empty. Call build_model() before load_cell_line_features() "
-                "so the model knows which omics to load."
-            )
-        if len(self.cell_line_views) > 1:
-            raise ValueError("Only one cell line view is supported for the SimpleNeuralNetwork.")
-        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
-
-        if "gene_expression" in self.cell_line_views:
-            gene_list = "landmark_genes_reduced"
-            return load_and_select_gene_features(
-                feature_type="gene_expression",
-                gene_list=gene_list,
-                data_path=data_path,
-                dataset_name=dataset_name,
-            )
-        else:
-            return load_generic_csv(
-                path=data_path,
-                dataset_name=dataset_name,
-                feature_name=self.cell_line_views[0],
-                index_col=CELL_LINE_IDENTIFIER,
-            )
+        return load_single_cell_line_view(self.cell_line_views, data_path, dataset_name, self.get_model_name())
 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
-        Loads the fingerprint data.
+        Loads the drug features for a single-view neural network.
 
-        :param data_path: Path to the fingerprints, e.g., data/
-        :param dataset_name: name of the dataset, e.g., GDSC1
-        :returns: FeatureDataset containing the fingerprints
-        :raises ValueError: if no or more than one drug view is selected
+        :param data_path: Path to the data
+        :param dataset_name: name of the dataset
+        :returns: FeatureDataset containing the drug features
         """
-        if len(self.drug_views) > 1:
-            raise ValueError("Only one drug view is supported.")
-        print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
-
-        if len(self.drug_views) == 0:
-            return load_drug_ids_from_csv(data_path, dataset_name)
-        elif self.drug_views[0] == "fingerprints":
-            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
-        else:
-            return load_generic_csv(
-                path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
-            )
+        return load_single_drug_view(self.drug_views, data_path, dataset_name, self.get_model_name())
 
     def train(
         self,

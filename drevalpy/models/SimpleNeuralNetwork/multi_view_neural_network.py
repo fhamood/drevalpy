@@ -12,14 +12,11 @@ from sklearn.preprocessing import StandardScaler
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 
-from ...datasets.utils import DRUG_IDENTIFIER
 from ..drp_model import DRPModel
 from ..utils import (
     _get_view_as_list,
-    get_multiomics_feature_dataset,
-    load_drug_fingerprint_features,
-    load_drug_ids_from_csv,
-    load_generic_csv,
+    load_multi_cell_line_view,
+    load_single_drug_view,
     prepare_expression_and_methylation,
 )
 from .utils import FeedForwardNetwork
@@ -85,51 +82,23 @@ class MultiViewNeuralNetwork(DRPModel):
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
-        Loads the cell line features.
+        Loads the cell line features for a multi-view neural network.
 
         :param data_path: data path e.g. data/
         :param dataset_name: dataset name e.g. GDSC1
-        :return: FeatureDataset containing the cell line omics features, filtered through the
-            drug target genes
-        :raises ValueError: if no cell line view is selected
+        :returns: FeatureDataset containing the cell line omics features
         """
-        if len(self.cell_line_views) == 0:
-            raise ValueError("No cell line view is selected.")
-        print(f"Loading a {self.get_model_name()} with the following cell line views: {self.cell_line_views}")
-        gene_list_defaults = {
-            "gene_expression": "drug_target_genes_all_drugs",
-            "methylation": "methylation_intersection",
-            "mutations": "drug_target_genes_all_drugs",
-            "copy_number_variation_gistic": "drug_target_genes_all_drugs",
-            "proteomics": "drug_target_genes_all_drugs_proteomics",
-        }
-        gene_lists = {feature_name: gene_list_defaults.get(feature_name, None) for feature_name in self.cell_line_views}
-
-        return get_multiomics_feature_dataset(
-            data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name, omics=self.cell_line_views
-        )
+        return load_multi_cell_line_view(self.cell_line_views, data_path, dataset_name, self.get_model_name())
 
     def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
-        Load the drug features.
+        Load the drug features for a multi-view neural network.
 
-        :param data_path: path to the drug features, in this case the drug fingerprints, e.g., data/
+        :param data_path: path to the drug features, e.g., data/
         :param dataset_name: name of the dataset, e.g., GDSC1
-        :returns: FeatureDataset containing the drug fingerprint features
-        :raises ValueError: if no or more than one drug view is selected
+        :returns: FeatureDataset containing the drug features
         """
-        if len(self.drug_views) > 1:
-            raise ValueError("Only one drug view is supported for MultiViewNeuralNetwork.")
-        print(f"Loading a {self.get_model_name()} with the following drug views: {self.drug_views}")
-
-        if len(self.drug_views) == 0:
-            return load_drug_ids_from_csv(data_path, dataset_name)
-        elif self.drug_views[0] == "fingerprints":
-            return load_drug_fingerprint_features(data_path, dataset_name, fill_na=True)
-        else:
-            return load_generic_csv(
-                path=data_path, dataset_name=dataset_name, feature_name=self.drug_views[0], index_col=DRUG_IDENTIFIER
-            )
+        return load_single_drug_view(self.drug_views, data_path, dataset_name, self.get_model_name())
 
     def train(
         self,

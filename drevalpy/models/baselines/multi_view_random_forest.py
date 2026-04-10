@@ -8,7 +8,7 @@ from sklearn.decomposition import PCA
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
 
-from ..utils import get_multiomics_feature_dataset
+from ..utils import load_multi_cell_line_view
 from .sklearn_models import RandomForest
 
 
@@ -33,33 +33,13 @@ class MultiViewRandomForest(RandomForest):
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
-        Loads the cell line features.
-
-        Here are the defaults for some omics:
-        * gene_expression: drug_target_genes_all_drugs
-        * methylation: methylation_intersection
-        * mutations: drug_target_genes_all_drugs
-        * copy_number_variation_gistic: drug_target_genes_all_drugs
-        * proteomics: drug_target_genes_all_drugs_proteomics
-
-        For all other features, the whole csv is loaded by default.
+        Loads the cell line features for a multi-view random forest.
 
         :param data_path: data path e.g. data/
         :param dataset_name: dataset name e.g. GDSC1
-        :returns: FeatureDataset containing the cell line omics features, filtered through the specified lists
+        :returns: FeatureDataset containing the cell line omics features
         """
-        gene_list_defaults = {
-            "gene_expression": "drug_target_genes_all_drugs",
-            "methylation": "methylation_intersection",
-            "mutations": "drug_target_genes_all_drugs",
-            "copy_number_variation_gistic": "drug_target_genes_all_drugs",
-            "proteomics": "drug_target_genes_all_drugs_proteomics",
-        }
-        gene_lists = {feature_name: gene_list_defaults.get(feature_name, None) for feature_name in self.cell_line_views}
-
-        return get_multiomics_feature_dataset(
-            data_path=data_path, gene_lists=gene_lists, dataset_name=dataset_name, omics=self.cell_line_views
-        )
+        return load_multi_cell_line_view(self.cell_line_views, data_path, dataset_name, self.get_model_name())
 
     def train(
         self,
