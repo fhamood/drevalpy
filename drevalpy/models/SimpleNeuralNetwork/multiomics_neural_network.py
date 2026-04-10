@@ -80,7 +80,8 @@ class MultiFeatureNeuralNetwork(DRPModel):
             )
         )
         self.drug_views = _get_view_as_list(hyperparameters.get("drug_views", ["fingerprints"]))
-        self.pca_ncomp = hyperparameters["methylation_pca_components"]
+        if "methylation" in self.cell_line_views:
+            self.pca_ncomp = hyperparameters["methylation_pca_components"]
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
         """
