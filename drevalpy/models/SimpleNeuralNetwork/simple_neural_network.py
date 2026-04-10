@@ -73,7 +73,7 @@ class SimpleNeuralNetwork(DRPModel):
         """
         return load_single_cell_line_view(self.cell_line_views, data_path, dataset_name, self.get_model_name())
 
-    def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
+    def load_drug_features(self, data_path: str, dataset_name: str) -> FeatureDataset | None:
         """
         Loads the drug features for a single-view neural network.
 
