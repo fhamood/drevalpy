@@ -8,7 +8,7 @@ Flexible Input System
 
 The sklearn baseline models support **flexible inputs**. Rather than hardcoding which omic data type a model uses,
 you configure ``cell_line_views`` and ``drug_views`` directly in the ``hyperparameters.yaml`` file.
-A single model class (e.g., ``ElasticNet``, ``RandomForest``) can therefore be trained on gene expression,
+A single model class (e.g., ``ElasticNet``, ``RandomForest``, ``KNNRegressor``) can therefore be trained on gene expression,
 proteomics, or any other available omic without needing a separate Python class for each combination.
 
 This replaces the previously separate model classes (``ProteomicsRandomForest``, ``ProteomicsElasticNet``,
@@ -142,11 +142,3 @@ matrices are concatenated before training. Methylation data is reduced with PCA 
    :members:
    :undoc-members:
    :show-inheritance:
-
-KNNRegressor
-------------------------------------------------------------
-.. automodule:: drevalpy.models.baselines.sklearn_models
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
