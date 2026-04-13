@@ -73,10 +73,6 @@ def test_global_models(
     elif model_name == "PharmaFormer":
         hpam_combi["epochs"] = 1
         hpam_combi["patience"] = 2
-    elif model_name == "KNNRegressor":
-        hpam_combi["n_neighbors"] = 3
-        hpam_combi["weights"] = "distance"
-        hpam_combi["variance"] = 0.75
     elif model_name == "AdaBoostDecisionTree":
         hpam_combi["max_depth"] = 2
         hpam_combi["min_samples_split"] = 2
