@@ -479,7 +479,7 @@ class KNNRegressor(SklearnModel):
 
         :param hyperparameters: Hyperparameters for the model. Contains neighbors, weights.
         """
+        super().build_model(hyperparameters)
         self.model = KNeighborsRegressor(
-            n_neighbors=hyperparameters["n_neighbors"], weights=hyperparameters.get("weights", "distance")
+            n_neighbors=self.hyperparameters["n_neighbors"], weights=self.hyperparameters.get("weights", "distance")
         )
-        self.hyperparameters = hyperparameters
