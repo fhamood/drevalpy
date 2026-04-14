@@ -87,6 +87,10 @@ pep8-naming = "*"
 optional = true
 dependencies = { torch = ">=2.1", torch-geometric = "*" }
 
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.19.1"
+ruff = "^0.15.8"
+
 [tool.black]
 line-length = 120
 
@@ -104,6 +108,8 @@ include_trailing_comma=true
 balanced_wrapping=true
 line_length=120
 profile = "black"
+known_first_party = ["drevalpy"]
+known_third_party = ["wandb"]
 
 [build-system]
 requires = ["poetry-core"]

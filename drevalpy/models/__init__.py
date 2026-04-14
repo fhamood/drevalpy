@@ -25,6 +25,7 @@ __all__ = [
     "DIPKModel",
     "DrugGNN",
     "PharmaFormerModel",
+    "KNNRegressor",
     "AdaBoostDecisionTree",
     "Lasso",
 ]
@@ -43,6 +44,7 @@ from .baselines.sklearn_models import (
     AdaBoostDecisionTree,
     ElasticNetModel,
     GradientBoosting,
+    KNNRegressor,
     LassoModel,
     RandomForest,
     SVMRegressor,
@@ -84,6 +86,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DIPK": DIPKModel,
     "DrugGNN": DrugGNN,
     "PharmaFormer": PharmaFormerModel,
+    "KNNRegressor": KNNRegressor,
     "AdaBoostDecisionTree": AdaBoostDecisionTree,
     "Lasso": LassoModel,
 }

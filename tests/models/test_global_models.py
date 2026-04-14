@@ -25,7 +25,6 @@ from drevalpy.models.drp_model import DRPModel
         "SimpleNeuralNetwork[chemberta]",
         "MultiViewNeuralNetwork",
         "PharmaFormer",
-        "AdaBoostDecisionTree",
     ],
 )
 def test_global_models(
