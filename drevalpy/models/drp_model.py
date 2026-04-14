@@ -13,10 +13,9 @@ from contextlib import suppress
 from typing import Any
 
 import numpy as np
+import wandb
 import yaml
 from sklearn.model_selection import ParameterGrid
-
-import wandb
 
 from ..datasets.dataset import DrugResponseDataset, FeatureDataset
 from ..evaluation import AVAILABLE_METRICS, evaluate
