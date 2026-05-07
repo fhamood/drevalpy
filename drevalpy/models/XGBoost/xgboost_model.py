@@ -2,6 +2,7 @@ import json
 import os
 
 import joblib
+from typing import Any
 
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -66,16 +67,29 @@ class XGBoost(DRPModel):
 
     def build_model(self, hyperparameters: dict[str, Any]) -> None:
         """
-        Builds the model, for models that use hyperparameters.
+        Builds the XGBoost model from hyperparameters.
 
-        :param hyperparameters: hyperparameters for the model
-        Example:
-            self.model = ElasticNet(alpha=hyperparameters["alpha"], l1_ratio=hyperparameters["l1_ratio"])
+        :param hyperparameters: Contains n_estimators, learning_rate, max_depth,
+            subsample, colsample_bytree, and reg_alpha.
         """
         self.log_hyperparameters(hyperparameters)
         self.hyperparameters = hyperparameters
         self.cell_line_views = _get_view_as_list(hyperparameters.get("cell_line_views", ["gene_expression"]))
         self.drug_views = _get_view_as_list(hyperparameters.get("drug_views", ["fingerprints"]))
+
+        if self.hyperparameters.get("max_depth") == "None":
+            self.hyperparameters["max_depth"] = None
+
+        self.model = XGBRegressor(
+            n_estimators=self.hyperparameters["n_estimators"],
+            learning_rate=self.hyperparameters["learning_rate"],
+            max_depth=self.hyperparameters["max_depth"],
+            subsample=self.hyperparameters["subsample"],
+            colsample_bytree=self.hyperparameters["colsample_bytree"],
+            reg_alpha=self.hyperparameters["reg_alpha"],
+            random_state=42,
+            n_jobs=-1,
+        )
 
     def train(
             self,

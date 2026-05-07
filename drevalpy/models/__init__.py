@@ -28,6 +28,7 @@ __all__ = [
     "KNNRegressor",
     "AdaBoostDecisionTree",
     "Lasso",
+    "XGBoostModel",
 ]
 
 from .baselines.multi_view_random_forest import MultiViewRandomForest
@@ -58,6 +59,7 @@ from .SimpleNeuralNetwork.multi_view_neural_network import MultiViewNeuralNetwor
 from .SimpleNeuralNetwork.simple_neural_network import SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
 from .SuperFELTR.superfeltr import SuperFELTR
+from .XGBoost.xgboost_model import XGBoost
 
 # SINGLE_DRUG_MODEL_FACTORY is used in the pipeline!
 SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
@@ -89,6 +91,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "KNNRegressor": KNNRegressor,
     "AdaBoostDecisionTree": AdaBoostDecisionTree,
     "Lasso": LassoModel,
+    "XGBoost": XGBoost,
 }
 
 # MODEL_FACTORY is used in the pipeline!
