@@ -324,9 +324,7 @@ def _call_other_baselines(
         else:
             hpams = hpams[:2]
     model_instance = model_class()
-    if model == "MultiViewXGBoost":
-        assert isinstance(model_instance, DRPModel)
-    else:
+    if model != "MultiViewXGBoost":
         assert isinstance(model_instance, SklearnModel)
     for hpam_combi in hpams:
         if model == "RandomForest" or model == "GradientBoosting":
