@@ -40,6 +40,7 @@ from drevalpy.models.drp_model import DRPModel
         "AdaBoostDecisionTree",
         "KNNRegressor",
         "Lasso",
+        "MultiViewXGBoost",
     ],
 )
 @pytest.mark.parametrize("test_mode", ["LTO", "LPO", "LCO", "LDO"])
@@ -297,7 +298,14 @@ def _call_other_baselines(
     hpams = model_class.get_hyperparameter_set()
 
     if len(hpams) > 2:
-        if model in ["RandomForest", "GradientBoosting", "ElasticNet", "AdaBoostDecisionTree", "SVR"]:
+        if model in [
+            "RandomForest",
+            "GradientBoosting",
+            "ElasticNet",
+            "AdaBoostDecisionTree",
+            "SVR",
+            "MultiViewXGBoost",
+        ]:
             # test a hpam config with cell_line_views == "gene expression" and one with "proteomics
             covered_gex = False
             covered_prot = False
@@ -316,7 +324,10 @@ def _call_other_baselines(
         else:
             hpams = hpams[:2]
     model_instance = model_class()
-    assert isinstance(model_instance, SklearnModel)
+    if model == "MultiViewXGBoost":
+        assert isinstance(model_instance, DRPModel)
+    else:
+        assert isinstance(model_instance, SklearnModel)
     for hpam_combi in hpams:
         if model == "RandomForest" or model == "GradientBoosting":
             hpam_combi["n_estimators"] = 2
