@@ -350,6 +350,7 @@ def _call_other_baselines(
         )
 
         if model == "ElasticNet":
+            assert isinstance(model_instance, SklearnModel)
             if hpam_combi["l1_ratio"] == 0.0:
                 assert issubclass(type(model_instance.model), Ridge)
             else:
