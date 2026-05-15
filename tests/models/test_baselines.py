@@ -58,6 +58,8 @@ def test_baselines(
     :param test_mode: either LPO, LCO, LDO, or LTO
     :param cross_study_dataset: dataset
     """
+    if model_name == "MultiViewXGBoost":
+        pytest.importorskip("xgboost", reason="MultiViewXGBoost requires the optional 'xgboost' extra")
     drug_response = sample_dataset
     drug_response.split_dataset(
         n_cv_splits=2,

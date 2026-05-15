@@ -62,8 +62,15 @@ class MultiViewXGBoost(DRPModel):
         Builds the model from hyperparameters.
 
         :param hyperparameters: dictionary containing the hyperparameters.
+        :raises ImportError: if xgboost is not installed.
         """
-        import xgboost as xgb
+        try:
+            import xgboost as xgb
+        except ImportError as e:
+            raise ImportError(
+                "MultiViewXGBoost requires the optional 'xgboost' extra. "
+                "Install it with: pip install drevalpy[xgboost] (or `poetry install -E xgboost`)."
+            ) from e
 
         self.log_hyperparameters(hyperparameters)
         self.hyperparameters = hyperparameters
@@ -140,14 +147,15 @@ class MultiViewXGBoost(DRPModel):
             n_components = min(self.pca_ncomp, n_met_features)
             self.methylation_pca = PCA(n_components=n_components)
 
-        cell_line_input = prepare_expression_and_methylation(
-            cell_line_input=cell_line_input,
-            cell_line_ids=np.unique(output.cell_line_ids),
-            training=True,
-            gene_expression_scaler=self.gene_expression_scaler,
-            methylation_scaler=self.methylation_scaler,
-            methylation_pca=self.methylation_pca,
-        )
+        if "gene_expression" in self.cell_line_views or "methylation" in self.cell_line_views:
+            cell_line_input = prepare_expression_and_methylation(
+                cell_line_input=cell_line_input,
+                cell_line_ids=np.unique(output.cell_line_ids),
+                training=True,
+                gene_expression_scaler=self.gene_expression_scaler,
+                methylation_scaler=self.methylation_scaler,
+                methylation_pca=self.methylation_pca,
+            )
 
         if "proteomics" in self.cell_line_views:
             cell_line_input = prepare_proteomics(
@@ -184,14 +192,15 @@ class MultiViewXGBoost(DRPModel):
         :param drug_input: drug features
         :returns: predicted response
         """
-        cell_line_input = prepare_expression_and_methylation(
-            cell_line_input=cell_line_input,
-            cell_line_ids=np.unique(cell_line_ids),
-            training=False,
-            gene_expression_scaler=self.gene_expression_scaler,
-            methylation_scaler=self.methylation_scaler,
-            methylation_pca=self.methylation_pca,
-        )
+        if "gene_expression" in self.cell_line_views or "methylation" in self.cell_line_views:
+            cell_line_input = prepare_expression_and_methylation(
+                cell_line_input=cell_line_input,
+                cell_line_ids=np.unique(cell_line_ids),
+                training=False,
+                gene_expression_scaler=self.gene_expression_scaler,
+                methylation_scaler=self.methylation_scaler,
+                methylation_pca=self.methylation_pca,
+            )
 
         if "proteomics" in self.cell_line_views:
             cell_line_input = prepare_proteomics(
