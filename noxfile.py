@@ -188,7 +188,7 @@ def typeguard(session: Session) -> None:
 
     :param session: The Session object.
     """
-    session.install(".[fit]")
+    session.install(".[multiprocessing]")
     session.install("pytest", "typeguard", "pygments")
     session.run(
         "pytest",

@@ -8,15 +8,23 @@ import pytest
 from drevalpy.datasets.dataset import DrugResponseDataset
 from drevalpy.datasets.loader import load_toyv1, load_toyv2
 
+# Resolve test-data path from this file's location so the autouse/session fixtures
+# don't depend on the pytest invocation cwd. Other tests still build `"../data"`
+# literals (see test_hpam_tune.py, test_main.py, test_baselines.py, ...), which is
+# why pytest_configure still chdirs into the tests directory — until those literals
+# are migrated, removing the chdir would break tests that assume cwd=tests/.
+_TESTS_DIR = pathlib.Path(__file__).parent.resolve()
+_DATA_DIR = (_TESTS_DIR.parent / "data").resolve()
+
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config) -> None:
     """
-    Change to the tests directory and adjust pytest settings.
+    Change to the tests directory (legacy requirement) and adjust pytest settings.
 
     :param config: pytest config object
     """
-    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    os.chdir(_TESTS_DIR)
 
     # Reduce flaky plugin verbosity
     config.option.flaky_report = "none"
@@ -30,8 +38,7 @@ def sample_dataset() -> DrugResponseDataset:
 
     :returns: drug_response, cell_line_input, drug_input
     """
-    path_data = str((pathlib.Path("..") / "data").resolve())
-    drug_response = load_toyv1(path_data)
+    drug_response = load_toyv1(str(_DATA_DIR))
     drug_response.remove_nan_responses()
     return drug_response
 
@@ -43,8 +50,7 @@ def cross_study_dataset() -> DrugResponseDataset:
 
     :returns: drug_response, cell_line_input, drug_input
     """
-    path_data = str((pathlib.Path("..") / "data").resolve())
-    drug_response = load_toyv2(path_data)
+    drug_response = load_toyv2(str(_DATA_DIR))
     drug_response.remove_nan_responses()
     return drug_response
 
@@ -57,9 +63,7 @@ def ensure_bpe_features() -> None:
     This fixture runs automatically before any tests to ensure that PharmaFormer
     and other models requiring BPE features have the necessary data available.
     """
-    # Ensure we're in the tests directory (pytest_configure should have done this)
-    tests_dir = pathlib.Path(__file__).parent.resolve()
-    path_data = str((tests_dir.parent / "data").resolve())
+    path_data = str(_DATA_DIR)
 
     try:
         from drevalpy.datasets.featurizer.create_pharmaformer_drug_embeddings import (

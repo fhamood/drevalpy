@@ -24,6 +24,28 @@ from .models import MODEL_FACTORY, MULTI_DRUG_MODEL_FACTORY, SINGLE_DRUG_MODEL_F
 from .models.drp_model import DRPModel
 from .pipeline_function import pipeline_function
 
+
+def seed_everything(seed: int = 42) -> None:
+    """
+    Seed python ``random``, numpy, torch (CPU + CUDA), and ``PYTHONHASHSEED``.
+
+    Call once at the top of a run. The dataset/model code uses local
+    ``np.random.default_rng`` instances for its own randomness, so this exists to lock
+    down everything else (torch op order, sklearn fallbacks, library-internal RNG,
+    hash randomization).
+
+    :param seed: base seed value
+    """
+    import random
+
+    os.environ["PYTHONHASHSEED"] = str(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+
 if importlib.util.find_spec("ray"):
     import ray
 else:
@@ -107,6 +129,7 @@ def drug_response_experiment(
         All hyperparameters and metrics will be logged to the specified wandb project.
     :raises ValueError: if no cv splits are found
     """
+    seed_everything(42)
     # Default baseline model, needed for normalization
     nme = MODEL_FACTORY["NaiveMeanEffectsPredictor"]
     if baselines is None:
