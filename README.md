@@ -7,7 +7,7 @@
 [![Test status](https://github.com/daisybio/drevalpy/actions/workflows/run_tests.yml/badge.svg)](https://github.com/daisybio/drevalpy/actions?workflow=Tests)
 [![Precommit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![DOI](https://zenodo.org/badge/727156477.svg)](https://doi.org/10.5281/zenodo.18302237)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18302238.svg)](https://doi.org/10.5281/zenodo.18302237)
 
 **News:** Our paper is out on [Nature Communications](https://www.nature.com/articles/s41467-026-72903-w)!
 
