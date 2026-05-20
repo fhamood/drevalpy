@@ -28,9 +28,11 @@ __all__ = [
     "KNNRegressor",
     "AdaBoostDecisionTree",
     "Lasso",
+    "MultiViewXGBoost",
 ]
 
 from .baselines.multi_view_random_forest import MultiViewRandomForest
+from .baselines.multi_view_xgboost import MultiViewXGBoost
 from .baselines.naive_pred import (
     NaiveCellLineMeanPredictor,
     NaiveDrugMeanPredictor,
@@ -89,6 +91,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "KNNRegressor": KNNRegressor,
     "AdaBoostDecisionTree": AdaBoostDecisionTree,
     "Lasso": LassoModel,
+    "MultiViewXGBoost": MultiViewXGBoost,
 }
 
 # MODEL_FACTORY is used in the pipeline!
