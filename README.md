@@ -9,7 +9,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![DOI](https://zenodo.org/badge/727156477.svg)](https://doi.org/10.5281/zenodo.18302237)
 
-**News:** Our preprint is out on [biorxiv](https://www.biorxiv.org/content/10.1101/2025.05.26.655288v1)!
+**News:** Our paper is out on [Nature Communications](https://www.nature.com/articles/s41467-026-72903-w)!
 
 Documentation at [ReadTheDocs](https://drevalpy.readthedocs.io/en/latest/index.html#).
 
