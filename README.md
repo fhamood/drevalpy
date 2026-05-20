@@ -1,5 +1,6 @@
 # DrEvalPy: Python Cancer Cell Line Drug Response Prediction Suite
 
+[![DOI](https://img.shields.io/badge/paper-10.1038%2Fs41467--026--72903--w-be2635?logo=Paper&link=https%3A%2F%2Fdoi.org%2F10.1038%2Fs41467-026-72903-w)](https://doi.org/10.1038/s41467-026-72903-w)
 [![PyPI version](https://img.shields.io/pypi/v/drevalpy.svg)](https://pypi.org/project/drevalpy/)
 ![Python versions](https://img.shields.io/pypi/pyversions/drevalpy)
 [![License](https://img.shields.io/github/license/daisybio/drevalpy)](https://opensource.org/licenses/GPL3)
