@@ -40,6 +40,7 @@ from drevalpy.models.drp_model import DRPModel
         "AdaBoostDecisionTree",
         "KNNRegressor",
         "Lasso",
+        "MultiViewXGBoost",
     ],
 )
 @pytest.mark.parametrize("test_mode", ["LTO", "LPO", "LCO", "LDO"])
@@ -57,6 +58,8 @@ def test_baselines(
     :param test_mode: either LPO, LCO, LDO, or LTO
     :param cross_study_dataset: dataset
     """
+    if model_name == "MultiViewXGBoost":
+        pytest.importorskip("xgboost", reason="MultiViewXGBoost requires the optional 'xgboost' extra")
     drug_response = sample_dataset
     drug_response.split_dataset(
         n_cv_splits=2,
@@ -297,7 +300,14 @@ def _call_other_baselines(
     hpams = model_class.get_hyperparameter_set()
 
     if len(hpams) > 2:
-        if model in ["RandomForest", "GradientBoosting", "ElasticNet", "AdaBoostDecisionTree", "SVR"]:
+        if model in [
+            "RandomForest",
+            "GradientBoosting",
+            "ElasticNet",
+            "AdaBoostDecisionTree",
+            "SVR",
+            "MultiViewXGBoost",
+        ]:
             # test a hpam config with cell_line_views == "gene expression" and one with "proteomics
             covered_gex = False
             covered_prot = False
@@ -316,7 +326,8 @@ def _call_other_baselines(
         else:
             hpams = hpams[:2]
     model_instance = model_class()
-    assert isinstance(model_instance, SklearnModel)
+    if model != "MultiViewXGBoost":
+        assert isinstance(model_instance, SklearnModel)
     for hpam_combi in hpams:
         if model == "RandomForest" or model == "GradientBoosting":
             hpam_combi["n_estimators"] = 2
@@ -341,6 +352,7 @@ def _call_other_baselines(
         )
 
         if model == "ElasticNet":
+            assert isinstance(model_instance, SklearnModel)
             if hpam_combi["l1_ratio"] == 0.0:
                 assert issubclass(type(model_instance.model), Ridge)
             else:
