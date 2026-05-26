@@ -247,6 +247,7 @@ MultiViewXGBoost:
       - methylation
       - mutations
       - copy_number_variation_gistic
+    - gene_expression
     - proteomics
   drug_views:
     - fingerprints
