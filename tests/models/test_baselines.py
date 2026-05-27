@@ -116,6 +116,7 @@ def test_baselines(
             train_dataset,
             val_dataset,
             test_mode,
+            data_dir=data_dir,
         )
     else:
         model, preds_before = _call_other_baselines(
@@ -430,9 +431,7 @@ def _call_naive_mean_effects_predictor(
 
 
 def _call_naive_tissue_drug_predictor(
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-    test_mode: str,
+    train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, test_mode: str, data_dir
 ) -> tuple[DRPModel, np.ndarray]:
     """
     Test the NaiveTissueDrugMeanPredictor model.
@@ -440,11 +439,12 @@ def _call_naive_tissue_drug_predictor(
     :param train_dataset: training dataset
     :param val_dataset: validation dataset
     :param test_mode: either LPO, LCO, LDO, or LTO
+    :param data_dir: path to the data directory
     :returns: NaiveTissueDrugMeanPredictor model
     """
     naive = NaiveTissueDrugMeanPredictor()
     train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-        model=naive, train_dataset=train_dataset, val_dataset=val_dataset
+        model=naive, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
     )
 
     naive.train(output=train_dataset, cell_line_input=cell_line_input, drug_input=drug_input)
