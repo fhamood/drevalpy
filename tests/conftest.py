@@ -1,6 +1,5 @@
 """Pytest configuration file for the tests directory."""
 
-import os
 import pathlib
 
 import pytest
@@ -8,62 +7,69 @@ import pytest
 from drevalpy.datasets.dataset import DrugResponseDataset
 from drevalpy.datasets.loader import load_toyv1, load_toyv2
 
-# Resolve test-data path from this file's location so the autouse/session fixtures
-# don't depend on the pytest invocation cwd. Other tests still build `"../data"`
-# literals (see test_hpam_tune.py, test_main.py, test_baselines.py, ...), which is
-# why pytest_configure still chdirs into the tests directory — until those literals
-# are migrated, removing the chdir would break tests that assume cwd=tests/.
 _TESTS_DIR = pathlib.Path(__file__).parent.resolve()
 _DATA_DIR = (_TESTS_DIR.parent / "data").resolve()
+
+
+@pytest.fixture(scope="session")
+def data_dir() -> pathlib.Path:
+    """
+    Fixture to provide the path to the data directory for tests.
+
+    :returns: path to the data directory
+    """
+    return _DATA_DIR
 
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config) -> None:
     """
-    Change to the tests directory (legacy requirement) and adjust pytest settings.
+    Configure pytest.
 
     :param config: pytest config object
     """
-    os.chdir(_TESTS_DIR)
-
     # Reduce flaky plugin verbosity
     config.option.flaky_report = "none"
     config.option.tbstyle = "short"
 
 
 @pytest.fixture(scope="session")
-def sample_dataset() -> DrugResponseDataset:
+def sample_dataset(data_dir) -> DrugResponseDataset:
     """
     Sample dataset for testing individual models.
 
+    :param data_dir: path to the data directory
     :returns: drug_response, cell_line_input, drug_input
     """
-    drug_response = load_toyv1(str(_DATA_DIR))
+    drug_response = load_toyv1(str(data_dir))
     drug_response.remove_nan_responses()
     return drug_response
 
 
 @pytest.fixture(scope="session")
-def cross_study_dataset() -> DrugResponseDataset:
+def cross_study_dataset(data_dir) -> DrugResponseDataset:
     """
     Sample dataset for testing individual models.
 
+    :param data_dir: path to the data directory
     :returns: drug_response, cell_line_input, drug_input
     """
-    drug_response = load_toyv2(str(_DATA_DIR))
+    drug_response = load_toyv2(str(data_dir))
     drug_response.remove_nan_responses()
     return drug_response
 
 
 @pytest.fixture(scope="session", autouse=True)
-def ensure_bpe_features() -> None:
+def ensure_bpe_features(data_dir) -> None:
     """
     Ensure BPE SMILES features are created for TOYv1 and TOYv2 before tests run.
 
     This fixture runs automatically before any tests to ensure that PharmaFormer
     and other models requiring BPE features have the necessary data available.
+
+    :param data_dir: path to the data directory
     """
-    path_data = str(_DATA_DIR)
+    path_data = str(data_dir)
 
     try:
         from drevalpy.datasets.featurizer.create_pharmaformer_drug_embeddings import (
