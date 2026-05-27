@@ -1,7 +1,6 @@
 """Tests for the DRPModel."""
 
 import os
-import pathlib
 import tempfile
 from typing import Optional
 
@@ -184,20 +183,20 @@ def test_load_and_select_gene_features(gene_list: Optional[str]) -> None:
 
 
 def test_order_load_and_select_gene_features(
-    sample_dataset: DrugResponseDataset, cross_study_dataset: DrugResponseDataset
+    sample_dataset: DrugResponseDataset, cross_study_dataset: DrugResponseDataset, data_dir
 ) -> None:
     """
     Test the order of the features after loading and reducing gene features. it should be maintained.
 
     :param sample_dataset: TOYv1 dataset
     :param cross_study_dataset: TOYv2 dataset
+    :param data_dir: path to the data directory
     """
-    path_data = str((pathlib.Path("..") / "data").resolve())
     assert sample_dataset.dataset_name == "TOYv1"
     assert cross_study_dataset.dataset_name == "TOYv2"
     gene_list = "gene_expression_intersection"
-    a = load_and_select_gene_features("gene_expression", gene_list, path_data, "TOYv1")
-    b = load_and_select_gene_features("gene_expression", gene_list, path_data, "TOYv2")
+    a = load_and_select_gene_features("gene_expression", gene_list, str(data_dir), "TOYv1")
+    b = load_and_select_gene_features("gene_expression", gene_list, str(data_dir), "TOYv2")
     # assert the meta info (=gene names) are the same
     assert np.all(a.meta_info["gene_expression"] == b.meta_info["gene_expression"])
     # assert the shape of the features for a random cell line is actually the same

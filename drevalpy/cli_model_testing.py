@@ -227,7 +227,10 @@ def train_and_predict_final():
 
 
 def randomization_split():
-    """CLI for creating randomization test view files."""
+    """CLI for creating randomization test view files.
+
+    :raises RuntimeError: if the resolved randomization test views are empty
+    """
     from drevalpy.experiment import get_randomization_test_views
     from drevalpy.models import MODEL_FACTORY
 
@@ -238,9 +241,26 @@ def randomization_split():
     args = parser.parse_args()
 
     model_class = MODEL_FACTORY[args.model_name]
-    model = model_class()
 
-    randomization_test_views = get_randomization_test_views(model=model, randomization_mode=[args.randomization_mode])
+    # Since the baseline flexible-inputs refactor (#373), cell_line_views/drug_views are
+    # populated by build_model() from hyperparameters rather than as class attributes,
+    # so a freshly-constructed model has empty views. Build with every hpam combo and
+    # union the resulting randomization views so we emit yamls covering all view configs
+    # the model can run with.
+    randomization_test_views: dict[str, list[str]] = {}
+    for hpam_combi in model_class.get_hyperparameter_set():
+        model = model_class()
+        model.build_model(hpam_combi)
+        randomization_test_views.update(
+            get_randomization_test_views(model=model, randomization_mode=[args.randomization_mode])
+        )
+
+    if not randomization_test_views:
+        raise RuntimeError(
+            f"No randomization test views were produced for {args.model_name} with mode {args.randomization_mode}. "
+            "Check that the model's hyperparameters.yaml declares cell_line_views/drug_views."
+        )
+
     for test_name, views in randomization_test_views.items():
         for view in views:
             rand_dict = {"test_name": test_name, "view": view}
