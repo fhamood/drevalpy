@@ -143,14 +143,14 @@ def test_single_drug_models(
                     preds_original = model.predict(
                         drug_ids=test_dataset.drug_ids,
                         cell_line_ids=test_dataset.cell_line_ids,
-                        drug_input=model.load_drug_features(data_dir, "TOYv1"),
-                        cell_line_input=model.load_cell_line_features(data_dir, "TOYv1"),
+                        drug_input=model.load_drug_features(str(data_dir), "TOYv1"),
+                        cell_line_input=model.load_cell_line_features(str(data_dir), "TOYv1"),
                     )
                     preds_loaded = loaded_model.predict(
                         drug_ids=test_dataset.drug_ids,
                         cell_line_ids=test_dataset.cell_line_ids,
-                        drug_input=model.load_drug_features(data_dir, "TOYv1"),
-                        cell_line_input=model.load_cell_line_features(data_dir, "TOYv1"),
+                        drug_input=model.load_drug_features(str(data_dir), "TOYv1"),
+                        cell_line_input=model.load_cell_line_features(str(data_dir), "TOYv1"),
                     )
                     assert isinstance(preds_loaded, np.ndarray)
                     assert preds_loaded.shape == preds_original.shape
