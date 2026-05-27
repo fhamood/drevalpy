@@ -150,7 +150,7 @@ def test_baselines(
             model=model,
             test_mode=test_mode,
             train_dataset=train_dataset,
-            path_data=data_dir,
+            path_data=str(data_dir),
             early_stopping_dataset=None,
             response_transformation=None,
             path_out=temp_dir,
@@ -494,8 +494,8 @@ def _call_naive_tissue_drug_predictor(
 
 
 def _subset_dataset(model: DRPModel, train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, data_dir):
-    cell_line_input = model.load_cell_line_features(data_path=data_dir, dataset_name="TOYv1")
-    drug_input = model.load_drug_features(data_path=data_dir, dataset_name="TOYv1")
+    cell_line_input = model.load_cell_line_features(data_path=str(data_dir), dataset_name="TOYv1")
+    drug_input = model.load_drug_features(data_path=str(data_dir), dataset_name="TOYv1")
 
     if drug_input is None:
         raise ValueError("Drug input is None")
