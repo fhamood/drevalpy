@@ -27,8 +27,8 @@ def test_hpam_tune_raytune(tmp_path, data_dir):
 
     model = MODEL_FACTORY["ElasticNet"]()
     model.build_model(hyperparameters=hpam_set[0])
-    cell_line_input = model.load_cell_line_features(data_path=data_dir, dataset_name="TOYv1")
-    drug_input = model.load_drug_features(data_path=data_dir, dataset_name="TOYv1")
+    cell_line_input = model.load_cell_line_features(data_path=str(data_dir), dataset_name="TOYv1")
+    drug_input = model.load_drug_features(data_path=str(data_dir), dataset_name="TOYv1")
 
     valid_cell_lines = list(cell_line_input.identifiers)[:2]
     valid_drugs = list(drug_input.identifiers)[:2]
