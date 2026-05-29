@@ -20,8 +20,32 @@ from drevalpy.models import (
     NaiveTissueDrugMeanPredictor,
     NaiveTissueMeanPredictor,
 )
-from drevalpy.models.baselines.sklearn_models import SklearnModel
+from drevalpy.models.baselines.sklearn_models import RandomForest, SklearnModel
 from drevalpy.models.drp_model import DRPModel
+
+
+@pytest.mark.parametrize("max_depth_input, expected", [(5, 5), (10, 10), (30, 30), ("None", None)])
+def test_random_forest_respects_max_depth(max_depth_input, expected) -> None:
+    """Ensure RandomForest forwards max_depth to the underlying RandomForestRegressor.
+
+    Regression test: max_depth was read from the hyperparameters but never passed to the
+    RandomForestRegressor constructor, so every forest was built with the default max_depth=None
+    regardless of the configured value.
+
+    :param max_depth_input: max_depth value as provided via the hyperparameters
+    :param expected: max_depth expected on the built sklearn model
+    """
+    model = RandomForest()
+    model.build_model(
+        {
+            "n_estimators": 10,
+            "criterion": "squared_error",
+            "max_samples": 0.5,
+            "n_jobs": 1,
+            "max_depth": max_depth_input,
+        }
+    )
+    assert model.model.max_depth == expected
 
 
 @pytest.mark.parametrize(
