@@ -249,10 +249,10 @@ class PrecilyModel(DRPModel):
         :returns: cell line FeatureDataset with the "pathways" view
         :raises FileNotFoundError: if the pathway feature CSV is missing
         """
-        pathway_file = os.path.join(data_path, dataset_name, "precily_pathways.csv")
+        pathway_file = os.path.join(data_path, dataset_name, "pathway_features.csv")
         if not os.path.exists(pathway_file):
             raise FileNotFoundError(
-                f"Precily pathway feature file not found: {pathway_file}. "
+                f"Pathway feature file not found: {pathway_file}. "
                 "Run the featurizer first: "
                 "python -m drevalpy.datasets.featurizer.create_precily_pathway_features "
                 f"{dataset_name} --gene_sets <path_to_gmt>"
@@ -275,10 +275,10 @@ class PrecilyModel(DRPModel):
         :returns: drug FeatureDataset with the "smilesvec" view
         :raises FileNotFoundError: if the drug feature CSV is missing
         """
-        drug_file = os.path.join(data_path, dataset_name, "precily_drug_features.csv")
+        drug_file = os.path.join(data_path, dataset_name, "drug_smilesvec.csv")
         if not os.path.exists(drug_file):
             raise FileNotFoundError(
-                f"Precily drug feature file not found: {drug_file}. "
+                f"Drug SMILESVec feature file not found: {drug_file}. "
                 "Run the featurizer first: "
                 "python -m drevalpy.datasets.featurizer.create_precily_drug_embeddings "
                 f"{dataset_name} --smilesvec_model <path_to_pretrained_model>"

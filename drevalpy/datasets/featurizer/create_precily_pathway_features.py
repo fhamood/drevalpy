@@ -111,6 +111,10 @@ def create_precily_pathway_features(
     """
     expr = _load_gene_expression(data_path, dataset_name)  # [cell lines x genes]
 
+    before = len(expr)
+    expr = expr.loc[~expr.index.duplicated(keep="first")]
+    print(f"Removed {before - len(expr)} duplicated cell lines")
+
     # gseapy expects genes in rows, samples in columns.
     expr_genes_by_samples = expr.T
 
@@ -126,12 +130,16 @@ def create_precily_pathway_features(
     )  # [cell lines x pathways]
 
     names_file = os.path.join(data_path, dataset_name, "cell_line_names.csv")
+
     if os.path.exists(names_file):
-        names = pd.read_csv(names_file).set_index("cellosaurus_id")["cell_line_name"]
-        scores = scores.join(names, how="inner")
-        scores = scores.set_index("cell_line_name")
+        names_df = pd.read_csv(names_file)
+
+        if {"cellosaurus_id", "cell_line_name"}.issubset(names_df.columns):
+            names = names_df.set_index("cellosaurus_id")["cell_line_name"]
+            scores = scores.join(names, how="inner")
+            scores = scores.set_index("cell_line_name")
     scores.index.name = "cell_line_name"
-    out_path = os.path.join(data_path, dataset_name, "precily_pathways.csv")
+    out_path = os.path.join(data_path, dataset_name, "pathway_features.csv")
     scores.to_csv(out_path)
     print(f"Wrote {scores.shape[0]} cell lines x {scores.shape[1]} pathways -> {out_path}")
 

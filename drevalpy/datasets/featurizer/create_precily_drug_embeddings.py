@@ -29,7 +29,7 @@ def _load_smiles(data_path: str, dataset_name: str) -> pd.DataFrame:
     smiles_file = Path(data_path) / dataset_name / "drug_smiles.csv"
     if not smiles_file.exists():
         raise FileNotFoundError(f"SMILES file not found: {smiles_file}")
-    df = pd.read_csv(smiles_file)
+    df = pd.read_csv(smiles_file, dtype=str)
     required_cols = {"pubchem_id", "canonical_smiles"}
     if not required_cols.issubset(df.columns):
         raise ValueError(f"Expected columns {required_cols} in {smiles_file}, got {df.columns.tolist()}")
@@ -92,7 +92,7 @@ def main() -> None:
     out_df = pd.DataFrame(rows, columns=columns)
 
     # Write output
-    out_path = Path(args.data_path) / args.dataset_name / "precily_drug_features.csv"
+    out_path = Path(args.data_path) / args.dataset_name / "drug_smilesvec.csv"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_df.to_csv(out_path, index=False)
     print(f"Wrote {len(out_df)} drugs x {n_features} features -> {out_path}")
