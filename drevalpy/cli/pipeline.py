@@ -8,7 +8,41 @@ import click
 import typer
 
 from drevalpy.cli._helpers import as_list, pipeline_namespace
+from drevalpy.evaluation import AVAILABLE_METRICS
 from drevalpy.utils import check_arguments, main
+
+BASELINES_HELP = (
+    "Baseline or list of baselines. The baselines are also hpam-tuned and compared to the models, "
+    "but no randomization or robustness tests are run. NaiveMeanEffectsPredictor is always run as it is "
+    "required for evaluation."
+)
+TEST_MODE_HELP = (
+    "Which tests to run (LPO=Leave-random-Pairs-Out, LCO=Leave-Cell-line-Out, LDO=Leave-Drug-Out). "
+    "Can be a list of test runs, e.g. 'LPO LCO LDO' to run all tests. Default is LPO."
+)
+RANDOMIZATION_MODE_HELP = (
+    "Which randomization tests to run, additionally to the normal run. Default is None, which means no "
+    "randomization tests are run. Modes: SVCC, SVRC, SVCD, SVRD. Can be a list of randomization tests, "
+    "e.g. 'SCVC SCVD' to run two tests. SVCC/SVRC randomize or hold constant cell line views; SVCD/SVRD "
+    "randomize or hold constant drug views."
+)
+RANDOMIZATION_TYPE_HELP = (
+    'Type of randomization to use. Choose from "permutation" or "invariant". Default is "permutation". '
+    "Permutation shuffles features over instances while preserving feature distributions. Invariant "
+    "randomization preserves a key characteristic such as matrix mean and standard deviation or network degree."
+)
+ROBUSTNESS_HELP = (
+    "Number of trials to run for the robustness test. Default is 0, which means no robustness test is run. "
+    "The robustness test trains the model with varying seeds multiple times to check stability."
+)
+NO_REFITTING_HELP = (
+    "Whether to run CurveCurator to sort out non-reactive curves. By default, CurveCurator is applied and "
+    "curve-curated metrics are used."
+)
+RESPONSE_TRANSFORMATION_HELP = (
+    "Transformation to apply to the response variable during training and prediction. Will be retransformed "
+    "after the final predictions. Possible values: standard, minmax, robust."
+)
 
 
 def register_pipeline_callback(app: typer.Typer) -> None:
@@ -17,30 +51,101 @@ def register_pipeline_callback(app: typer.Typer) -> None:
     @app.callback(invoke_without_command=True)
     def pipeline_root(
         ctx: click.Context,
-        run_id: Annotated[str, typer.Option("--run_id")] = "my_run",
-        path_data: Annotated[str, typer.Option("--path_data")] = "data",
-        models: Annotated[list[str] | None, typer.Option("--models")] = None,
-        baselines: Annotated[list[str] | None, typer.Option("--baselines")] = None,
-        test_mode: Annotated[list[str] | None, typer.Option("--test_mode")] = None,
-        randomization_mode: Annotated[list[str] | None, typer.Option("--randomization_mode")] = None,
-        randomization_type: Annotated[str, typer.Option("--randomization_type")] = "permutation",
-        n_trials_robustness: Annotated[int, typer.Option("--n_trials_robustness")] = 0,
-        dataset_name: Annotated[str, typer.Option("--dataset_name")] = "GDSC1",
-        cross_study_datasets: Annotated[list[str] | None, typer.Option("--cross_study_datasets")] = None,
-        path_out: Annotated[str, typer.Option("--path_out")] = "results/",
-        no_refitting: Annotated[bool, typer.Option("--no_refitting")] = False,
-        curve_curator_cores: Annotated[int, typer.Option("--curve_curator_cores")] = 1,
-        curve_curator_normalize: Annotated[bool, typer.Option("--curve_curator_normalize")] = False,
-        measure: Annotated[str, typer.Option("--measure")] = "LN_IC50",
-        overwrite: Annotated[bool, typer.Option("--overwrite")] = False,
-        optim_metric: Annotated[str, typer.Option("--optim_metric")] = "RMSE",
-        wandb_project: Annotated[str | None, typer.Option("--wandb_project")] = None,
-        n_cv_splits: Annotated[int, typer.Option("--n_cv_splits")] = 7,
-        response_transformation: Annotated[str, typer.Option("--response_transformation")] = "None",
-        multiprocessing: Annotated[bool, typer.Option("--multiprocessing")] = False,
-        model_checkpoint_dir: Annotated[str, typer.Option("--model_checkpoint_dir")] = "TEMPORARY",
-        final_model_on_full_data: Annotated[bool, typer.Option("--final_model_on_full_data")] = False,
-        no_hyperparameter_tuning: Annotated[bool, typer.Option("--no_hyperparameter_tuning")] = False,
+        run_id: Annotated[str, typer.Option("--run_id", help="Identifier to save the results.")] = "my_run",
+        path_data: Annotated[str, typer.Option("--path_data", help="Path to the data directory.")] = "data",
+        models: Annotated[
+            list[str] | None, typer.Option("--models", help="Model to evaluate or list of models to compare.")
+        ] = None,
+        baselines: Annotated[list[str] | None, typer.Option("--baselines", help=BASELINES_HELP)] = None,
+        test_mode: Annotated[list[str] | None, typer.Option("--test_mode", help=TEST_MODE_HELP)] = None,
+        randomization_mode: Annotated[
+            list[str] | None, typer.Option("--randomization_mode", help=RANDOMIZATION_MODE_HELP)
+        ] = None,
+        randomization_type: Annotated[str, typer.Option("--randomization_type", help=RANDOMIZATION_TYPE_HELP)] = (
+            "permutation"
+        ),
+        n_trials_robustness: Annotated[int, typer.Option("--n_trials_robustness", help=ROBUSTNESS_HELP)] = 0,
+        dataset_name: Annotated[str, typer.Option("--dataset_name", help="Name of the drug response dataset.")] = (
+            "GDSC1"
+        ),
+        cross_study_datasets: Annotated[
+            list[str] | None,
+            typer.Option(
+                "--cross_study_datasets",
+                help="List of datasets to use to evaluate predictions across studies. Default is empty list.",
+            ),
+        ] = None,
+        path_out: Annotated[str, typer.Option("--path_out", help="Path to the output directory.")] = "results/",
+        no_refitting: Annotated[bool, typer.Option("--no_refitting", help=NO_REFITTING_HELP)] = False,
+        curve_curator_cores: Annotated[
+            int,
+            typer.Option(
+                "--curve_curator_cores",
+                help="Max. number of cores used to fit curves with CurveCurator following min(cores, #curves to fit).",
+            ),
+        ] = 1,
+        curve_curator_normalize: Annotated[
+            bool,
+            typer.Option(
+                "--curve_curator_normalize",
+                help="Whether to normalize the response values to [0, 1] for CurveCurator. Default is False.",
+            ),
+        ] = False,
+        measure: Annotated[
+            str,
+            typer.Option(
+                "--measure",
+                help="The drug response measure used as prediction target. Can be one of ['LN_IC50', 'response'].",
+            ),
+        ] = "LN_IC50",
+        overwrite: Annotated[
+            bool, typer.Option("--overwrite", help="Overwrite existing results with the same path out and run_id?")
+        ] = False,
+        optim_metric: Annotated[
+            str,
+            typer.Option(
+                "--optim_metric",
+                help=f"Metric for hyperparameter tuning choose from {list(AVAILABLE_METRICS.keys())}. Default is RMSE.",
+            ),
+        ] = "RMSE",
+        wandb_project: Annotated[
+            str | None,
+            typer.Option(
+                "--wandb_project",
+                help=(
+                    "Optional Weights & Biases project name. If provided, enables wandb logging for all DRPModel "
+                    "instances."
+                ),
+            ),
+        ] = None,
+        n_cv_splits: Annotated[
+            int, typer.Option("--n_cv_splits", help="Number of cross-validation splits to use for the evaluation.")
+        ] = 7,
+        response_transformation: Annotated[
+            str, typer.Option("--response_transformation", help=RESPONSE_TRANSFORMATION_HELP)
+        ] = "None",
+        multiprocessing: Annotated[
+            bool,
+            typer.Option(
+                "--multiprocessing", help="Whether to use multiprocessing for the evaluation. Default is False."
+            ),
+        ] = False,
+        model_checkpoint_dir: Annotated[
+            str, typer.Option("--model_checkpoint_dir", help="Directory to save model checkpoints.")
+        ] = "TEMPORARY",
+        final_model_on_full_data: Annotated[
+            bool,
+            typer.Option(
+                "--final_model_on_full_data",
+                help="If True, saves a final model, trained/tuned on the union of all folds after CV.",
+            ),
+        ] = False,
+        no_hyperparameter_tuning: Annotated[
+            bool,
+            typer.Option(
+                "--no_hyperparameter_tuning", help="Disable hyperparameter tuning and use first hyperparameter set."
+            ),
+        ] = False,
     ) -> None:
         """Run the drug response prediction model test suite."""
         if ctx.invoked_subcommand is not None:
