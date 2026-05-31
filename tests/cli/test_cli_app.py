@@ -16,7 +16,11 @@ _ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
 
 
 def _plain_stdout(text: str) -> str:
-    """Strip terminal escape codes (e.g. when CI sets ``FORCE_COLOR=1``)."""
+    """Strip terminal escape codes (e.g. when CI sets ``FORCE_COLOR=1``).
+
+    :param text: Captured CLI stdout.
+    :return: *text* without ANSI escape sequences.
+    """
     return _ANSI_ESCAPE.sub("", text)
 
 
