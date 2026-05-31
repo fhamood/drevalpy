@@ -17,18 +17,14 @@ def register(app: typer.Typer) -> None:
         model_name: Annotated[str, typer.Option("--model_name", help="All Model names")],
         outdir_path: Annotated[str, typer.Option("--outdir_path", help="Output directory path")],
         n_cv_splits: Annotated[int, typer.Option("--n_cv_splits", help="Number of CV splits")],
-        test_mode: Annotated[
-            str, typer.Option("--test_mode", help="Test mode (LPO, LCO, LTO, LDO)")
-        ] = "LPO",
+        test_mode: Annotated[str, typer.Option("--test_mode", help="Test mode (LPO, LCO, LTO, LDO)")] = "LPO",
         cross_study_datasets: Annotated[
             list[str] | None, typer.Option("--cross_study_datasets", help="All cross-study datasets")
         ] = None,
         randomization_modes: Annotated[
             str, typer.Option("--randomization_modes", help="All randomizations")
         ] = "[None]",
-        n_trials_robustness: Annotated[
-            int, typer.Option("--n_trials_robustness", help="Number of trials")
-        ] = 0,
+        n_trials_robustness: Annotated[int, typer.Option("--n_trials_robustness", help="Number of trials")] = 0,
     ) -> None:
         """Consolidate results for SingleDrugModels."""
         run_consolidate_results(

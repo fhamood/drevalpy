@@ -233,9 +233,7 @@ def run_final_split(
     drugs_to_keep = drug_features.identifiers if drug_features is not None else None
     response_data.reduce_to(cell_line_ids=cell_lines_to_keep, drug_ids=drugs_to_keep)
 
-    train_dataset, validation_dataset = make_train_val_split(
-        response_data, test_mode=test_mode, val_ratio=val_ratio
-    )
+    train_dataset, validation_dataset = make_train_val_split(response_data, test_mode=test_mode, val_ratio=val_ratio)
 
     if model_class.early_stopping:
         validation_dataset, early_stopping_dataset = split_early_stopping_data(validation_dataset, test_mode)

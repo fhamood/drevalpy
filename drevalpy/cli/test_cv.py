@@ -56,9 +56,7 @@ def register(app: typer.Typer) -> None:
         ] = "permutation",
         robustness_trial: Annotated[
             int | None,
-            typer.Option(
-                "--robustness_trial", help="Robustness trial index. Only relevant if mode=robustness."
-            ),
+            typer.Option("--robustness_trial", help="Robustness trial index. Only relevant if mode=robustness."),
         ] = None,
         cross_study_datasets: Annotated[
             list[str] | None,

@@ -34,7 +34,7 @@ def run_load_response(
             dataset_name=dataset_name,
         )
     else:
-        tissue_column = TISSUE_IDENTIFIER
+        tissue_column: str | None = TISSUE_IDENTIFIER
         if TISSUE_IDENTIFIER not in pd.read_csv(input_file, nrows=1).columns:
             tissue_column = None
 
@@ -84,9 +84,7 @@ def run_hpam_split(
     else:
         resolved_name = str(model_name).split(".")[0]
         if resolved_name not in SINGLE_DRUG_MODEL_FACTORY:
-            raise ValueError(
-                f"{resolved_name} neither in SINGLE_DRUG_MODEL_FACTORY nor in MULTI_DRUG_MODEL_FACTORY."
-            )
+            raise ValueError(f"{resolved_name} neither in SINGLE_DRUG_MODEL_FACTORY nor in MULTI_DRUG_MODEL_FACTORY.")
     model_class = MODEL_FACTORY[resolved_name]
     hyperparameters = model_class.get_hyperparameter_set()
     if not hyperparameter_tuning:

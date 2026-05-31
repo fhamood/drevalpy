@@ -17,6 +17,4 @@ def test_legacy_alias_emits_deprecation_warning(monkeypatch: pytest.MonkeyPatch)
         with pytest.raises(SystemExit):
             train_and_predict_cv()
 
-    assert any(
-        issubclass(w.category, DeprecationWarning) and "drevalpy train-cv" in str(w.message) for w in caught
-    )
+    assert any(issubclass(w.category, DeprecationWarning) and "drevalpy train-cv" in str(w.message) for w in caught)
