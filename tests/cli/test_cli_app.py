@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 import warnings
 
 import pytest
@@ -11,6 +12,12 @@ from drevalpy.cli.legacy import load_response
 from drevalpy.cli.main import app
 
 runner = CliRunner()
+_ANSI_ESCAPE = re.compile(r"\x1b\[[0-9;]*m")
+
+
+def _plain_stdout(text: str) -> str:
+    """Strip terminal escape codes (e.g. when CI sets ``FORCE_COLOR=1``)."""
+    return _ANSI_ESCAPE.sub("", text)
 
 
 def test_drevalpy_help_lists_subcommands() -> None:
@@ -22,11 +29,16 @@ def test_drevalpy_help_lists_subcommands() -> None:
 
 
 def test_viability_preprocess_help() -> None:
-    result = runner.invoke(app, ["viability-preprocess", "--help"])
+    result = runner.invoke(
+        app,
+        ["viability-preprocess", "--help"],
+        env={"FORCE_COLOR": "1", "CI": "true"},
+    )
     assert result.exit_code == 0
-    assert "--dataset_name" in result.stdout
-    assert "--path_data" in result.stdout
-    assert "--cores" in result.stdout
+    help_text = _plain_stdout(result.stdout)
+    assert "--dataset_name" in help_text
+    assert "--path_data" in help_text
+    assert "--cores" in help_text
 
 
 def test_load_response_requires_response_dataset() -> None:
