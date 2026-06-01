@@ -15,8 +15,7 @@ def _legacy_alias(legacy_script: str, subcommand: str) -> Callable[[], None]:
         warn_deprecated(legacy_script=legacy_script, replacement=f"drevalpy {subcommand}")
         from drevalpy.cli.main import app
 
-        exit_code = app([subcommand, *sys.argv[1:]], standalone_mode=False)
-        raise SystemExit(exit_code or 0)
+        app([subcommand, *sys.argv[1:]], prog_name=legacy_script)
 
     entrypoint.__doc__ = f"Legacy alias for ``drevalpy {subcommand}``."
     return entrypoint
