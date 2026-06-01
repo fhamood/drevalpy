@@ -17,8 +17,8 @@ def register(app: typer.Typer) -> None:
             list[str],
             typer.Option(
                 "--outfiles",
-                help="List of all output files containing results, "
-                "i.e., evaluation_results*csv + true_vs_pred.csv files.",
+                help="Output files containing results (evaluation_results*csv + true_vs_pred.csv). "
+                "Pass multiple values separated by spaces.",
             ),
         ],
         path_data: Annotated[str, typer.Option("--path_data", help="Data directory path. Default: data.")] = "data",

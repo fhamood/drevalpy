@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
+import sys
+
 import typer
 
+from drevalpy.cli._helpers import normalize_list_argv
 from drevalpy.cli import (
     collect_results,
     consolidate_single_drug,
@@ -53,7 +56,7 @@ make_pipeline_report.register(app)
 
 def cli_main() -> None:
     """Poetry console script entry point."""
-    app()
+    app(normalize_list_argv(sys.argv[1:]))
 
 
 if __name__ == "__main__":

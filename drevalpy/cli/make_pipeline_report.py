@@ -13,7 +13,13 @@ from drevalpy.visualization.create_report import run_pipeline_report
 def register(app: typer.Typer) -> None:
     @app.command("make-pipeline-report")
     def make_pipeline_report(
-        test_modes: Annotated[list[str], typer.Option("--test_modes", help="LPO, LDO, LCO, or LTO.")],
+        test_modes: Annotated[
+            list[str],
+            typer.Option(
+                "--test_modes",
+                help="LPO, LDO, LCO, or LTO. Pass multiple values separated by spaces.",
+            ),
+        ],
         eval_results: Annotated[str, typer.Option("--eval_results", help="Path to the evaluation results.")],
         eval_results_per_drug: Annotated[
             str, typer.Option("--eval_results_per_drug", help="Path to the evaluation results per drug.")

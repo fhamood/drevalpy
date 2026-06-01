@@ -8,6 +8,7 @@ import warnings
 import pytest
 from typer.testing import CliRunner
 
+from drevalpy.cli._helpers import normalize_list_argv
 from drevalpy.cli.legacy import load_response
 from drevalpy.cli.main import app
 
@@ -68,11 +69,72 @@ def test_legacy_load_response_emits_deprecation_warning(monkeypatch: pytest.Monk
 def test_pipeline_root_missing_models_fails_fast() -> None:
     result = runner.invoke(
         app,
-        [
-            "--dataset_name",
-            "GDSC1",
-        ],
+        normalize_list_argv(
+            [
+                "--dataset_name",
+                "GDSC1",
+            ]
+        ),
     )
     assert result.exit_code != 0
     assert result.exception is not None
     assert "At least one model must be specified" in str(result.exception)
+
+
+def test_pipeline_accepts_space_separated_models(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, list[str]] = {}
+
+    def fake_check(args: object) -> None:
+        captured["models"] = list(args.models)  # type: ignore[attr-defined]
+
+    def fake_main(args: object) -> None:
+        return None
+
+    monkeypatch.setattr("drevalpy.cli.pipeline.check_arguments", fake_check)
+    monkeypatch.setattr("drevalpy.cli.pipeline.main", fake_main)
+
+    result = runner.invoke(
+        app,
+        normalize_list_argv(["--models", "Simple", "ElasticNet", "--dataset_name", "GDSC1"]),
+    )
+    assert result.exit_code == 0
+    assert captured["models"] == ["Simple", "ElasticNet"]
+
+
+def test_evaluate_hpams_accepts_space_separated_lists(monkeypatch: pytest.MonkeyPatch) -> None:
+    captured: dict[str, list[str]] = {}
+
+    def fake_run(**kwargs: object) -> None:
+        captured["hpam_yamls"] = list(kwargs["hpam_yamls"])  # type: ignore[arg-type]
+        captured["pred_datas"] = list(kwargs["pred_datas"])  # type: ignore[arg-type]
+
+    monkeypatch.setattr("drevalpy.cli.evaluate_hpams.run_evaluate_and_find_max", fake_run)
+
+    result = runner.invoke(
+        app,
+        normalize_list_argv(
+            [
+                "evaluate-hpams",
+                "--model_name",
+                "m",
+                "--split_id",
+                "0",
+                "--hpam_yamls",
+                "a.yml",
+                "b.yml",
+                "--pred_datas",
+                "p1.pkl",
+                "p2.pkl",
+            ]
+        ),
+    )
+    assert result.exit_code == 0
+    assert captured["hpam_yamls"] == ["a.yml", "b.yml"]
+    assert captured["pred_datas"] == ["p1.pkl", "p2.pkl"]
+
+
+def test_pipeline_help_uses_valid_randomization_example() -> None:
+    result = runner.invoke(app, ["--help"])
+    help_text = _plain_stdout(result.stdout)
+    assert "SVCC SVCD" in help_text
+    assert "SCVC" not in help_text

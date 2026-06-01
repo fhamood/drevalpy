@@ -16,9 +16,19 @@ def register(app: typer.Typer) -> None:
         model_name: Annotated[str, typer.Option("--model_name", help="Model name, used for naming the output file.")],
         split_id: Annotated[str, typer.Option("--split_id", help="Split id, used for naming the output file.")],
         hpam_yamls: Annotated[
-            list[str], typer.Option("--hpam_yamls", help="List of paths to hyperparameter configuration yaml files.")
+            list[str],
+            typer.Option(
+                "--hpam_yamls",
+                help="Paths to hyperparameter configuration yaml files. Pass multiple values separated by spaces.",
+            ),
         ],
-        pred_datas: Annotated[list[str], typer.Option("--pred_datas", help="List of paths to pickled predictions.")],
+        pred_datas: Annotated[
+            list[str],
+            typer.Option(
+                "--pred_datas",
+                help="Paths to pickled predictions. Pass multiple values separated by spaces.",
+            ),
+        ],
         optim_metric: Annotated[
             str, typer.Option("--optim_metric", help="Optimization metric, default: RMSE.")
         ] = "RMSE",

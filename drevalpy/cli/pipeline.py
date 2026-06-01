@@ -23,7 +23,7 @@ TEST_MODE_HELP = (
 RANDOMIZATION_MODE_HELP = (
     "Which randomization tests to run, additionally to the normal run. Default is None, which means no "
     "randomization tests are run. Modes: SVCC, SVRC, SVCD, SVRD. Can be a list of randomization tests, "
-    "e.g. 'SCVC SCVD' to run two tests. SVCC/SVRC randomize or hold constant cell line views; SVCD/SVRD "
+    "e.g. 'SVCC SVCD' to run two tests. SVCC/SVRC randomize or hold constant cell line views; SVCD/SVRD "
     "randomize or hold constant drug views."
 )
 RANDOMIZATION_TYPE_HELP = (

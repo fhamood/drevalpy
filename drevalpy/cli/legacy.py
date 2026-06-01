@@ -6,6 +6,7 @@ import sys
 from collections.abc import Callable
 
 from drevalpy.cli._legacy import warn_deprecated
+from drevalpy.cli._helpers import normalize_list_argv
 
 
 def _legacy_alias(legacy_script: str, subcommand: str) -> Callable[[], None]:
@@ -15,7 +16,7 @@ def _legacy_alias(legacy_script: str, subcommand: str) -> Callable[[], None]:
         warn_deprecated(legacy_script=legacy_script, replacement=f"drevalpy {subcommand}")
         from drevalpy.cli.main import app
 
-        app([subcommand, *sys.argv[1:]], prog_name=legacy_script)
+        app(normalize_list_argv([subcommand, *sys.argv[1:]]), prog_name=legacy_script)
 
     entrypoint.__doc__ = f"Legacy alias for ``drevalpy {subcommand}``."
     return entrypoint

@@ -19,7 +19,7 @@ def register(app: typer.Typer) -> None:
         n_cv_splits: Annotated[int, typer.Option("--n_cv_splits", help="Number of CV splits")],
         test_mode: Annotated[str, typer.Option("--test_mode", help="Test mode (LPO, LCO, LTO, LDO)")] = "LPO",
         cross_study_datasets: Annotated[
-            list[str] | None, typer.Option("--cross_study_datasets", help="All cross-study datasets")
+            list[str] | None, typer.Option("--cross_study_datasets", help="Cross-study datasets (space-separated).")
         ] = None,
         randomization_modes: Annotated[
             str, typer.Option("--randomization_modes", help="All randomizations")

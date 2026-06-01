@@ -60,7 +60,7 @@ def register(app: typer.Typer) -> None:
         ] = None,
         cross_study_datasets: Annotated[
             list[str] | None,
-            typer.Option("--cross_study_datasets", help="(List of) path(s) to pickled cross study datasets."),
+            typer.Option("--cross_study_datasets", help="Paths to pickled cross study datasets (space-separated)."),
         ] = None,
         model_checkpoint_dir: Annotated[
             str,
