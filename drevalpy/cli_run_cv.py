@@ -18,8 +18,8 @@ def run_load_response(
     from drevalpy.datasets.loader import AVAILABLE_DATASETS
     from drevalpy.datasets.utils import CELL_LINE_IDENTIFIER, DRUG_IDENTIFIER, TISSUE_IDENTIFIER
 
-    dataset_name = Path(response_dataset).stem
-    input_file = Path(f"{dataset_name}.csv")
+    input_file = Path(response_dataset)
+    dataset_name = input_file.stem
     if dataset_name in AVAILABLE_DATASETS:
         response_file = pd.read_csv(input_file, dtype={"pubchem_id": str})
         if dataset_name == "BeatAML2":
