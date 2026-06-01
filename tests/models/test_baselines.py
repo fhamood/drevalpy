@@ -20,8 +20,32 @@ from drevalpy.models import (
     NaiveTissueDrugMeanPredictor,
     NaiveTissueMeanPredictor,
 )
-from drevalpy.models.baselines.sklearn_models import SklearnModel
+from drevalpy.models.baselines.sklearn_models import RandomForest, SklearnModel
 from drevalpy.models.drp_model import DRPModel
+
+
+@pytest.mark.parametrize("max_depth_input, expected", [(5, 5), (10, 10), (30, 30), ("None", None)])
+def test_random_forest_respects_max_depth(max_depth_input, expected) -> None:
+    """Ensure RandomForest forwards max_depth to the underlying RandomForestRegressor.
+
+    Regression test: max_depth was read from the hyperparameters but never passed to the
+    RandomForestRegressor constructor, so every forest was built with the default max_depth=None
+    regardless of the configured value.
+
+    :param max_depth_input: max_depth value as provided via the hyperparameters
+    :param expected: max_depth expected on the built sklearn model
+    """
+    model = RandomForest()
+    model.build_model(
+        {
+            "n_estimators": 10,
+            "criterion": "squared_error",
+            "max_samples": 0.5,
+            "n_jobs": 1,
+            "max_depth": max_depth_input,
+        }
+    )
+    assert model.model.max_depth == expected
 
 
 @pytest.mark.parametrize(
@@ -49,6 +73,7 @@ def test_baselines(
     model_name: str,
     test_mode: str,
     cross_study_dataset: DrugResponseDataset,
+    data_dir,
 ) -> None:
     """
     Test the baselines.
@@ -57,7 +82,10 @@ def test_baselines(
     :param model_name: name of the model
     :param test_mode: either LPO, LCO, LDO, or LTO
     :param cross_study_dataset: dataset
+    :param data_dir: path to the data directory
     """
+    if model_name == "MultiViewXGBoost":
+        pytest.importorskip("xgboost", reason="MultiViewXGBoost requires the optional 'xgboost' extra")
     drug_response = sample_dataset
     drug_response.split_dataset(
         n_cv_splits=2,
@@ -74,6 +102,7 @@ def test_baselines(
             train_dataset=train_dataset,
             val_dataset=val_dataset,
             test_mode=test_mode,
+            data_dir=data_dir,
         )
     elif model_name == "NaiveDrugMeanPredictor":
         model, preds_before = _call_naive_group_predictor(
@@ -81,6 +110,7 @@ def test_baselines(
             train_dataset,
             val_dataset,
             test_mode,
+            data_dir=data_dir,
         )
     elif model_name == "NaiveCellLineMeanPredictor":
         model, preds_before = _call_naive_group_predictor(
@@ -88,34 +118,43 @@ def test_baselines(
             train_dataset,
             val_dataset,
             test_mode,
+            data_dir=data_dir,
         )
     elif model_name == "NaiveMeanEffectsPredictor":
-        model, preds_before = _call_naive_mean_effects_predictor(train_dataset, val_dataset, test_mode)
+        model, preds_before = _call_naive_mean_effects_predictor(
+            train_dataset,
+            val_dataset,
+            test_mode,
+            data_dir=data_dir,
+        )
     elif model_name == "NaiveTissueMeanPredictor":
         model, preds_before = _call_naive_group_predictor(
             "tissue",
             train_dataset,
             val_dataset,
             test_mode,
+            data_dir=data_dir,
         )
     elif model_name == "NaiveTissueDrugMeanPredictor":
         model, preds_before = _call_naive_tissue_drug_predictor(
             train_dataset,
             val_dataset,
             test_mode,
+            data_dir=data_dir,
         )
     else:
         model, preds_before = _call_other_baselines(
             model_name,
             train_dataset,
             val_dataset,
+            data_dir=data_dir,
         )
     # Save and load test
     with tempfile.TemporaryDirectory() as model_dir:
         model.save(model_dir)
         loaded_model = MODEL_FACTORY[model_name].load(model_dir)
         train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-            model=loaded_model, train_dataset=train_dataset, val_dataset=val_dataset
+            model=loaded_model, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
         )
 
         preds_after = loaded_model.predict(
@@ -135,7 +174,7 @@ def test_baselines(
             model=model,
             test_mode=test_mode,
             train_dataset=train_dataset,
-            path_data="../data",
+            path_data=str(data_dir),
             early_stopping_dataset=None,
             response_transformation=None,
             path_out=temp_dir,
@@ -145,9 +184,7 @@ def test_baselines(
 
 
 def _call_naive_predictor(
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-    test_mode: str,
+    train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, test_mode: str, data_dir
 ) -> tuple[DRPModel, np.ndarray]:
     """
     Call the NaivePredictor model.
@@ -155,11 +192,12 @@ def _call_naive_predictor(
     :param train_dataset: training dataset
     :param val_dataset: validation dataset
     :param test_mode: either LPO, LCO, or LDO
+    :param data_dir: path to the data directory
     :returns: NaivePredictor model
     """
     naive = NaivePredictor()
     train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-        model=naive, train_dataset=train_dataset, val_dataset=val_dataset
+        model=naive, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
     )
     naive.train(output=train_dataset, cell_line_input=cell_line_input, drug_input=None)
     val_dataset._predictions = naive.predict(
@@ -203,10 +241,7 @@ def _assert_group_mean(
 
 
 def _call_naive_group_predictor(
-    group: str,
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-    test_mode: str,
+    group: str, train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, test_mode: str, data_dir
 ) -> tuple[DRPModel, np.ndarray]:
     naive: NaiveDrugMeanPredictor | NaiveCellLineMeanPredictor | NaiveTissueMeanPredictor
     if group == "drug":
@@ -218,7 +253,7 @@ def _call_naive_group_predictor(
     else:
         raise ValueError(f"Unknown group: {group}")
     train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-        model=naive, train_dataset=train_dataset, val_dataset=val_dataset
+        model=naive, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
     )
     naive.train(
         output=train_dataset,
@@ -281,17 +316,14 @@ def _call_naive_group_predictor(
     return naive, val_dataset._predictions
 
 
-def _call_other_baselines(
-    model: str,
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-):
+def _call_other_baselines(model: str, train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, data_dir):
     """
     Call the other baselines.
 
     :param model: model name
     :param train_dataset: training
     :param val_dataset: validation
+    :param data_dir: path to the data directory
     :returns: model instance
     """
     model_class = cast(type[DRPModel], MODEL_FACTORY[model])
@@ -346,7 +378,7 @@ def _call_other_baselines(
         model_instance.build_model(hpam_combi)
 
         train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-            model=model_instance, train_dataset=train_dataset, val_dataset=val_dataset
+            model=model_instance, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
         )
 
         if model == "ElasticNet":
@@ -375,9 +407,7 @@ def _call_other_baselines(
 
 
 def _call_naive_mean_effects_predictor(
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-    test_mode: str,
+    train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, test_mode: str, data_dir
 ) -> tuple[DRPModel, np.ndarray]:
     """
     Test the NaiveMeanEffectsPredictor model.
@@ -385,11 +415,12 @@ def _call_naive_mean_effects_predictor(
     :param train_dataset: training dataset
     :param val_dataset: validation dataset
     :param test_mode: either LPO, LCO, or LDO
+    :param data_dir: path to the data directory
     :returns: NaiveMeanEffectsPredictor model
     """
     naive = NaiveMeanEffectsPredictor()
     train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-        model=naive, train_dataset=train_dataset, val_dataset=val_dataset
+        model=naive, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
     )
 
     naive.train(output=train_dataset, cell_line_input=cell_line_input, drug_input=drug_input)
@@ -424,9 +455,7 @@ def _call_naive_mean_effects_predictor(
 
 
 def _call_naive_tissue_drug_predictor(
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-    test_mode: str,
+    train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, test_mode: str, data_dir
 ) -> tuple[DRPModel, np.ndarray]:
     """
     Test the NaiveTissueDrugMeanPredictor model.
@@ -434,11 +463,12 @@ def _call_naive_tissue_drug_predictor(
     :param train_dataset: training dataset
     :param val_dataset: validation dataset
     :param test_mode: either LPO, LCO, LDO, or LTO
+    :param data_dir: path to the data directory
     :returns: NaiveTissueDrugMeanPredictor model
     """
     naive = NaiveTissueDrugMeanPredictor()
     train_dataset, val_dataset, cell_line_input, drug_input = _subset_dataset(
-        model=naive, train_dataset=train_dataset, val_dataset=val_dataset
+        model=naive, train_dataset=train_dataset, val_dataset=val_dataset, data_dir=data_dir
     )
 
     naive.train(output=train_dataset, cell_line_input=cell_line_input, drug_input=drug_input)
@@ -487,13 +517,9 @@ def _call_naive_tissue_drug_predictor(
     return naive, val_dataset._predictions
 
 
-def _subset_dataset(
-    model: DRPModel,
-    train_dataset: DrugResponseDataset,
-    val_dataset: DrugResponseDataset,
-):
-    cell_line_input = model.load_cell_line_features(data_path="../data", dataset_name="TOYv1")
-    drug_input = model.load_drug_features(data_path="../data", dataset_name="TOYv1")
+def _subset_dataset(model: DRPModel, train_dataset: DrugResponseDataset, val_dataset: DrugResponseDataset, data_dir):
+    cell_line_input = model.load_cell_line_features(data_path=str(data_dir), dataset_name="TOYv1")
+    drug_input = model.load_drug_features(data_path=str(data_dir), dataset_name="TOYv1")
 
     if drug_input is None:
         raise ValueError("Drug input is None")
