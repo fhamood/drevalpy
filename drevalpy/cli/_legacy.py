@@ -13,6 +13,6 @@ def warn_deprecated(*, legacy_script: str, replacement: str) -> None:
     """
     warnings.warn(
         f"{legacy_script} is deprecated; use `{replacement}` instead.",
-        DeprecationWarning,
+        FutureWarning,
         stacklevel=3,
     )
