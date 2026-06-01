@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import re
 import warnings
+from typing import cast
 
 import pytest
 from typer.testing import CliRunner
@@ -103,8 +104,8 @@ def test_evaluate_hpams_accepts_space_separated_lists(monkeypatch: pytest.Monkey
     captured: dict[str, list[str]] = {}
 
     def fake_run(**kwargs: object) -> None:
-        captured["hpam_yamls"] = list(kwargs["hpam_yamls"])  # type: ignore[arg-type]
-        captured["pred_datas"] = list(kwargs["pred_datas"])  # type: ignore[arg-type]
+        captured["hpam_yamls"] = list(cast("list[str]", kwargs["hpam_yamls"]))
+        captured["pred_datas"] = list(cast("list[str]", kwargs["pred_datas"]))
 
     monkeypatch.setattr("drevalpy.cli.evaluate_hpams.run_evaluate_and_find_max", fake_run)
 

@@ -1,4 +1,4 @@
-"""Tests for :mod:`drevalpy.cli_run_cv`."""
+"""Tests for drevalpy.cli_run_cv."""
 
 from __future__ import annotations
 
