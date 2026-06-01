@@ -133,7 +133,13 @@ def test_evaluate_hpams_accepts_space_separated_lists(monkeypatch: pytest.Monkey
 
 
 def test_pipeline_help_uses_valid_randomization_example() -> None:
-    result = runner.invoke(app, ["--help"])
+    result = runner.invoke(
+        app,
+        ["--help"],
+        env={"FORCE_COLOR": "1", "CI": "true"},
+    )
     help_text = _plain_stdout(result.stdout)
-    assert "SVCC SVCD" in help_text
+    assert "SVCC" in help_text
+    assert "SVCD" in help_text
     assert "SCVC" not in help_text
+    assert "SCVD" not in help_text
