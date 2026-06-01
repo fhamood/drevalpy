@@ -5,8 +5,8 @@ from __future__ import annotations
 import sys
 from collections.abc import Callable
 
-from drevalpy.cli._legacy import warn_deprecated
 from drevalpy.cli._helpers import normalize_list_argv
+from drevalpy.cli._legacy import warn_deprecated
 
 
 def _legacy_alias(legacy_script: str, subcommand: str) -> Callable[[], None]:

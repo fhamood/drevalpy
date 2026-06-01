@@ -61,9 +61,7 @@ def test_legacy_load_response_emits_deprecation_warning(monkeypatch: pytest.Monk
             load_response()
 
     assert exc_info.value.code == 0
-    assert any(
-        issubclass(w.category, FutureWarning) and "drevalpy load-response" in str(w.message) for w in caught
-    )
+    assert any(issubclass(w.category, FutureWarning) and "drevalpy load-response" in str(w.message) for w in caught)
 
 
 def test_pipeline_root_missing_models_fails_fast() -> None:

@@ -6,7 +6,6 @@ import sys
 
 import typer
 
-from drevalpy.cli._helpers import normalize_list_argv
 from drevalpy.cli import (
     collect_results,
     consolidate_single_drug,
@@ -27,6 +26,7 @@ from drevalpy.cli import (
     viability_postprocess,
     viability_preprocess,
 )
+from drevalpy.cli._helpers import normalize_list_argv
 
 app = typer.Typer(
     name="drevalpy",
