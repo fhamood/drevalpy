@@ -59,8 +59,10 @@ Example:
    Which randomization tests to run in addition to the normal run.
    ``None`` disables randomization tests. For more information, see the :ref:`usage:Available Randomization Tests` section. Available modes:
 
-   - ``SVCC`` / ``SVRC`` — randomize or hold constant cell line views
-   - ``SVCD`` / ``SVRD`` — randomize or hold constant drug views
+   - ``SVCC`` — Single View Constant (while others are perturbed) for Cell Lines
+   - ``SVRC`` — Single View Random (while others are held constant) for Cell Lines
+   - ``SVCD`` — Single View Constant (while others are perturbed) for Drugs
+   - ``SVRD`` — Single View Random (while others are held constant) for Drugs
 
    Can be a list, e.g. ``'SVCC SVCD'``.
 
@@ -92,7 +94,7 @@ Example:
 
 .. option:: --no_refitting
 
-   If not set, the measure is appended with '_curvecurator'. If a custom dataset_name was provided, this will invoke the fitting procedure of raw viability data, which is expected to exist at ``<path_data>/<dataset_name>/<dataset_name>_raw.csv``. The fitted dataset will be stored in the same folder, in a file called ``<dataset_name>.csv``. Also check the :ref:`usage:Custom Datasets` section. Default is False i.e. curvecurated drug response measures are utilzed.
+   If not set, the measure is appended with '_curvecurator'. If a custom dataset_name was provided, this will invoke the fitting procedure of raw viability data, which is expected to exist at ``<path_data>/<dataset_name>/<dataset_name>_raw.csv``. The fitted dataset will be stored in the same folder, in a file called ``<dataset_name>.csv``. Also check the :ref:`usage:Custom Datasets` section. Default is False, i.e., curvecurated drug response measures are utilized.
 
 .. option:: --curve_curator_cores INTEGER
 
