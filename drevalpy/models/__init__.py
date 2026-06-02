@@ -27,7 +27,7 @@ __all__ = [
     "PharmaFormerModel",
     "KNNRegressor",
     "AdaBoostDecisionTree",
-    "Lasso",
+    "LassoModel",
     "MultiViewXGBoost",
 ]
 

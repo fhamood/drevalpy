@@ -6,7 +6,7 @@ by just supplying an extra parameter ``--wandb_project``:
 
 .. code-block:: bash
 
-    drevalpy -- run_id my_wandb_run --models model1 model2 --baselines baseline1 baseline2 --dataset CTRPv2 --wandb_project my_new_project_name
+    drevalpy --run_id my_wandb_run --models model1 model2 --baselines baseline1 baseline2 --dataset CTRPv2 --wandb_project my_new_project_name
 
 You will be asked to generate an API key in the console. After inputting it, your project is connected to your
 wandb account and you can look at your models online.
