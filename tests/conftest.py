@@ -134,9 +134,8 @@ def ensure_precily_pathway_features(data_dir) -> None:
         from drevalpy.datasets.featurizer.create_precily_pathway_features import (
             create_precily_pathway_features,
         )
-    except ImportError:
-        # If gseapy is not installed, skip Precily feature creation
-        # Tests that require Precily features will fail with a clear error message
+    except ImportError as e:
+        print(f"[precily-pathway] gseapy import failed: {e}", flush=True)
         return
 
     # Ensure datasets are loaded first (this will download them if needed)
@@ -193,7 +192,10 @@ def ensure_precily_pathway_features(data_dir) -> None:
                 min_size=min_size,
             )
         except Exception as e:
-            print(f"Warning: could not create pathway features for {dataset_name}: {e}")
+            import traceback
+
+            print(f"[precily-pathway] GSVA failed for {dataset_name}: {e}", flush=True)
+            traceback.print_exc()
 
 
 @pytest.fixture(scope="session", autouse=True)
