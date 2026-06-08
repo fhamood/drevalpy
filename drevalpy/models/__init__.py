@@ -28,7 +28,7 @@ __all__ = [
     "PrecilyModel",
     "KNNRegressor",
     "AdaBoostDecisionTree",
-    "Lasso",
+    "LassoModel",
     "MultiViewXGBoost",
 ]
 
@@ -73,27 +73,31 @@ SINGLE_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
 
 # MULTI_DRUG_MODEL_FACTORY is used in the pipeline!
 MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
+    # Naive predictors
     "NaivePredictor": NaivePredictor,
-    "NaiveDrugMeanPredictor": NaiveDrugMeanPredictor,
     "NaiveCellLineMeanPredictor": NaiveCellLineMeanPredictor,
+    "NaiveDrugMeanPredictor": NaiveDrugMeanPredictor,
     "NaiveMeanEffectsPredictor": NaiveMeanEffectsPredictor,
     "NaiveTissueMeanPredictor": NaiveTissueMeanPredictor,
     "NaiveTissueDrugMeanPredictor": NaiveTissueDrugMeanPredictor,
+    # Sklearn Baselines
+    "AdaBoostDecisionTree": AdaBoostDecisionTree,
     "ElasticNet": ElasticNetModel,
+    "Lasso": LassoModel,
+    "GradientBoosting": GradientBoosting,
+    "KNNRegressor": KNNRegressor,
     "RandomForest": RandomForest,
+    "MultiViewRandomForest": MultiViewRandomForest,
     "SVR": SVMRegressor,
+    # Other Baselines
+    "DrugGNN": DrugGNN,
     "SimpleNeuralNetwork": SimpleNeuralNetwork,
     "MultiViewNeuralNetwork": MultiViewNeuralNetwork,
-    "MultiViewRandomForest": MultiViewRandomForest,
-    "GradientBoosting": GradientBoosting,
-    "SRMF": SRMF,
-    "DIPK": DIPKModel,
-    "DrugGNN": DrugGNN,
-    "PharmaFormer": PharmaFormerModel,
-    "KNNRegressor": KNNRegressor,
-    "AdaBoostDecisionTree": AdaBoostDecisionTree,
-    "Lasso": LassoModel,
     "MultiViewXGBoost": MultiViewXGBoost,
+    # Published models
+    "DIPK": DIPKModel,
+    "PharmaFormer": PharmaFormerModel,
+    "SRMF": SRMF,
     "Precily": PrecilyModel,
 }
 
