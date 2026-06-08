@@ -25,6 +25,7 @@ __all__ = [
     "DIPKModel",
     "DrugGNN",
     "PharmaFormerModel",
+    "PrecilyModel",
     "KNNRegressor",
     "AdaBoostDecisionTree",
     "LassoModel",
@@ -56,6 +57,7 @@ from .drp_model import DRPModel
 from .DrugGNN import DrugGNN
 from .MOLIR.molir import MOLIR
 from .PharmaFormer.pharmaformer import PharmaFormerModel
+from .Precily import PrecilyModel
 from .SimpleNeuralNetwork.multi_view_neural_network import MultiViewNeuralNetwork
 from .SimpleNeuralNetwork.simple_neural_network import SimpleNeuralNetwork
 from .SRMF.srmf import SRMF
@@ -96,6 +98,7 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DIPK": DIPKModel,
     "PharmaFormer": PharmaFormerModel,
     "SRMF": SRMF,
+    "Precily": PrecilyModel,
 }
 
 # MODEL_FACTORY is used in the pipeline!
