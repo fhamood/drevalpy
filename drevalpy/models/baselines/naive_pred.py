@@ -75,6 +75,7 @@ class NaiveModel(DRPModel):
         Loads the model parameters from the given directory.
 
         Reads the 'naive_model.json' file and initializes a NaiveModel instance with the loaded parameters.
+
         :param directory: Path to the directory where the model is saved.
         :return: An instance of NaiveModel with the loaded parameters.
         """
@@ -320,6 +321,7 @@ class NaiveCellLineMeanPredictor(NaiveModel):
         Computes the mean per cell line.
 
         If - later on - the cell line is not in the training set, the overall mean is used.
+
         :param output: training dataset containing the response output
         :param cell_line_input: cell line inputs
         :param drug_input: not needed
@@ -363,6 +365,7 @@ class NaiveCellLineMeanPredictor(NaiveModel):
         Predicts the mean of the response for a given cell line.
 
         If the cell line is not in the training set, the dataset mean is used.
+
         :param cl_id: Cell line ID
         :return: predicted response
         """
@@ -546,7 +549,7 @@ class NaiveMeanEffectsPredictor(NaiveModel):
         :raises ValueError: If drug_input is None.
         """
         if drug_input is None:
-            raise ValueError("drug_input (drug_id) is required for ANOVAPredictor.")
+            raise ValueError("drug_input (drug_id) is required for NaiveMeanEffectsPredictor.")
 
         # Compute the overall mean response.
         self.dataset_mean = np.mean(output.response)

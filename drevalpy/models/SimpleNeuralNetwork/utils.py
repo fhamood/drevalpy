@@ -7,10 +7,13 @@ import numpy as np
 import pytorch_lightning as pl
 import torch
 from pytorch_lightning.callbacks import EarlyStopping, TQDMProgressBar
+from pytorch_lightning.loggers import WandbLogger
 from torch import nn
 from torch.utils.data import DataLoader, Dataset
 
 from drevalpy.datasets.dataset import DrugResponseDataset, FeatureDataset
+
+from ..lightning_metrics_mixin import RegressionMetricsMixin
 
 
 class RegressionDataset(Dataset):
@@ -31,7 +34,7 @@ class RegressionDataset(Dataset):
         :param cell_line_input: input omics data
         :param drug_input: input fingerprint data
         :param cell_line_views: either gene expression for the SimpleNeuralNetwork or all omics data for the
-            MultiOMICSNeuralNetwork
+            MultiViewNeuralNetwork
         :param drug_views: fingerprints
         :raises AssertionError: if the views are not found in the input data
         """
@@ -92,10 +95,10 @@ class RegressionDataset(Dataset):
         return len(self.output.response)
 
 
-class FeedForwardNetwork(pl.LightningModule):
+class FeedForwardNetwork(RegressionMetricsMixin, pl.LightningModule):
     """Feed forward neural network for regression tasks with basic architecture."""
 
-    def __init__(self, hyperparameters: dict[str, int | float | list[int]], input_dim: int) -> None:
+    def __init__(self, hyperparameters: dict[str, int | float | list[int] | str | list[str]], input_dim: int) -> None:
         """
         Initializes the feed forward network.
 
@@ -104,7 +107,7 @@ class FeedForwardNetwork(pl.LightningModule):
 
         :param hyperparameters: hyperparameters
         :param input_dim: input dimension, for SimpleNeuralNetwork it is the sum of the gene expression and
-            fingerprint, for MultiOMICSNeuralNetwork it is the sum of all omics data and fingerprints
+            fingerprint, for MultiViewNeuralNetwork it is the sum of all omics data and fingerprints
         :raises TypeError: if the hyperparameters are not of the correct type
         """
         super().__init__()
@@ -112,10 +115,12 @@ class FeedForwardNetwork(pl.LightningModule):
 
         if not isinstance(hyperparameters["units_per_layer"], list):
             raise TypeError("units_per_layer must be a list of integers")
+        if not all(isinstance(x, int) for x in hyperparameters["units_per_layer"]):
+            raise TypeError("units_per_layer must be a list of integers")
         if not isinstance(hyperparameters["dropout_prob"], float):
             raise TypeError("dropout_prob must be a float")
 
-        n_units_per_layer: list[int] = hyperparameters["units_per_layer"]
+        n_units_per_layer: list[int] = hyperparameters["units_per_layer"]  # type: ignore[assignment]
         dropout_prob: float = hyperparameters["dropout_prob"]
         self.n_units_per_layer = n_units_per_layer
         self.dropout_prob = dropout_prob
@@ -137,6 +142,9 @@ class FeedForwardNetwork(pl.LightningModule):
         if self.dropout_prob is not None:
             self.dropout_layer = nn.Dropout(p=self.dropout_prob)
 
+        # Initialize metrics storage for epoch-end R^2 and PCC computation
+        self._init_metrics_storage()
+
     def fit(
         self,
         output_train: DrugResponseDataset,
@@ -150,11 +158,13 @@ class FeedForwardNetwork(pl.LightningModule):
         patience=5,
         num_workers: int = 2,
         model_checkpoint_dir: str = "checkpoints",
+        wandb_project: str | None = None,
     ) -> None:
         """
         Fits the model.
 
         First, the data is loaded using a DataLoader. Then, the model is trained using the Lightning Trainer.
+
         :param output_train: Response values for training
         :param cell_line_input: Cell line features
         :param drug_input: Drug features
@@ -166,6 +176,8 @@ class FeedForwardNetwork(pl.LightningModule):
         :param patience: patience for early stopping, default is 5
         :param num_workers: number of workers for the DataLoader, default is 2
         :param model_checkpoint_dir: directory to save the model checkpoints
+        :param wandb_project: optional wandb project name for logging. If provided, uses WandbLogger
+            for PyTorch Lightning training.
         :raises ValueError: if drug_input is missing
         """
         if trainer_params is None:
@@ -175,7 +187,7 @@ class FeedForwardNetwork(pl.LightningModule):
             }
         if drug_input is None:
             raise ValueError(
-                "Drug input (fingerprints) are required for SimpleNeuralNetwork and " "MultiOMICsNeuralNetwork."
+                "Drug input (fingerprints) are required for SimpleNeuralNetwork and " "MultiViewNeuralNetwork."
             )
 
         train_dataset = RegressionDataset(
@@ -233,6 +245,14 @@ class FeedForwardNetwork(pl.LightningModule):
         trainer_params_copy = trainer_params.copy()
         del trainer_params_copy["progress_bar_refresh_rate"]
 
+        # Set up wandb logger if project is provided
+        # Note: This method receives wandb_project as parameter, but the model instance
+        # should have wandb already initialized via DRPModel.init_wandb()
+        loggers = []
+        if wandb_project is not None:
+            logger = WandbLogger(project=wandb_project, log_model=False)
+            loggers.append(logger)
+
         # Initialize the Lightning trainer
         trainer = pl.Trainer(
             callbacks=[
@@ -240,6 +260,7 @@ class FeedForwardNetwork(pl.LightningModule):
                 self.checkpoint_callback,
                 progress_bar,
             ],
+            logger=loggers if loggers else True,  # Use default logger if no wandb
             default_root_dir=model_checkpoint_dir,
             devices=1,
             **trainer_params_copy,
@@ -287,6 +308,10 @@ class FeedForwardNetwork(pl.LightningModule):
         y_pred = self.forward(x)
         result = self.loss(y_pred, y)
         self.log(log_as, result, on_step=True, on_epoch=True, prog_bar=True)
+
+        # Store predictions and targets for epoch-end metrics via mixin
+        self._store_predictions(y_pred, y, is_training=(log_as == "train_loss"))
+
         return result
 
     def training_step(self, batch):
@@ -294,6 +319,7 @@ class FeedForwardNetwork(pl.LightningModule):
         Overwrites the training step from the LightningModule.
 
         Does a forward pass, calculates the loss and logs the loss.
+
         :param batch: batch of data
         :returns: loss
         """
@@ -305,6 +331,7 @@ class FeedForwardNetwork(pl.LightningModule):
         Overwrites the validation step from the LightningModule.
 
         Does a forward pass, calculates the loss and logs the loss.
+
         :param batch: batch of data
         :returns: loss
         """
