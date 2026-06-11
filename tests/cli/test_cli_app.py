@@ -160,6 +160,21 @@ def test_report_uses_dataset_name_option() -> None:
     assert "No such option" in _plain_stdout(rejected.output)
 
 
+def test_report_forwards_dataset_name(monkeypatch: pytest.MonkeyPatch) -> None:
+    """``report --dataset_name`` is forwarded to ``run_report`` as ``dataset``."""
+    captured: dict[str, object] = {}
+
+    def fake_run_report(**kwargs: object) -> None:
+        captured.update(kwargs)
+
+    monkeypatch.setattr("drevalpy.cli.report.run_report", fake_run_report)
+
+    result = runner.invoke(app, ["report", "--run_id", "my_run", "--dataset_name", "TOYv1"])
+    assert result.exit_code == 0
+    assert captured["run_id"] == "my_run"
+    assert captured["dataset"] == "TOYv1"
+
+
 def test_pipeline_help_uses_valid_randomization_example() -> None:
     result = runner.invoke(
         app,
