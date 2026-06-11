@@ -154,7 +154,10 @@ def test_report_uses_dataset_name_option() -> None:
     assert "--dataset_name" in _plain_stdout(help_result.stdout)
 
     rejected = runner.invoke(app, ["report", "--run_id", "x", "--dataset", "TOYv1"])
-    assert rejected.exit_code != 0
+    # Click reports unknown options with a usage error (exit code 2); assert on that
+    # specifically so the test cannot pass via an unrelated downstream failure.
+    assert rejected.exit_code == 2
+    assert "No such option" in _plain_stdout(rejected.output)
 
 
 def test_pipeline_help_uses_valid_randomization_example() -> None:
