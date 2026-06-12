@@ -96,15 +96,11 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "SimpleNeuralNetwork": SimpleNeuralNetwork,
     "MultiViewNeuralNetwork": MultiViewNeuralNetwork,
     "MultiViewXGBoost": MultiViewXGBoost,
+    "MultiViewLightGBM": MultiViewLightGBM,
     # Published models
     "DIPK": DIPKModel,
     "PharmaFormer": PharmaFormerModel,
     "SRMF": SRMF,
-    "KNNRegressor": KNNRegressor,
-    "AdaBoostDecisionTree": AdaBoostDecisionTree,
-    "Lasso": LassoModel,
-    "MultiViewXGBoost": MultiViewXGBoost,
-    "MultiViewLightGBM": MultiViewLightGBM,
     "Precily": PrecilyModel,
 }
 

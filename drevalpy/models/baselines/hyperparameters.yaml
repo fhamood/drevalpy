@@ -278,9 +278,8 @@ MultiViewLightGBM:
     - fingerprints
   learning_rate:
     - 0.1
-  max_depth:
-    - 10
   num_leaves:
+    - 31
     - 63
     - 127
   subsample:
@@ -292,4 +291,6 @@ MultiViewLightGBM:
     - 0
     - 1
   reg_lambda:
+    - 0
     - 0.1
+    - 1
