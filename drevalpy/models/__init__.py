@@ -30,8 +30,10 @@ __all__ = [
     "AdaBoostDecisionTree",
     "LassoModel",
     "MultiViewXGBoost",
+    "MultiViewLightGBM",
 ]
 
+from .baselines.multi_view_lightgbm import MultiViewLightGBM
 from .baselines.multi_view_random_forest import MultiViewRandomForest
 from .baselines.multi_view_xgboost import MultiViewXGBoost
 from .baselines.naive_pred import (
@@ -98,6 +100,11 @@ MULTI_DRUG_MODEL_FACTORY: dict[str, type[DRPModel]] = {
     "DIPK": DIPKModel,
     "PharmaFormer": PharmaFormerModel,
     "SRMF": SRMF,
+    "KNNRegressor": KNNRegressor,
+    "AdaBoostDecisionTree": AdaBoostDecisionTree,
+    "Lasso": LassoModel,
+    "MultiViewXGBoost": MultiViewXGBoost,
+    "MultiViewLightGBM": MultiViewLightGBM,
     "Precily": PrecilyModel,
 }
 
