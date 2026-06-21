@@ -91,7 +91,7 @@ def test_naive_mean_effects_predictor_tissue_decomposition() -> None:
 
     with tempfile.TemporaryDirectory() as model_dir:
         model.save(model_dir)
-        loaded = NaiveMeanEffectsPredictor.load(model_dir)
+        loaded = cast(NaiveMeanEffectsPredictor, NaiveMeanEffectsPredictor.load(model_dir))
         assert loaded.tissue_effects == model.tissue_effects
         loaded_preds = loaded.predict(
             cell_line_ids=np.array(["CL1"]),
