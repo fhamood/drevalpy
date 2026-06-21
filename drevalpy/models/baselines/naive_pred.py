@@ -575,9 +575,7 @@ class NaiveMeanEffectsPredictor(NaiveModel):
             if len(responses_tissue) > 0:
                 tissue_means[tissue_key] = np.mean(responses_tissue)
 
-        self.tissue_effects = {
-            tissue: (mean - self.dataset_mean) for tissue, mean in tissue_means.items()
-        }
+        self.tissue_effects = {tissue: (mean - self.dataset_mean) for tissue, mean in tissue_means.items()}
 
         cell_line_ids = cell_line_input.get_feature_matrix(view=CELL_LINE_IDENTIFIER, identifiers=output.cell_line_ids)
         cell_line_means = {}

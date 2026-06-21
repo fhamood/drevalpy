@@ -85,10 +85,7 @@ def test_naive_mean_effects_predictor_tissue_decomposition() -> None:
         tissue_arr = cell_line_input.get_feature_matrix(view=TISSUE_IDENTIFIER, identifiers=np.array([cl]))
         tissue_key = str(tissue_arr[0].item() if isinstance(tissue_arr[0], np.ndarray) else tissue_arr[0])
         expected = (
-            dataset_mean
-            + model.tissue_effects[tissue_key]
-            + model.cell_line_effects[cl]
-            + model.drug_effects[drug]
+            dataset_mean + model.tissue_effects[tissue_key] + model.cell_line_effects[cl] + model.drug_effects[drug]
         )
         assert preds[i] == pytest.approx(expected)
 

@@ -98,11 +98,7 @@ def test_load_cl_ids_and_tissues_from_csv() -> None:
         os.mkdir(os.path.join(temp_dir, "GDSC1_small"))
         temp_file = os.path.join(temp_dir, "GDSC1_small", "cell_line_names.csv")
         with open(temp_file, "w") as f:
-            f.write(
-                "cellosaurus_id,cell_line_name,tissue\n"
-                "CVCL_X481,201T,lung\n"
-                "CVCL_1045,22Rv1,breast\n"
-            )
+            f.write("cellosaurus_id,cell_line_name,tissue\n" "CVCL_X481,201T,lung\n" "CVCL_1045,22Rv1,breast\n")
 
         features = load_cl_ids_and_tissues_from_csv(temp_dir, "GDSC1_small")
         assert len(features.features) == 2
