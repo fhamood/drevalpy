@@ -107,15 +107,17 @@ def test_load_cl_ids_and_tissues_from_csv() -> None:
 
 
 def test_load_cl_ids_and_tissues_from_csv_missing_tissue_column() -> None:
-    """Test that missing tissue column raises KeyError."""
+    """Test that missing tissue column falls back to cell line ids."""
     with tempfile.TemporaryDirectory() as temp_dir:
         os.mkdir(os.path.join(temp_dir, "GDSC1_small"))
         temp_file = os.path.join(temp_dir, "GDSC1_small", "cell_line_names.csv")
         with open(temp_file, "w") as f:
             f.write("cellosaurus_id,cell_line_name\nCVCL_X481,201T\n")
 
-        with pytest.raises(KeyError, match="tissue"):
-            load_cl_ids_and_tissues_from_csv(temp_dir, "GDSC1_small")
+        features = load_cl_ids_and_tissues_from_csv(temp_dir, "GDSC1_small")
+        assert len(features.features) == 1
+        assert features.features["201T"][CELL_LINE_IDENTIFIER][0] == "201T"
+        assert TISSUE_IDENTIFIER not in features.features["201T"]
 
 
 def _write_gene_list(temp_dir: tempfile.TemporaryDirectory, gene_list: Optional[str] = None) -> None:

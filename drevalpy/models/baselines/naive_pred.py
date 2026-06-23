@@ -515,9 +515,11 @@ class NaiveMeanEffectsPredictor(NaiveModel):
 
     This formulation avoids double-counting tissue signal already captured by cell line means.
     For unseen cell lines with a known tissue, the tissue effect provides a fallback.
+    If tissue information is not available, this model falls back to the previous formulation:
+    response = overall_mean + cell_line_effect + drug_effect.
     """
 
-    cell_line_views = [CELL_LINE_IDENTIFIER, TISSUE_IDENTIFIER]
+    cell_line_views = [CELL_LINE_IDENTIFIER]
     drug_views = [DRUG_IDENTIFIER]
 
     def __init__(self):
@@ -564,35 +566,41 @@ class NaiveMeanEffectsPredictor(NaiveModel):
 
         self.dataset_mean = np.mean(output.response)
 
-        tissues = cell_line_input.get_feature_matrix(view=TISSUE_IDENTIFIER, identifiers=output.cell_line_ids)
-        tissues = np.asarray(tissues).flatten()
-
-        tissue_means = {}
-        for tissue in np.unique(tissues):
-            tissue_key = str(tissue.item() if isinstance(tissue, np.ndarray) else tissue)
-            mask = tissues == tissue
-            responses_tissue = output.response[mask]
-            if len(responses_tissue) > 0:
-                tissue_means[tissue_key] = np.mean(responses_tissue)
-
-        self.tissue_effects = {tissue: (mean - self.dataset_mean) for tissue, mean in tissue_means.items()}
-
         cell_line_ids = cell_line_input.get_feature_matrix(view=CELL_LINE_IDENTIFIER, identifiers=output.cell_line_ids)
         cell_line_means = {}
-        cell_line_to_tissue = {}
         for cl_output, cl_feature in zip(unique(output.cell_line_ids), unique(cell_line_ids), strict=True):
-            mask = cl_feature == output.cell_line_ids
-            responses_cl = output.response[mask]
+            responses_cl = output.response[cl_feature == output.cell_line_ids]
             if len(responses_cl) > 0:
                 cell_line_means[cl_output] = np.mean(responses_cl)
+
+        if TISSUE_IDENTIFIER in cell_line_input.view_names:
+            tissues = cell_line_input.get_feature_matrix(view=TISSUE_IDENTIFIER, identifiers=output.cell_line_ids)
+            tissues = np.asarray(tissues).flatten()
+
+            tissue_means = {}
+            for tissue in np.unique(tissues):
+                tissue_key = str(tissue.item() if isinstance(tissue, np.ndarray) else tissue)
+                mask = tissues == tissue
+                responses_tissue = output.response[mask]
+                if len(responses_tissue) > 0:
+                    tissue_means[tissue_key] = np.mean(responses_tissue)
+
+            self.tissue_effects = {tissue: (mean - self.dataset_mean) for tissue, mean in tissue_means.items()}
+
+            cell_line_to_tissue = {}
+            for cl_output, cl_feature in zip(unique(output.cell_line_ids), unique(cell_line_ids), strict=True):
+                mask = cl_feature == output.cell_line_ids
                 tissue = tissues[mask][0]
                 tissue_key = tissue.item() if isinstance(tissue, np.ndarray) else tissue
                 cell_line_to_tissue[cl_output] = str(tissue_key)
 
-        self.cell_line_effects = {}
-        for cl, mean in cell_line_means.items():
-            tissue_mean = tissue_means[cell_line_to_tissue[cl]]
-            self.cell_line_effects[cl] = mean - tissue_mean
+            self.cell_line_effects = {}
+            for cl, mean in cell_line_means.items():
+                tissue_mean = tissue_means[cell_line_to_tissue[cl]]
+                self.cell_line_effects[cl] = mean - tissue_mean
+        else:
+            self.tissue_effects = {}
+            self.cell_line_effects = {cl: (mean - self.dataset_mean) for cl, mean in cell_line_means.items()}
 
         drug_ids = drug_input.get_feature_matrix(view=DRUG_IDENTIFIER, identifiers=output.drug_ids)
         drug_means = {}
@@ -624,14 +632,20 @@ class NaiveMeanEffectsPredictor(NaiveModel):
         :param drug_input: Not used.
         :return: NumPy array of predicted responses.
         """
-        tissues = cell_line_input.get_feature_matrix(view=TISSUE_IDENTIFIER, identifiers=cell_line_ids)
         predictions = []
-        for cl, drug, tissue in zip(cell_line_ids, drug_ids, tissues, strict=True):
-            tissue_key = tissue.item() if isinstance(tissue, np.ndarray) else tissue
-            effect_tissue = self.tissue_effects.get(str(tissue_key), 0)
-            effect_cl = self.cell_line_effects.get(cl, 0)
-            effect_drug = self.drug_effects.get(drug, 0)
-            predictions.append(self.dataset_mean + effect_tissue + effect_cl + effect_drug)
+        if self.tissue_effects and TISSUE_IDENTIFIER in cell_line_input.view_names:
+            tissues = cell_line_input.get_feature_matrix(view=TISSUE_IDENTIFIER, identifiers=cell_line_ids)
+            for cl, drug, tissue in zip(cell_line_ids, drug_ids, tissues, strict=True):
+                tissue_key = tissue.item() if isinstance(tissue, np.ndarray) else tissue
+                effect_tissue = self.tissue_effects.get(str(tissue_key), 0)
+                effect_cl = self.cell_line_effects.get(cl, 0)
+                effect_drug = self.drug_effects.get(drug, 0)
+                predictions.append(self.dataset_mean + effect_tissue + effect_cl + effect_drug)
+        else:
+            for cl, drug in zip(cell_line_ids, drug_ids, strict=True):
+                effect_cl = self.cell_line_effects.get(cl, 0)
+                effect_drug = self.drug_effects.get(drug, 0)
+                predictions.append(self.dataset_mean + effect_cl + effect_drug)
         return np.array(predictions)
 
     def load_cell_line_features(self, data_path: str, dataset_name: str) -> FeatureDataset:
@@ -640,7 +654,7 @@ class NaiveMeanEffectsPredictor(NaiveModel):
 
         :param data_path: Path to the data.
         :param dataset_name: Name of the dataset.
-        :return: FeatureDataset containing the cell line IDs and tissue annotations.
+        :return: FeatureDataset containing the cell line IDs and tissue annotations, if available.
         """
         return load_cl_ids_and_tissues_from_csv(data_path, dataset_name)
 

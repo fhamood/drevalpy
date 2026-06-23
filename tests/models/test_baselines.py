@@ -101,6 +101,47 @@ def test_naive_mean_effects_predictor_tissue_decomposition() -> None:
         assert loaded_preds[0] == pytest.approx(preds[0])
 
 
+def test_naive_mean_effects_predictor_without_tissue_matches_previous_decomposition() -> None:
+    """Test NaiveMeanEffectsPredictor falls back to cell-line and drug effects without tissue."""
+    cell_lines = np.array(["CL1", "CL1", "CL2", "CL2"])
+    drugs = np.array(["D1", "D2", "D1", "D2"])
+    response = np.array([1.0, 2.0, 5.0, 8.0])
+    output = DrugResponseDataset(response=response, cell_line_ids=cell_lines, drug_ids=drugs)
+    cell_line_input = FeatureDataset(
+        features={
+            "CL1": {CELL_LINE_IDENTIFIER: np.array(["CL1"])},
+            "CL2": {CELL_LINE_IDENTIFIER: np.array(["CL2"])},
+        }
+    )
+    drug_input = FeatureDataset(
+        features={
+            "D1": {DRUG_IDENTIFIER: np.array(["D1"])},
+            "D2": {DRUG_IDENTIFIER: np.array(["D2"])},
+        }
+    )
+
+    model = NaiveMeanEffectsPredictor()
+    model.train(output=output, cell_line_input=cell_line_input, drug_input=drug_input)
+
+    dataset_mean = np.mean(response)
+    assert model.tissue_effects == {}
+    assert model.cell_line_effects["CL1"] == pytest.approx(np.mean([1.0, 2.0]) - dataset_mean)
+    assert model.cell_line_effects["CL2"] == pytest.approx(np.mean([5.0, 8.0]) - dataset_mean)
+
+    preds = model.predict(
+        cell_line_ids=np.array(["CL1", "CL2"]),
+        drug_ids=np.array(["D1", "D2"]),
+        cell_line_input=cell_line_input,
+    )
+    expected = np.array(
+        [
+            dataset_mean + model.cell_line_effects["CL1"] + model.drug_effects["D1"],
+            dataset_mean + model.cell_line_effects["CL2"] + model.drug_effects["D2"],
+        ]
+    )
+    np.testing.assert_allclose(preds, expected)
+
+
 @pytest.mark.parametrize("max_depth_input, expected", [(5, 5), (10, 10), (30, 30), ("None", None)])
 def test_random_forest_respects_max_depth(max_depth_input, expected) -> None:
     """Ensure RandomForest forwards max_depth to the underlying RandomForestRegressor.
