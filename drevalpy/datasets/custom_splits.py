@@ -4,8 +4,9 @@ from __future__ import annotations
 
 import csv
 import importlib.util
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Protocol, runtime_checkable
+from typing import Any
 
 import numpy as np
 
@@ -19,7 +20,13 @@ MANIFEST_FILENAME = "split_manifest.csv"
 
 
 def validate_split_label(label: str) -> str:
-    """Ensure a custom result-directory label is safe for paths and report parsing."""
+    """
+    Ensure a custom result-directory label is safe for paths and report parsing.
+
+    :param label: directory name used under the dataset results folder
+    :returns: the validated label unchanged
+    :raises CustomSplitError: if the label is empty or contains path separators
+    """
     if not label or label.strip() != label:
         msg = "split label must be a non-empty string without leading or trailing whitespace"
         raise CustomSplitError(msg)
@@ -33,15 +40,20 @@ class CustomSplitError(ValueError):
     """Raised when a custom split script or its output is invalid."""
 
 
-@runtime_checkable
-class CustomSplitCreator(Protocol):
-    """Callables loaded from user scripts."""
-
-    def __call__(self, response_data: DrugResponseDataset) -> list[dict[str, DrugResponseDataset]]: ...
+CustomSplitCreator = Callable[[DrugResponseDataset], list[dict[str, DrugResponseDataset]]]
 
 
 def load_custom_splitter(path: Path | str) -> CustomSplitCreator:
-    """Load a module-level ``create_splits`` function from a Python script."""
+    """
+    Load a module-level ``create_splits`` function from a Python script.
+
+    :param path: path to a Python file defining ``create_splits(response_data)``
+    :returns: the loaded splitter callable
+    :raises FileNotFoundError: if the script path does not exist
+    :raises ImportError: if the script cannot be imported
+    :raises AttributeError: if ``create_splits`` is missing
+    :raises TypeError: if ``create_splits`` is not callable
+    """
     script_path = Path(path).expanduser().resolve()
     if not script_path.is_file():
         msg = f"Custom split script not found: {script_path}"
@@ -82,10 +94,7 @@ def _group_ids(dataset: DrugResponseDataset, test_mode: str) -> set[Any]:
             raise CustomSplitError(msg)
         return set(map(str, dataset.tissue))
     if test_mode == "LPO":
-        return {
-            (str(cl), str(drug))
-            for cl, drug in zip(dataset.cell_line_ids, dataset.drug_ids, strict=True)
-        }
+        return {(str(cl), str(drug)) for cl, drug in zip(dataset.cell_line_ids, dataset.drug_ids, strict=True)}
     msg = f"Unknown test_mode {test_mode!r}; choose from {sorted(TEST_MODES)}"
     raise CustomSplitError(msg)
 
@@ -101,8 +110,7 @@ def _assert_disjoint_groups(
         for group in _group_ids(roles[role], test_mode):
             if group in seen:
                 msg = (
-                    f"Split {split_index}: {test_mode} leakage — "
-                    f"{seen[group]!r} and {role!r} share group {group!r}"
+                    f"Split {split_index}: {test_mode} leakage — " f"{seen[group]!r} and {role!r} share group {group!r}"
                 )
                 raise CustomSplitError(msg)
             seen[group] = role
@@ -117,15 +125,14 @@ def _assert_disjoint_rows(
     for role in REQUIRED_ROLES:
         for row in _row_keys(roles[role]):
             if row in seen:
-                msg = (
-                    f"Split {split_index}: exact row overlap between "
-                    f"{seen[row]!r} and {role!r}: {row[:2]}"
-                )
+                msg = f"Split {split_index}: exact row overlap between " f"{seen[row]!r} and {role!r}: {row[:2]}"
                 raise CustomSplitError(msg)
             seen[row] = role
 
 
-def _normalize_split_dict(raw: dict[str, Any], *, split_index: int) -> tuple[dict[str, DrugResponseDataset], dict[str, Any]]:
+def _normalize_split_dict(
+    raw: dict[str, Any], *, split_index: int
+) -> tuple[dict[str, DrugResponseDataset], dict[str, Any]]:
     metadata = raw.get("metadata")
     if metadata is not None and not isinstance(metadata, dict):
         msg = f"Split {split_index}: metadata must be a dict when provided"
@@ -162,7 +169,14 @@ def validate_cv_splits(
     splits: list[dict[str, Any]],
     test_mode: str,
 ) -> tuple[list[dict[str, DrugResponseDataset]], list[dict[str, Any]]]:
-    """Validate custom split output according to ``test_mode`` semantics."""
+    """
+    Validate custom split output according to ``test_mode`` semantics.
+
+    :param splits: raw split dicts returned by a custom splitter
+    :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``
+    :returns: validated role datasets and optional per-split metadata rows
+    :raises CustomSplitError: if splits are missing roles or leak across groups/rows
+    """
     if test_mode not in TEST_MODES:
         msg = f"Unknown test_mode {test_mode!r}; choose from {sorted(TEST_MODES)}"
         raise CustomSplitError(msg)
@@ -190,7 +204,12 @@ def ensure_early_stopping_splits(
     splits: list[dict[str, DrugResponseDataset]],
     test_mode: str,
 ) -> None:
-    """Fill ``validation_es`` and ``early_stopping`` when absent."""
+    """
+    Fill ``validation_es`` and ``early_stopping`` when absent.
+
+    :param splits: validated split dicts to mutate in place
+    :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``
+    """
     for split in splits:
         if "validation_es" in split and "early_stopping" in split:
             continue
@@ -212,7 +231,13 @@ def ensure_early_stopping_splits(
 
 
 def write_split_manifest(path: Path | str, metadata_rows: list[dict[str, Any]], test_mode: str) -> None:
-    """Write optional split metadata next to persisted split files."""
+    """
+    Write optional split metadata next to persisted split files.
+
+    :param path: directory where split CSV files are stored
+    :param metadata_rows: per-split metadata collected during validation
+    :param test_mode: validation mode recorded in the manifest
+    """
     if not metadata_rows:
         return
     out = Path(path)
@@ -234,7 +259,15 @@ def run_custom_splitter(
     test_mode: str,
     split_early_stopping: bool = True,
 ) -> tuple[list[dict[str, DrugResponseDataset]], list[dict[str, Any]]]:
-    """Execute a custom splitter, validate output, and normalize early-stopping roles."""
+    """
+    Execute a custom splitter, validate output, and normalize early-stopping roles.
+
+    :param response_data: full response dataset passed to the splitter
+    :param splitter: callable or path to a script defining ``create_splits``
+    :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``
+    :param split_early_stopping: whether to derive early-stopping roles when absent
+    :returns: validated splits and optional metadata rows
+    """
     if isinstance(splitter, (str, Path)):
         splitter = load_custom_splitter(splitter)
 

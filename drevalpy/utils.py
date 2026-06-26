@@ -6,8 +6,8 @@ from sklearn.base import TransformerMixin
 from sklearn.preprocessing import MinMaxScaler, RobustScaler, StandardScaler
 
 from .datasets import AVAILABLE_DATASETS
-from .datasets.dataset import DrugResponseDataset
 from .datasets.custom_splits import validate_split_label
+from .datasets.dataset import DrugResponseDataset
 from .datasets.loader import load_dataset
 from .datasets.utils import ALLOWED_MEASURES
 from .evaluation import AVAILABLE_METRICS

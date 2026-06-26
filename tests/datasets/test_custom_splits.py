@@ -1,4 +1,4 @@
-"""Tests for :mod:`drevalpy.datasets.custom_splits`."""
+"""Tests for drevalpy.datasets.custom_splits."""
 
 from __future__ import annotations
 
@@ -67,11 +67,13 @@ def _role_from_groups(
 
 
 def test_validate_split_label_rejects_path_separators() -> None:
+    """Reject split labels that contain path separators."""
     with pytest.raises(CustomSplitError):
         validate_split_label("scaling/lco")
 
 
 def test_load_custom_splitter_requires_create_splits(tmp_path: Path) -> None:
+    """Require a module-level create_splits function in custom scripts."""
     script = tmp_path / "bad.py"
     script.write_text("def other():\n    pass\n", encoding="utf-8")
     with pytest.raises(AttributeError, match="create_splits"):
@@ -79,6 +81,7 @@ def test_load_custom_splitter_requires_create_splits(tmp_path: Path) -> None:
 
 
 def test_validate_lco_rejects_shared_cell_line() -> None:
+    """Reject LCO splits that share cell lines across roles."""
     dataset = _sample_dataset()
     split = _role_from_groups(
         dataset,
@@ -92,6 +95,7 @@ def test_validate_lco_rejects_shared_cell_line() -> None:
 
 
 def test_validate_ldo_rejects_shared_drug() -> None:
+    """Reject LDO splits that share drugs across roles."""
     dataset = _sample_dataset()
     split = _role_from_groups(
         dataset,
@@ -105,6 +109,7 @@ def test_validate_ldo_rejects_shared_drug() -> None:
 
 
 def test_validate_lto_requires_tissue_and_disjointness() -> None:
+    """Accept valid LTO splits with disjoint tissue groups."""
     dataset = _sample_dataset()
     split = _role_from_groups(
         dataset,
@@ -119,6 +124,7 @@ def test_validate_lto_requires_tissue_and_disjointness() -> None:
 
 
 def test_validate_lpo_rejects_shared_pair() -> None:
+    """Reject LPO splits that share cell-line/drug pairs across roles."""
     split = {
         "train": DrugResponseDataset(
             response=np.array([1.0]),
@@ -144,6 +150,7 @@ def test_validate_lpo_rejects_shared_pair() -> None:
 
 
 def test_run_custom_splitter_adds_early_stopping_roles(tmp_path: Path) -> None:
+    """Add early-stopping roles when running a custom splitter script."""
     script = tmp_path / "splitter.py"
     script.write_text(
         """
@@ -174,6 +181,7 @@ def create_splits(response_data):
 
 
 def test_write_split_manifest(tmp_path: Path) -> None:
+    """Write split metadata to split_manifest.csv."""
     write_split_manifest(tmp_path, [{"split_index": 0, "fraction": 0.5}], "LCO")
     manifest = (tmp_path / "split_manifest.csv").read_text(encoding="utf-8")
     assert "fraction" in manifest
@@ -181,6 +189,7 @@ def test_write_split_manifest(tmp_path: Path) -> None:
 
 
 def test_make_cv_pkls_with_custom_splitter(tmp_path: Path) -> None:
+    """Generate split pickle files from a custom splitter via run_cv_split."""
     from drevalpy.cli_run_cv import run_cv_split
 
     dataset = _sample_dataset(n_cell_lines=4, n_drugs=2)
@@ -236,6 +245,7 @@ def create_splits(response_data):
 
 
 def test_result_discovery_regex_accepts_custom_split_label(tmp_path: Path) -> None:
+    """Accept arbitrary split-label directories in result discovery regex."""
     import re
 
     result_dir_str = str(tmp_path).replace("\\", "/")

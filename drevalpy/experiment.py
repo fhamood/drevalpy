@@ -72,6 +72,17 @@ def prepare_response_splits(
     """
     Create, load, or reuse CV splits for an experiment run.
 
+    :param response_data: dataset whose splits are created or loaded
+    :param split_path: directory for persisted split CSV files
+    :param result_path: experiment result directory
+    :param test_mode: built-in split mode or validation mode for custom splits
+    :param n_cv_splits: number of CV splits for built-in splitting
+    :param overwrite: whether to replace existing results and splits
+    :param result_folder_exists: whether ``result_path`` already exists
+    :param custom_splitter: optional script path or callable for custom splits
+    :param validation_ratio: validation fraction for built-in splitting
+    :param random_state: random seed for built-in splitting
+    :param split_early_stopping: whether to derive early-stopping roles
     :returns: number of splits available after preparation
     """
     if result_folder_exists and overwrite:
