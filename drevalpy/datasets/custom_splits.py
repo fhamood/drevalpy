@@ -5,6 +5,7 @@ from __future__ import annotations
 import csv
 import importlib.util
 from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
@@ -40,14 +41,25 @@ class CustomSplitError(ValueError):
     """Raised when a custom split script or its output is invalid."""
 
 
-CustomSplitCreator = Callable[[DrugResponseDataset], list[dict[str, DrugResponseDataset]]]
+@dataclass(frozen=True)
+class CustomSplitParams:
+    """Pipeline split settings passed to user ``create_splits`` scripts."""
+
+    test_mode: str
+    n_cv_splits: int
+    validation_ratio: float
+    random_state: int
+    split_early_stopping: bool
+
+
+CustomSplitCreator = Callable[[DrugResponseDataset, CustomSplitParams], list[dict[str, DrugResponseDataset]]]
 
 
 def load_custom_splitter(path: Path | str) -> CustomSplitCreator:
     """
     Load a module-level ``create_splits`` function from a Python script.
 
-    :param path: path to a Python file defining ``create_splits(response_data)``
+    :param path: path to a Python file defining ``create_splits(response_data, params)``
     :returns: the loaded splitter callable
     :raises FileNotFoundError: if the script path does not exist
     :raises ImportError: if the script cannot be imported
@@ -68,7 +80,7 @@ def load_custom_splitter(path: Path | str) -> CustomSplitCreator:
     spec.loader.exec_module(module)
     fn = getattr(module, "create_splits", None)
     if fn is None:
-        msg = f"{script_path} must define a module-level function create_splits(response_data)"
+        msg = f"{script_path} must define a module-level function create_splits(response_data, params)"
         raise AttributeError(msg)
     if not callable(fn):
         msg = "create_splits must be callable"
@@ -257,6 +269,9 @@ def run_custom_splitter(
     splitter: CustomSplitCreator | str | Path,
     *,
     test_mode: str,
+    n_cv_splits: int = 5,
+    validation_ratio: float = 0.1,
+    random_state: int = 42,
     split_early_stopping: bool = True,
 ) -> tuple[list[dict[str, DrugResponseDataset]], list[dict[str, Any]]]:
     """
@@ -265,13 +280,23 @@ def run_custom_splitter(
     :param response_data: full response dataset passed to the splitter
     :param splitter: callable or path to a script defining ``create_splits``
     :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``
+    :param n_cv_splits: requested number of CV splits from the pipeline
+    :param validation_ratio: validation fraction from the pipeline
+    :param random_state: random seed from the pipeline
     :param split_early_stopping: whether to derive early-stopping roles when absent
     :returns: validated splits and optional metadata rows
     """
     if isinstance(splitter, (str, Path)):
         splitter = load_custom_splitter(splitter)
 
-    raw_splits = splitter(response_data.copy())
+    params = CustomSplitParams(
+        test_mode=test_mode,
+        n_cv_splits=n_cv_splits,
+        validation_ratio=validation_ratio,
+        random_state=random_state,
+        split_early_stopping=split_early_stopping,
+    )
+    raw_splits = splitter(response_data.copy(), params)
     training_splits, metadata_rows = validate_cv_splits(raw_splits, test_mode)
     if split_early_stopping:
         ensure_early_stopping_splits(training_splits, test_mode)

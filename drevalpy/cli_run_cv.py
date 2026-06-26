@@ -66,6 +66,9 @@ def run_cv_split(
             response_data,
             custom_splitter_path,
             test_mode=test_mode,
+            n_cv_splits=n_cv_splits,
+            validation_ratio=validation_ratio,
+            random_state=seed,
             split_early_stopping=True,
         )
         response_data._cv_splits = cv_splits

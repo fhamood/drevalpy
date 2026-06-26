@@ -165,7 +165,7 @@ def test_run_custom_splitter_adds_early_stopping_roles(tmp_path: Path) -> None:
 import numpy as np
 from drevalpy.datasets.dataset import DrugResponseDataset
 
-def create_splits(response_data):
+def create_splits(response_data, params):
     mask_train = response_data.cell_line_ids == "CL-0"
     mask_val = response_data.cell_line_ids == "CL-1"
     mask_test = response_data.cell_line_ids == "CL-2"
@@ -182,7 +182,13 @@ def create_splits(response_data):
         encoding="utf-8",
     )
     dataset = _sample_dataset(n_cell_lines=3, n_drugs=2)
-    splits, metadata = run_custom_splitter(dataset, script, test_mode="LCO")
+    splits, metadata = run_custom_splitter(
+        dataset,
+        script,
+        test_mode="LCO",
+        random_state=7,
+        validation_ratio=0.25,
+    )
     assert "validation_es" in splits[0]
     assert "early_stopping" in splits[0]
     assert metadata[0]["split_index"] == 0
@@ -218,7 +224,7 @@ def test_make_cv_pkls_with_custom_splitter(tmp_path: Path) -> None:
         """
 from drevalpy.datasets.dataset import DrugResponseDataset
 
-def create_splits(response_data):
+def create_splits(response_data, params):
     train = response_data.cell_line_ids == "CL-0"
     val = response_data.cell_line_ids == "CL-1"
     test = response_data.cell_line_ids == "CL-2"
@@ -258,6 +264,61 @@ def create_splits(response_data):
         assert {"train", "validation", "test", "validation_es", "early_stopping"}.issubset(split)
     finally:
         os.chdir(cwd)
+
+
+def test_run_custom_splitter_forwards_params_to_script(tmp_path: Path) -> None:
+    """
+    Forward CustomSplitParams fields to create_splits scripts.
+
+    :param tmp_path: Temporary path provided by pytest.
+    """
+    script = tmp_path / "params_splitter.py"
+    script.write_text(
+        """
+from drevalpy.datasets.dataset import DrugResponseDataset
+
+def create_splits(response_data, params):
+    def pick(cell_line):
+        mask = response_data.cell_line_ids == cell_line
+        return DrugResponseDataset(
+            response=response_data.response[mask],
+            cell_line_ids=response_data.cell_line_ids[mask],
+            drug_ids=response_data.drug_ids[mask],
+            tissues=response_data.tissue[mask],
+            dataset_name=response_data.dataset_name,
+        )
+    return [{
+        "train": pick("CL-0"),
+        "validation": pick("CL-1"),
+        "test": pick("CL-2"),
+        "metadata": {
+            "random_state": params.random_state,
+            "validation_ratio": params.validation_ratio,
+            "n_cv_splits": params.n_cv_splits,
+            "test_mode": params.test_mode,
+            "split_early_stopping": params.split_early_stopping,
+        },
+    }]
+""",
+        encoding="utf-8",
+    )
+    dataset = _sample_dataset(n_cell_lines=3, n_drugs=2)
+    splits, metadata = run_custom_splitter(
+        dataset,
+        script,
+        test_mode="LCO",
+        n_cv_splits=3,
+        validation_ratio=0.2,
+        random_state=99,
+        split_early_stopping=False,
+    )
+    assert metadata[0]["random_state"] == 99
+    assert metadata[0]["validation_ratio"] == 0.2
+    assert metadata[0]["n_cv_splits"] == 3
+    assert metadata[0]["test_mode"] == "LCO"
+    assert metadata[0]["split_early_stopping"] is False
+    assert "validation_es" not in splits[0]
+    assert "early_stopping" not in splits[0]
 
 
 def test_result_discovery_regex_accepts_custom_split_label(tmp_path: Path) -> None:

@@ -25,7 +25,7 @@ def register(app: typer.Typer) -> None:
             str | None,
             typer.Option(
                 "--custom_splitter_path",
-                help="Path to a Python script defining create_splits(response_data).",
+                help="Path to a Python script defining create_splits(response_data, params).",
             ),
         ] = None,
     ) -> None:

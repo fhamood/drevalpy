@@ -101,6 +101,9 @@ def prepare_response_splits(
                 response_data,
                 custom_splitter,
                 test_mode=test_mode,
+                n_cv_splits=n_cv_splits,
+                validation_ratio=validation_ratio,
+                random_state=random_state,
                 split_early_stopping=split_early_stopping,
             )
             response_data._cv_splits = cv_splits

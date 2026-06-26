@@ -180,7 +180,7 @@ def register_pipeline_callback(app: typer.Typer) -> None:
             str | None,
             typer.Option(
                 "--custom_splitter_path",
-                help="Path to a Python script defining create_splits(response_data). "
+                help="Path to a Python script defining create_splits(response_data, params). "
                 "When set, built-in CV splitting is skipped and test_mode selects validation checks.",
             ),
         ] = None,
