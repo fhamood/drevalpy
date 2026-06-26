@@ -53,19 +53,32 @@ def run_cv_split(
     test_mode: str = "LPO",
     validation_ratio: float = 0.1,
     seed: int = 42,
+    custom_splitter_path: str | None = None,
 ) -> None:
     """Split pickled response data into CV fold pickles."""
+    from drevalpy.datasets.custom_splits import run_custom_splitter, write_split_manifest
+
     with open(response, "rb") as f:
         response_data = pickle.load(f)
     response_data.remove_nan_responses()
-    response_data.split_dataset(
-        n_cv_splits=n_cv_splits,
-        mode=test_mode,
-        split_validation=True,
-        split_early_stopping=True,
-        validation_ratio=validation_ratio,
-        random_state=seed,
-    )
+    if custom_splitter_path:
+        cv_splits, metadata_rows = run_custom_splitter(
+            response_data,
+            custom_splitter_path,
+            test_mode=test_mode,
+            split_early_stopping=True,
+        )
+        response_data._cv_splits = cv_splits
+        write_split_manifest(".", metadata_rows, test_mode)
+    else:
+        response_data.split_dataset(
+            n_cv_splits=n_cv_splits,
+            mode=test_mode,
+            split_validation=True,
+            split_early_stopping=True,
+            validation_ratio=validation_ratio,
+            random_state=seed,
+        )
     for split_index, split in enumerate(response_data.cv_splits):
         with open(f"split_{split_index}.pkl", "wb") as f:
             pickle.dump(split, f)
