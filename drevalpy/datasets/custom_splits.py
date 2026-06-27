@@ -89,6 +89,12 @@ def load_custom_splitter(path: Path | str) -> CustomSplitCreator:
 
 
 def _row_keys(dataset: DrugResponseDataset) -> set[tuple[str, str, float]]:
+    """
+    Build exact row identifiers for overlap checks.
+
+    :param dataset: response dataset whose rows are keyed
+    :returns: set of ``(cell_line_id, drug_id, response)`` tuples
+    """
     return {
         (str(cl), str(drug), float(resp))
         for cl, drug, resp in zip(dataset.cell_line_ids, dataset.drug_ids, dataset.response, strict=True)
@@ -96,6 +102,14 @@ def _row_keys(dataset: DrugResponseDataset) -> set[tuple[str, str, float]]:
 
 
 def _group_ids(dataset: DrugResponseDataset, test_mode: str) -> set[Any]:
+    """
+    Extract leave-out group identifiers for a ``test_mode``.
+
+    :param dataset: response dataset whose groups are extracted
+    :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``
+    :returns: cell-line, drug, tissue, or pair identifiers depending on ``test_mode``
+    :raises CustomSplitError: if ``test_mode`` is unknown or LTO tissue is missing
+    """
     if test_mode == "LCO":
         return set(map(str, dataset.cell_line_ids))
     if test_mode == "LDO":
@@ -117,6 +131,14 @@ def _assert_disjoint_groups(
     *,
     split_index: int,
 ) -> None:
+    """
+    Ensure train, validation, and test do not share leave-out groups.
+
+    :param roles: split role datasets to check
+    :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``
+    :param split_index: index of the split within the returned list
+    :raises CustomSplitError: if the same group appears in multiple roles
+    """
     seen: dict[Any, str] = {}
     for role in REQUIRED_ROLES:
         for group in _group_ids(roles[role], test_mode):
@@ -133,6 +155,13 @@ def _assert_disjoint_rows(
     *,
     split_index: int,
 ) -> None:
+    """
+    Ensure train, validation, and test do not share exact response rows.
+
+    :param roles: split role datasets to check
+    :param split_index: index of the split within the returned list
+    :raises CustomSplitError: if the same row appears in multiple roles
+    """
     seen: dict[tuple[str, str, float], str] = {}
     for role in REQUIRED_ROLES:
         for row in _row_keys(roles[role]):
@@ -145,6 +174,14 @@ def _assert_disjoint_rows(
 def _normalize_split_dict(
     raw: dict[str, Any], *, split_index: int
 ) -> tuple[dict[str, DrugResponseDataset], dict[str, Any]]:
+    """
+    Parse and validate one raw split dict from a custom splitter.
+
+    :param raw: split dict returned by ``create_splits``
+    :param split_index: index of the split within the returned list
+    :returns: validated role datasets and optional metadata dict
+    :raises CustomSplitError: if roles are missing, empty, or have wrong types
+    """
     metadata = raw.get("metadata")
     if metadata is not None and not isinstance(metadata, dict):
         msg = f"Split {split_index}: metadata must be a dict when provided"
