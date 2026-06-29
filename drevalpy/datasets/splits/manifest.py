@@ -46,7 +46,7 @@ def build_split_manifest(
     return {
         "split_label": split_label,
         "test_mode": params.test_mode,
-        "n_cv_splits": params.n_cv_splits,
+        "n_cv_splits": len(splits),
         "validation_ratio": params.validation_ratio,
         "random_state": params.random_state,
         "split_early_stopping": params.split_early_stopping,

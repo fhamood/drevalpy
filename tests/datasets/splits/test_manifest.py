@@ -42,7 +42,7 @@ def test_write_split_manifest(tmp_path: Path) -> None:
     payload = json.loads((tmp_path / MANIFEST_FILENAME).read_text(encoding="utf-8"))
     assert payload["split_label"] == "scaling-lco"
     assert payload["test_mode"] == "LCO"
-    assert payload["n_cv_splits"] == 2
+    assert payload["n_cv_splits"] == 1
     assert payload["splits"][0]["fraction"] == 0.5
     assert "test_mode" not in payload["splits"][0]
 
