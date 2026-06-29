@@ -8,6 +8,13 @@ from drevalpy.datasets.dataset import DrugResponseDataset
 
 
 def sample_dataset(n_cell_lines: int = 6, n_drugs: int = 4) -> DrugResponseDataset:
+    """
+    Build a small synthetic response dataset for split tests.
+
+    :param n_cell_lines: number of distinct cell lines
+    :param n_drugs: number of distinct drugs per cell line block
+    :returns: synthetic ``DrugResponseDataset`` with tissue annotations
+    """
     cell_lines = np.repeat([f"CL-{i}" for i in range(n_cell_lines)], n_drugs)
     drugs = np.tile([f"D-{i}" for i in range(n_drugs)], n_cell_lines)
     tissues = np.repeat([f"T-{i % 3}" for i in range(n_cell_lines)], n_drugs)
@@ -28,6 +35,16 @@ def role_from_groups(
     test_groups: set[str],
     group_col: str,
 ) -> dict[str, DrugResponseDataset]:
+    """
+    Build one validated split dict from explicit train/validation/test groups.
+
+    :param dataset: source dataset to subset
+    :param train_groups: group identifiers assigned to the train role
+    :param val_groups: group identifiers assigned to the validation role
+    :param test_groups: group identifiers assigned to the test role
+    :param group_col: grouping column, one of ``cell_line``, ``drug``, or ``tissue``
+    :returns: split dict with ``train``, ``validation``, and ``test`` datasets
+    """
     if group_col == "cell_line":
         groups = dataset.cell_line_ids
     elif group_col == "drug":

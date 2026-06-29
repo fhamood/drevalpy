@@ -19,8 +19,8 @@ try:
 except ImportError:
     wandb = None  # type: ignore[assignment]
 
-from .datasets.splits import ExternalSplitCreator, create_and_record_splits
 from .datasets.dataset import DrugResponseDataset, FeatureDataset, split_early_stopping_data
+from .datasets.splits import ExternalSplitCreator, create_and_record_splits
 from .evaluation import get_mode
 from .models import MODEL_FACTORY, MULTI_DRUG_MODEL_FACTORY, SINGLE_DRUG_MODEL_FACTORY
 from .models.drp_model import DRPModel

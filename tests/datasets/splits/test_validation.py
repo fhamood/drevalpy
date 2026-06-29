@@ -7,7 +7,6 @@ import pytest
 
 from drevalpy.datasets.dataset import DrugResponseDataset
 from drevalpy.datasets.splits import SplitError, validate_splits
-
 from tests.datasets.split_helpers import role_from_groups, sample_dataset
 
 

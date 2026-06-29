@@ -20,7 +20,6 @@ from drevalpy.datasets.splits import (
     run_external_splitter,
     validate_split_label,
 )
-
 from tests.datasets.split_helpers import sample_dataset
 
 
@@ -118,7 +117,11 @@ def test_create_splits_builtin_matches_run_builtin_splitter() -> None:
 
 
 def test_create_and_record_splits_attaches_splits_and_writes_manifest(tmp_path: Path) -> None:
-    """Create splits, attach them to the dataset, and persist the manifest."""
+    """
+    Create splits, attach them to the dataset, and persist the manifest.
+
+    :param tmp_path: Temporary path provided by pytest.
+    """
     dataset = sample_dataset(n_cell_lines=4, n_drugs=2)
     splits, metadata = create_and_record_splits(
         dataset,

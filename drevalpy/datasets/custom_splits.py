@@ -78,7 +78,20 @@ def run_splitter(
     split_early_stopping: bool = True,
     params: SplitParams | None = None,
 ) -> SplitResult:
-    """Compatibility alias for :func:`create_splits` using legacy argument names."""
+    """
+    Compatibility alias for ``create_splits`` using legacy argument names.
+
+    :param response_data: full response dataset passed to the splitter
+    :param custom_splitter: optional callable or script path defining ``create_splits``
+    :param test_mode: one of ``LPO``, ``LCO``, ``LDO``, or ``LTO``; required when ``params`` is omitted
+    :param n_cv_splits: requested number of CV splits from the pipeline
+    :param validation_ratio: validation fraction from the pipeline
+    :param random_state: random seed from the pipeline
+    :param split_early_stopping: whether to derive early-stopping roles when absent
+    :param params: optional pre-built split settings; overrides individual keyword args
+    :returns: validated splits and per-split metadata rows
+    :raises ValueError: if neither ``params`` nor ``test_mode`` is provided
+    """
     if params is None and test_mode is None:
         msg = "Either params or test_mode must be provided"
         raise ValueError(msg)

@@ -13,7 +13,6 @@ from drevalpy.datasets.custom_splits import (
     load_custom_splitter,
     run_splitter,
 )
-
 from tests.datasets.split_helpers import sample_dataset
 
 

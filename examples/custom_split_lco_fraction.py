@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from drevalpy.datasets.splits import SplitParams
 from drevalpy.datasets.dataset import DrugResponseDataset
+from drevalpy.datasets.splits import SplitParams
 
 # Fraction of cell lines held out for test; remaining cell lines are split train/val.
 TEST_FRACTION = 0.2

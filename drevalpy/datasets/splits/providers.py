@@ -8,6 +8,7 @@ from typing import Any
 
 from ...pipeline_function import pipeline_function
 from ..dataset import DrugResponseDataset
+from .manifest import write_split_manifest
 from .types import (
     TEST_MODES,
     ExternalSplitCreator,
@@ -16,7 +17,6 @@ from .types import (
     SplitResult,
     make_split_params,
 )
-from .manifest import write_split_manifest
 from .validation import ensure_early_stopping_splits, validate_splits
 
 
@@ -60,6 +60,7 @@ def _raw_builtin_splits(response_data: DrugResponseDataset, params: SplitParams)
     :param response_data: full response dataset to split
     :param params: pipeline split settings
     :returns: raw split dicts before shared validation
+    :raises SplitError: if ``test_mode`` is unknown
     """
     if params.test_mode not in TEST_MODES:
         msg = f"Unknown test_mode {params.test_mode!r}; choose from {sorted(TEST_MODES)}"
@@ -146,6 +147,7 @@ def create_splits(
     :param split_early_stopping: whether to derive early-stopping roles when absent
     :param params: optional pre-built split settings; overrides individual keyword args
     :returns: validated splits and per-split metadata rows
+    :raises ValueError: if neither ``params`` nor ``test_mode`` is provided
     """
     if params is None and test_mode is None:
         msg = "Either params or test_mode must be provided"
