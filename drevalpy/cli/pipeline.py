@@ -188,7 +188,7 @@ def register_pipeline_callback(app: typer.Typer) -> None:
             str | None,
             typer.Option(
                 "--custom_split_name",
-                help="Optional result-directory label for custom split runs. Defaults to test_mode.",
+                help="Optional result-directory label when using an external split script. Defaults to test_mode.",
             ),
         ] = None,
     ) -> None:

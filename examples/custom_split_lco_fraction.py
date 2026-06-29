@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from drevalpy.datasets.custom_splits import CustomSplitParams
+from drevalpy.datasets.splits import SplitParams
 from drevalpy.datasets.dataset import DrugResponseDataset
 
 # Fraction of cell lines held out for test; remaining cell lines are split train/val.
@@ -31,7 +31,7 @@ def _subset(dataset: DrugResponseDataset, mask: np.ndarray) -> DrugResponseDatas
 
 def create_splits(
     response_data: DrugResponseDataset,
-    params: CustomSplitParams,
+    params: SplitParams,
 ) -> list[dict[str, DrugResponseDataset]]:
     """
     Return one LCO-style split with configurable train/validation/test cell-line groups.

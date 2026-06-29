@@ -19,7 +19,7 @@ try:
 except ImportError:
     wandb = None  # type: ignore[assignment]
 
-from .datasets.custom_splits import CustomSplitCreator, run_custom_splitter, write_split_manifest
+from .datasets.splits import ExternalSplitCreator, create_and_record_splits
 from .datasets.dataset import DrugResponseDataset, FeatureDataset, split_early_stopping_data
 from .evaluation import get_mode
 from .models import MODEL_FACTORY, MULTI_DRUG_MODEL_FACTORY, SINGLE_DRUG_MODEL_FACTORY
@@ -60,11 +60,12 @@ def prepare_response_splits(
     *,
     split_path: str,
     result_path: str,
+    split_label: str,
     test_mode: str,
     n_cv_splits: int,
     overwrite: bool,
     result_folder_exists: bool,
-    custom_splitter: CustomSplitCreator | str | Path | None = None,
+    custom_splitter: ExternalSplitCreator | str | Path | None = None,
     validation_ratio: float = 0.1,
     random_state: int = 42,
     split_early_stopping: bool = True,
@@ -75,6 +76,7 @@ def prepare_response_splits(
     :param response_data: dataset whose splits are created or loaded
     :param split_path: directory for persisted split CSV files
     :param result_path: experiment result directory
+    :param split_label: directory label under the dataset results folder
     :param test_mode: built-in split mode or validation mode for custom splits
     :param n_cv_splits: number of CV splits for built-in splitting
     :param overwrite: whether to replace existing results and splits
@@ -95,28 +97,17 @@ def prepare_response_splits(
     else:
         print(f"Creating cv splits at {split_path}")
         os.makedirs(result_path, exist_ok=True)
-        response_data.remove_nan_responses()
-        if custom_splitter is not None:
-            cv_splits, metadata_rows = run_custom_splitter(
-                response_data,
-                custom_splitter,
-                test_mode=test_mode,
-                n_cv_splits=n_cv_splits,
-                validation_ratio=validation_ratio,
-                random_state=random_state,
-                split_early_stopping=split_early_stopping,
-            )
-            response_data._cv_splits = cv_splits
-            write_split_manifest(split_path, metadata_rows, test_mode)
-        else:
-            response_data.split_dataset(
-                n_cv_splits=n_cv_splits,
-                mode=test_mode,
-                split_validation=True,
-                validation_ratio=validation_ratio,
-                random_state=random_state,
-                split_early_stopping=split_early_stopping,
-            )
+        create_and_record_splits(
+            response_data,
+            split_path=split_path,
+            split_label=split_label,
+            external_splitter=custom_splitter,
+            test_mode=test_mode,
+            n_cv_splits=n_cv_splits,
+            validation_ratio=validation_ratio,
+            random_state=random_state,
+            split_early_stopping=split_early_stopping,
+        )
         response_data.save_splits(path=split_path)
 
     return len(response_data.cv_splits)
@@ -143,7 +134,7 @@ def drug_response_experiment(
     hyperparameter_tuning=True,
     final_model_on_full_data: bool = False,
     wandb_project: str | None = None,
-    custom_splitter: CustomSplitCreator | str | Path | None = None,
+    custom_splitter: ExternalSplitCreator | str | Path | None = None,
     custom_split_name: str | None = None,
 ) -> None:
     """
@@ -222,6 +213,7 @@ def drug_response_experiment(
         response_data,
         split_path=split_path,
         result_path=result_path,
+        split_label=split_label,
         test_mode=test_mode,
         n_cv_splits=n_cv_splits,
         overwrite=overwrite,
