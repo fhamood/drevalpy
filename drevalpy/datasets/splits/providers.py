@@ -100,7 +100,11 @@ def run_builtin_splitter(response_data: DrugResponseDataset, params: SplitParams
     :param params: pipeline split settings
     :returns: validated splits and per-split metadata rows
     """
-    return _finalize_splits(_raw_builtin_splits(response_data, params), params)
+    validated = _raw_builtin_splits(response_data, params)
+    metadata_rows = [{"split_index": split_index} for split_index in range(len(validated))]
+    if params.split_early_stopping:
+        ensure_early_stopping_splits(validated, params.test_mode)
+    return validated, metadata_rows
 
 
 @pipeline_function
